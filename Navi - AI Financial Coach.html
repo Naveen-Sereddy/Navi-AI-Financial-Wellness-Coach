@@ -26,6 +26,33 @@
   }
   @keyframes analysisBar { from { width:0 } to { width:100% } }
   @keyframes fadeUp { from { opacity:0; transform:translateY(8px) } to { opacity:1; transform:translateY(0) } }
+
+  /* ── Onboarding workspace ──────────────────────────────────────────── */
+  .ob-shell { width:100%; height:100%; background:#DFF0FF; display:flex; flex-direction:column; overflow:hidden; }
+  .ob-topbar { display:flex; align-items:center; justify-content:space-between; padding:26px 48px; flex-shrink:0; }
+  .ob-brand { display:flex; align-items:center; gap:9px; }
+  .ob-brand-mark { width:30px; height:30px; background:#FFFFFF; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    box-shadow:4px 4px 10px rgba(0,0,0,0.14),-2px -2px 7px rgba(255,255,255,0.85),inset -2px -2px 5px rgba(0,0,0,0.07),inset 2px 2px 5px rgba(255,255,255,0.6); }
+  .ob-brand-name { color:#0D2137; font-size:16px; font-weight:700; letter-spacing:-0.02em; }
+  .ob-progress-track { display:flex; gap:5px; width:148px; }
+  .ob-workspace { flex:1; min-height:0; overflow:auto; display:flex; align-items:flex-start; justify-content:center; padding:36px 48px 48px; }
+  .ob-grid { width:100%; max-width:980px; display:grid; gap:22px 36px; align-items:start; }
+  .ob-grid--welcome { grid-template-columns:1.2fr 1fr; }
+  .ob-grid--accounts { grid-template-columns:1fr 1.55fr; }
+  .ob-grid--goal { grid-template-columns:1.3fr 0.85fr; }
+  .ob-grid--analyzing { grid-template-columns:1fr; max-width:600px; }
+  .ob-eyebrow { font-size:10px; font-weight:700; color:#3078C0; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:12px; }
+  .ob-panel { display:flex; flex-direction:column; }
+  @media (max-width:1040px) {
+    .ob-grid--welcome, .ob-grid--accounts, .ob-grid--goal { grid-template-columns:1fr; }
+    .ob-grid--accounts .ob-panel:first-child, .ob-grid--goal .ob-panel:first-child { order:1; }
+    .ob-grid--accounts .ob-panel:last-child, .ob-grid--goal .ob-panel:last-child { order:2; }
+  }
+  @media (max-width:640px) {
+    .ob-topbar { padding:18px 22px; }
+    .ob-workspace { padding:4px 22px 28px; }
+    .ob-progress-track { width:110px; }
+  }
 </style>
 </helmet>
 
@@ -33,46 +60,37 @@
 
   <!-- ═══════════ ONBOARDING ═══════════ -->
   <sc-if value="{{ isOnboarding }}" hint-placeholder-val="{{ true }}">
-    <div style="width:100%;height:100%;display:flex;background:#DFF0FF;">
+    <div class="ob-shell">
 
-      <!-- Left: Brand panel -->
-      <div style="width:38%;height:100%;background:#DFF0FF;border-right:1px solid #BDD8F5;display:flex;flex-direction:column;justify-content:space-between;padding:48px;position:relative;overflow:hidden;">
-        <div style="position:absolute;width:480px;height:480px;border-radius:50%;border:1px solid rgba(48,120,192,0.1);top:15%;left:-18%;pointer-events:none;"></div>
-        <div style="position:absolute;width:300px;height:300px;border-radius:50%;border:1px solid rgba(48,120,192,0.06);top:32%;left:8%;pointer-events:none;"></div>
-
-        <!-- Logo -->
-        <div style="display:flex;align-items:center;gap:10px;position:relative;z-index:2;">
-          <div style="width:32px;height:32px;background:#FFFFFF;border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 10px rgba(0,0,0,0.14),-2px -2px 7px rgba(255,255,255,0.85),inset -2px -2px 5px rgba(0,0,0,0.07),inset 2px 2px 5px rgba(255,255,255,0.6);">
-            <svg width="14.6" height="16" viewBox="464.69 46.22 358.28 393.9" style="display:block"><path d="M 580.72 438.91 C546.83,435.33 523.04,415.58 513.91,383.46 C512.67,379.08 511.57,375.38 511.48,375.24 C511.39,375.10 508.05,375.72 504.05,376.63 C494.71,378.73 487.90,377.48 483.08,372.77 C478.68,368.47 477.79,366.46 473.69,351.50 C465.30,320.92 464.69,316.49 467.88,309.46 C470.45,303.79 474.95,300.40 483.09,297.97 L 490.11 295.88 L 489.30 291.19 C487.81,282.46 488.45,260.06 490.38,253.50 C497.14,230.51 512.05,213.61 537.00,200.67 C547.09,195.44 547.48,195.11 547.00,192.36 C546.72,190.79 546.52,186.35 546.55,182.50 C546.61,174.32 548.87,169.07 554.45,164.17 C559.63,159.63 562.96,158.10 577.80,153.46 C585.11,151.17 591.15,149.12 591.23,148.90 C591.30,148.68 590.54,144.59 589.54,139.81 C587.85,131.77 587.48,131.03 584.66,129.86 C576.23,126.37 570.03,116.66 570.01,106.95 C569.98,92.82 582.04,81.98 597.76,82.01 C607.94,82.03 616.93,87.89 620.78,97.00 C623.99,104.60 621.70,116.21 615.72,122.75 L 613.66 124.99 L 616.14 133.75 C617.77,139.47 619.07,142.40 619.92,142.22 C628.70,140.28 645.74,138.00 651.45,138.00 C665.92,138.00 674.06,143.60 678.34,156.50 L 679.99 161.50 L 699.25 161.51 C718.14,161.52 718.67,161.58 727.67,164.63 C732.71,166.34 739.81,169.40 743.46,171.44 C751.51,175.94 761.87,185.45 767.07,193.10 C770.99,198.88 777.24,212.92 778.47,218.74 C778.85,220.52 779.59,222.24 780.12,222.57 C780.65,222.90 784.21,222.61 788.04,221.92 C796.40,220.43 801.25,221.53 806.45,226.09 C810.52,229.66 812.04,233.94 818.48,259.97 C822.71,277.05 822.97,278.83 821.95,283.72 C820.15,292.41 814.89,296.56 801.35,299.98 L 797.21 301.02 L 799.08 308.26 C802.36,320.94 803.22,330.12 801.97,339.24 C798.34,365.76 780.42,387.75 750.00,403.02 C717.34,419.41 655.94,435.25 610.70,438.95 C596.46,440.12 592.07,440.11 580.72,438.91 ZM 612.21 390.53 C642.34,385.81 681.85,375.33 713.00,363.79 C759.00,346.74 773.24,329.97 767.55,299.50 C764.56,283.49 753.93,241.71 750.93,234.19 C745.76,221.24 739.30,213.85 729.05,209.19 C718.10,204.21 699.43,205.39 667.00,213.10 C603.05,228.32 556.36,242.32 542.61,250.39 C532.28,256.45 524.53,265.86 521.59,275.93 C517.80,288.87 520.79,307.01 534.13,352.00 C541.54,376.98 551.37,388.20 569.18,392.00 C575.06,393.26 600.31,392.39 612.21,390.53 ZM 593.76 353.94 C588.70,351.27 587.20,348.66 583.86,336.71 C575.80,307.96 571.82,290.41 572.27,285.68 C573.07,277.15 579.75,271.00 588.21,271.00 C596.96,271.00 602.13,275.30 604.96,284.96 C610.37,303.40 618.00,335.49 618.00,339.80 C618.00,346.08 615.01,350.73 609.03,353.75 C603.60,356.49 598.72,356.55 593.76,353.94 ZM 695.37 329.94 C693.65,329.43 690.68,327.28 688.78,325.17 C685.55,321.60 684.86,319.49 678.56,293.93 C670.74,262.21 670.39,257.38 675.56,251.88 C681.22,245.86 688.94,244.40 696.03,248.01 C698.20,249.12 700.73,251.18 701.65,252.60 C703.86,255.97 716.92,308.22 716.97,313.86 C717.05,324.59 705.70,333.04 695.37,329.94 ZM 744.35 115.75 C732.31,96.79 732.37,96.83 715.31,96.06 C708.33,95.74 702.89,95.07 702.79,94.50 C702.69,93.95 706.41,90.91 711.05,87.75 C715.70,84.59 721.15,80.26 723.17,78.13 C727.13,73.95 727.24,73.48 728.71,56.08 C729.14,50.89 729.95,46.53 730.50,46.37 C731.05,46.22 734.42,50.61 737.98,56.14 C747.01,70.14 747.44,70.39 764.00,71.00 C773.56,71.35 777.50,71.85 777.50,72.70 C777.50,73.36 773.39,76.61 768.36,79.92 C763.34,83.23 758.09,87.29 756.70,88.94 C753.78,92.41 752.00,99.60 752.00,107.91 C752.00,115.61 750.94,123.00 749.84,123.00 C749.36,123.00 746.89,119.74 744.35,115.75 Z" fill="#3078C0"/></svg>
-          </div>
-          <span style="color:#0D2137;font-size:18px;font-weight:700;letter-spacing:-0.02em;">NAVI</span>
+      <!-- Persistent chrome: brand mark + integrated step progress -->
+      <div class="ob-topbar">
+        <div class="ob-brand">
+          <div class="ob-brand-mark"><svg width="14.6" height="16" viewBox="464.69 46.22 358.28 393.9" style="display:block"><path d="M 580.72 438.91 C546.83,435.33 523.04,415.58 513.91,383.46 C512.67,379.08 511.57,375.38 511.48,375.24 C511.39,375.10 508.05,375.72 504.05,376.63 C494.71,378.73 487.90,377.48 483.08,372.77 C478.68,368.47 477.79,366.46 473.69,351.50 C465.30,320.92 464.69,316.49 467.88,309.46 C470.45,303.79 474.95,300.40 483.09,297.97 L 490.11 295.88 L 489.30 291.19 C487.81,282.46 488.45,260.06 490.38,253.50 C497.14,230.51 512.05,213.61 537.00,200.67 C547.09,195.44 547.48,195.11 547.00,192.36 C546.72,190.79 546.52,186.35 546.55,182.50 C546.61,174.32 548.87,169.07 554.45,164.17 C559.63,159.63 562.96,158.10 577.80,153.46 C585.11,151.17 591.15,149.12 591.23,148.90 C591.30,148.68 590.54,144.59 589.54,139.81 C587.85,131.77 587.48,131.03 584.66,129.86 C576.23,126.37 570.03,116.66 570.01,106.95 C569.98,92.82 582.04,81.98 597.76,82.01 C607.94,82.03 616.93,87.89 620.78,97.00 C623.99,104.60 621.70,116.21 615.72,122.75 L 613.66 124.99 L 616.14 133.75 C617.77,139.47 619.07,142.40 619.92,142.22 C628.70,140.28 645.74,138.00 651.45,138.00 C665.92,138.00 674.06,143.60 678.34,156.50 L 679.99 161.50 L 699.25 161.51 C718.14,161.52 718.67,161.58 727.67,164.63 C732.71,166.34 739.81,169.40 743.46,171.44 C751.51,175.94 761.87,185.45 767.07,193.10 C770.99,198.88 777.24,212.92 778.47,218.74 C778.85,220.52 779.59,222.24 780.12,222.57 C780.65,222.90 784.21,222.61 788.04,221.92 C796.40,220.43 801.25,221.53 806.45,226.09 C810.52,229.66 812.04,233.94 818.48,259.97 C822.71,277.05 822.97,278.83 821.95,283.72 C820.15,292.41 814.89,296.56 801.35,299.98 L 797.21 301.02 L 799.08 308.26 C802.36,320.94 803.22,330.12 801.97,339.24 C798.34,365.76 780.42,387.75 750.00,403.02 C717.34,419.41 655.94,435.25 610.70,438.95 C596.46,440.12 592.07,440.11 580.72,438.91 ZM 612.21 390.53 C642.34,385.81 681.85,375.33 713.00,363.79 C759.00,346.74 773.24,329.97 767.55,299.50 C764.56,283.49 753.93,241.71 750.93,234.19 C745.76,221.24 739.30,213.85 729.05,209.19 C718.10,204.21 699.43,205.39 667.00,213.10 C603.05,228.32 556.36,242.32 542.61,250.39 C532.28,256.45 524.53,265.86 521.59,275.93 C517.80,288.87 520.79,307.01 534.13,352.00 C541.54,376.98 551.37,388.20 569.18,392.00 C575.06,393.26 600.31,392.39 612.21,390.53 ZM 593.76 353.94 C588.70,351.27 587.20,348.66 583.86,336.71 C575.80,307.96 571.82,290.41 572.27,285.68 C573.07,277.15 579.75,271.00 588.21,271.00 C596.96,271.00 602.13,275.30 604.96,284.96 C610.37,303.40 618.00,335.49 618.00,339.80 C618.00,346.08 615.01,350.73 609.03,353.75 C603.60,356.49 598.72,356.55 593.76,353.94 ZM 695.37 329.94 C693.65,329.43 690.68,327.28 688.78,325.17 C685.55,321.60 684.86,319.49 678.56,293.93 C670.74,262.21 670.39,257.38 675.56,251.88 C681.22,245.86 688.94,244.40 696.03,248.01 C698.20,249.12 700.73,251.18 701.65,252.60 C703.86,255.97 716.92,308.22 716.97,313.86 C717.05,324.59 705.70,333.04 695.37,329.94 ZM 744.35 115.75 C732.31,96.79 732.37,96.83 715.31,96.06 C708.33,95.74 702.89,95.07 702.79,94.50 C702.69,93.95 706.41,90.91 711.05,87.75 C715.70,84.59 721.15,80.26 723.17,78.13 C727.13,73.95 727.24,73.48 728.71,56.08 C729.14,50.89 729.95,46.53 730.50,46.37 C731.05,46.22 734.42,50.61 737.98,56.14 C747.01,70.14 747.44,70.39 764.00,71.00 C773.56,71.35 777.50,71.85 777.50,72.70 C777.50,73.36 773.39,76.61 768.36,79.92 C763.34,83.23 758.09,87.29 756.70,88.94 C753.78,92.41 752.00,99.60 752.00,107.91 C752.00,115.61 750.94,123.00 749.84,123.00 C749.36,123.00 746.89,119.74 744.35,115.75 Z" fill="#3078C0"/></svg></div>
+          <span class="ob-brand-name">NAVI</span>
         </div>
-
-        <!-- Tagline -->
-        <div style="position:relative;z-index:2;">
-          <p style="color:#3078C0;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;">Financial Wellness for Work</p>
-          <h1 style="color:#0D2137;font-size:36px;font-weight:800;line-height:1.18;letter-spacing:-0.03em;margin-bottom:14px;">Your money,<br/>finally making<br/>sense.</h1>
-          <p style="color:#556C7E;font-size:14px;line-height:1.65;">NAVI is your AI financial wellness benefit. It connects to your payroll, understands your patterns, and surfaces insights — privately, on your terms.</p>
-          <div style="display:flex;align-items:center;gap:8px;margin-top:32px;">
-            <div style="{{ dot0 }}"></div>
-            <div style="{{ dot1 }}"></div>
-            <div style="{{ dot2 }}"></div>
-            <div style="{{ dot3 }}"></div>
-          </div>
+        <div class="ob-progress-track">
+          <div style="{{ dot0 }}"></div>
+          <div style="{{ dot1 }}"></div>
+          <div style="{{ dot2 }}"></div>
+          <div style="{{ dot3 }}"></div>
         </div>
       </div>
 
-      <!-- Right: Steps -->
-      <div style="flex:1;height:100%;background:#DFF0FF;display:flex;align-items:center;justify-content:center;padding:64px;">
-        <div style="width:100%;max-width:420px;">
+      <div class="ob-workspace">
 
-          <!-- Step 0: Welcome -->
-          <sc-if value="{{ isStep0 }}" hint-placeholder-val="{{ true }}">
-            <div>
-              <p style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;">Welcome, Allen</p>
-              <h2 style="font-size:30px;font-weight:800;color:#0D2137;letter-spacing:-0.02em;margin-bottom:10px;">Your finances, finally clear.</h2>
-              <p style="font-size:15px;color:#3D5E7A;line-height:1.65;margin-bottom:28px;">NAVI watches your cash flow so you don't have to. No spreadsheets, no budgeting homework — just timely nudges when something needs your attention.</p>
-              <div style="background:#FFFFFF;border-radius:20px;padding:18px 20px;margin-bottom:28px;box-shadow:8px 8px 20px rgba(0,0,0,0.16),-4px -4px 12px rgba(255,255,255,0.82),inset -3px -3px 8px rgba(0,0,0,0.07),inset 3px 3px 8px rgba(255,255,255,0.62);">
+        <!-- Step 0: Welcome — brand statement (primary) + personalized intro/action (secondary) -->
+        <sc-if value="{{ isStep0 }}" hint-placeholder-val="{{ true }}">
+          <div class="ob-grid ob-grid--welcome">
+            <div class="ob-panel">
+              <p class="ob-eyebrow">Financial Wellness for Work</p>
+              <h1 style="color:#0D2137;font-size:34px;font-weight:800;line-height:1.16;letter-spacing:-0.03em;margin-bottom:16px;">Your money, finally making sense.</h1>
+              <p style="color:#556C7E;font-size:14px;line-height:1.65;">NAVI is your AI financial wellness benefit. It connects to your payroll, understands your patterns, and surfaces insights — privately, on your terms.</p>
+            </div>
+            <div class="ob-panel">
+              <p style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">Welcome, Allen</p>
+              <h2 style="font-size:24px;font-weight:800;color:#0D2137;letter-spacing:-0.02em;margin-bottom:10px;">Your finances, finally clear.</h2>
+              <p style="font-size:14px;color:#3D5E7A;line-height:1.6;margin-bottom:20px;">NAVI watches your cash flow so you don't have to. No spreadsheets, no budgeting homework — just timely nudges when something needs your attention.</p>
+              <div style="background:#FFFFFF;border-radius:20px;padding:18px 20px;margin-bottom:20px;box-shadow:8px 8px 20px rgba(0,0,0,0.16),-4px -4px 12px rgba(255,255,255,0.82),inset -3px -3px 8px rgba(0,0,0,0.07),inset 3px 3px 8px rgba(255,255,255,0.62);">
                 <p style="font-size:12px;font-weight:700;color:#3D5E7A;margin-bottom:12px;">What NAVI does for you</p>
                 <div style="display:flex;flex-direction:column;gap:10px;">
                   <div style="display:flex;align-items:center;gap:10px;">
@@ -102,15 +120,19 @@
               </div>
               <button onClick="{{ nextStep }}" style="width:100%;background:#3078C0;color:#EEF7FF;border:none;border-radius:16px;padding:14px 20px;font-size:15px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;letter-spacing:-0.01em;box-shadow:4px 4px 12px rgba(48,120,192,0.4),-2px -2px 8px rgba(255,255,255,0.5);">Activate my benefit →</button>
             </div>
-          </sc-if>
+          </div>
+        </sc-if>
 
-          <!-- Step 1: Connect payroll + accounts -->
-          <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ false }}">
-            <div>
-              <p style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;">Step 1 of 3 — Data Sources</p>
-              <h2 style="font-size:28px;font-weight:800;color:#0D2137;letter-spacing:-0.02em;margin-bottom:10px;">Connect your accounts</h2>
-              <p style="font-size:14px;color:#3D5E7A;margin-bottom:24px;">NAVI reads your data to build a complete financial picture. Read-only — it never initiates transfers or shares your data.</p>
-              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+        <!-- Step 1: Connect accounts — context (secondary, narrow) + account list (primary, wide) -->
+        <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ false }}">
+          <div class="ob-grid ob-grid--accounts">
+            <div class="ob-panel">
+              <p class="ob-eyebrow">Step 1 of 3 — Data Sources</p>
+              <h2 style="font-size:26px;font-weight:800;color:#0D2137;letter-spacing:-0.02em;margin-bottom:10px;">Connect your accounts</h2>
+              <p style="font-size:14px;color:#3D5E7A;line-height:1.6;">NAVI reads your data to build a complete financial picture. Read-only — it never initiates transfers or shares your data.</p>
+            </div>
+            <div class="ob-panel">
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
                 <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:16px;background:#FFFFFF;box-shadow:6px 6px 14px rgba(0,0,0,0.13),-3px -3px 9px rgba(255,255,255,0.75),inset -2px -2px 6px rgba(0,0,0,0.06),inset 2px 2px 6px rgba(255,255,255,0.55);">
                   <div style="display:flex;align-items:center;gap:12px;">
                     <div style="width:32px;height:32px;border-radius:10px;background:#3078C0;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:3px 3px 7px rgba(48,120,192,0.4);"><span style="color:#EEF7FF;font-size:10px;font-weight:800;">TC</span></div>
@@ -157,16 +179,18 @@
                 <button onClick="{{ nextStep }}" style="flex:2;background:#3078C0;color:#EEF7FF;border:none;border-radius:14px;padding:13px;font-size:14px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:4px 4px 12px rgba(48,120,192,0.4),-2px -2px 8px rgba(255,255,255,0.5);">Continue →</button>
               </div>
             </div>
-          </sc-if>
+          </div>
+        </sc-if>
 
-          <!-- Step 2: Goal -->
-          <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
-            <div>
-              <p style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;">Step 2 of 3 — Your Goal</p>
-              <h2 style="font-size:28px;font-weight:800;color:#0D2137;letter-spacing:-0.02em;margin-bottom:10px;">What's your primary financial goal?</h2>
-              <p style="font-size:14px;color:#3D5E7A;margin-bottom:24px;">NAVI will validate this against your payroll and spending data before committing to a timeline.</p>
-              <div style="border:2px solid #3078C0;border-radius:20px;padding:20px;background:rgba(48,120,192,0.05);margin-bottom:14px;box-shadow:6px 6px 16px rgba(0,0,0,0.12),-3px -3px 10px rgba(255,255,255,0.7);">
-                <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;">
+        <!-- Step 2: Goal — goal identity (primary, wide) + metric tiles (secondary, narrow) -->
+        <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+          <div class="ob-grid ob-grid--goal">
+            <div class="ob-panel">
+              <p class="ob-eyebrow">Step 2 of 3 — Your Goal</p>
+              <h2 style="font-size:26px;font-weight:800;color:#0D2137;letter-spacing:-0.02em;margin-bottom:10px;">What's your primary financial goal?</h2>
+              <p style="font-size:14px;color:#3D5E7A;margin-bottom:20px;">NAVI will validate this against your payroll and spending data before committing to a timeline.</p>
+              <div style="border:2px solid #3078C0;border-radius:20px;padding:20px;background:rgba(48,120,192,0.05);margin-bottom:20px;box-shadow:6px 6px 16px rgba(0,0,0,0.12),-3px -3px 10px rgba(255,255,255,0.7);">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;">
                   <div>
                     <p style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Selected</p>
                     <h3 style="font-size:18px;font-weight:700;color:#0D2137;letter-spacing:-0.01em;margin-bottom:3px;">Emergency Fund</h3>
@@ -176,44 +200,54 @@
                     <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#1B8448" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </div>
                 </div>
-                <div style="display:flex;gap:28px;">
-                  <div><p style="font-size:10px;color:#556C7E;margin-bottom:2px;">Target</p><p style="font-size:20px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">$10,000</p></div>
-                  <div><p style="font-size:10px;color:#556C7E;margin-bottom:2px;">Proposed timeline</p><p style="font-size:20px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">12 months</p></div>
-                </div>
-              </div>
-              <div style="background:rgba(48,120,192,0.07);border:1px solid rgba(48,120,192,0.18);border-radius:14px;padding:12px 14px;margin-bottom:22px;">
-                <p style="font-size:12px;color:#3D5E7A;line-height:1.55;"><strong style="font-weight:700;color:#3078C0;">NAVI will validate this.</strong> Based on your payroll and spending data, the actual timeline may differ — you'll see the full reasoning before we confirm.</p>
               </div>
               <div style="display:flex;gap:8px;">
                 <button onClick="{{ prevStep }}" style="flex:1;background:#FFFFFF;border:none;color:#3D5E7A;border-radius:14px;padding:13px;font-size:14px;font-weight:600;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:4px 4px 10px rgba(0,0,0,0.12),-2px -2px 7px rgba(255,255,255,0.75);">Back</button>
                 <button onClick="{{ nextStep }}" style="flex:2;background:#3078C0;color:#EEF7FF;border:none;border-radius:14px;padding:13px;font-size:14px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:4px 4px 12px rgba(48,120,192,0.4),-2px -2px 8px rgba(255,255,255,0.5);">Confirm goal →</button>
               </div>
             </div>
-          </sc-if>
-
-          <!-- Step 3: Analyzing -->
-          <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
-            <div>
-              <p style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;">Step 3 of 3 — Analysis</p>
-              <h2 style="font-size:28px;font-weight:800;color:#0D2137;letter-spacing:-0.02em;margin-bottom:10px;">Building your financial profile...</h2>
-              <p style="font-size:14px;color:#3D5E7A;margin-bottom:24px;">NAVI is analyzing your payroll history, spending patterns, and financial position.</p>
-              <div style="height:6px;background:#E8F3FF;border-radius:3px;margin-bottom:24px;overflow:hidden;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.12),inset -2px -2px 4px rgba(255,255,255,0.55);">
-                <div style="height:100%;width:100%;background:#3078C0;border-radius:3px;box-shadow:2px 1px 5px rgba(48,120,192,0.35);"></div>
+            <div class="ob-panel">
+              <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:12px;">
+                <div style="background:#FFFFFF;border-radius:16px;padding:16px 18px;box-shadow:6px 6px 14px rgba(0,0,0,0.13),-3px -3px 9px rgba(255,255,255,0.75);">
+                  <p style="font-size:10px;color:#556C7E;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">Target</p>
+                  <p style="font-size:26px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">$10,000</p>
+                </div>
+                <div style="background:#FFFFFF;border-radius:16px;padding:16px 18px;box-shadow:6px 6px 14px rgba(0,0,0,0.13),-3px -3px 9px rgba(255,255,255,0.75);">
+                  <p style="font-size:10px;color:#556C7E;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">Proposed timeline</p>
+                  <p style="font-size:26px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">12 months</p>
+                </div>
               </div>
-              <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px;">
-                <div style="display:flex;align-items:center;gap:12px;">
+              <div style="background:rgba(48,120,192,0.07);border:1px solid rgba(48,120,192,0.18);border-radius:14px;padding:12px 14px;">
+                <p style="font-size:12px;color:#3D5E7A;line-height:1.55;"><strong style="font-weight:700;color:#3078C0;">NAVI will validate this.</strong> Based on your payroll and spending data, the actual timeline may differ — you'll see the full reasoning before we confirm.</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- Step 3: Analyzing — vertical processing flow, narrower column, distinct from the side-by-side steps -->
+        <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+          <div class="ob-grid ob-grid--analyzing">
+            <div class="ob-panel">
+              <p class="ob-eyebrow">Step 3 of 3 — Analysis</p>
+              <h2 style="font-size:26px;font-weight:800;color:#0D2137;letter-spacing:-0.02em;margin-bottom:10px;">Building your financial profile...</h2>
+              <p style="font-size:14px;color:#3D5E7A;margin-bottom:22px;">NAVI is analyzing your payroll history, spending patterns, and financial position.</p>
+              <div style="height:10px;background:#E8F3FF;border-radius:5px;margin-bottom:24px;overflow:hidden;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.12),inset -2px -2px 4px rgba(255,255,255,0.55);">
+                <div style="height:100%;width:100%;background:#3078C0;border-radius:5px;box-shadow:2px 1px 5px rgba(48,120,192,0.35);"></div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;">
+                <div style="display:flex;align-items:center;gap:12px;background:#FFFFFF;border-radius:12px;padding:12px 14px;box-shadow:4px 4px 10px rgba(0,0,0,0.09),-2px -2px 7px rgba(255,255,255,0.7);">
                   <div style="width:20px;height:20px;border-radius:50%;background:rgba(27,132,72,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                     <svg width="9" height="9" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#1B8448" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </div>
                   <span style="font-size:13px;color:#3D5E7A;">847 transactions across 4 accounts · 90-day window</span>
                 </div>
-                <div style="display:flex;align-items:center;gap:12px;">
+                <div style="display:flex;align-items:center;gap:12px;background:#FFFFFF;border-radius:12px;padding:12px 14px;box-shadow:4px 4px 10px rgba(0,0,0,0.09),-2px -2px 7px rgba(255,255,255,0.7);">
                   <div style="width:20px;height:20px;border-radius:50%;background:rgba(27,132,72,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                     <svg width="9" height="9" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#1B8448" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </div>
                   <span style="font-size:13px;color:#3D5E7A;">Bi-weekly payroll cadence identified · $3,250 net/cycle</span>
                 </div>
-                <div style="display:flex;align-items:center;gap:12px;">
+                <div style="display:flex;align-items:center;gap:12px;background:#FFFFFF;border-radius:12px;padding:12px 14px;box-shadow:4px 4px 10px rgba(0,0,0,0.09),-2px -2px 7px rgba(255,255,255,0.7);">
                   <div style="width:20px;height:20px;border-radius:50%;background:rgba(27,132,72,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                     <svg width="9" height="9" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#1B8448" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </div>
@@ -222,9 +256,9 @@
               </div>
               <button onClick="{{ finishOnboarding }}" style="width:100%;background:#3078C0;color:#EEF7FF;border:none;border-radius:16px;padding:14px;font-size:15px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:4px 4px 12px rgba(48,120,192,0.4),-2px -2px 8px rgba(255,255,255,0.5);">View my financial pulse →</button>
             </div>
-          </sc-if>
+          </div>
+        </sc-if>
 
-        </div>
       </div>
     </div>
   </sc-if>
@@ -1449,8 +1483,8 @@ class Component extends NaviBase {
     const navActive   = { ...nb, background:'rgba(48,120,192,0.12)', color:'#8B6A08', fontWeight:'700', boxShadow:'inset 3px 3px 8px rgba(0,0,0,0.18),inset -3px -3px 8px rgba(255,255,255,0.5)' };
     const navInactive = { ...nb, background:'transparent', color:'#3D5E7A', fontWeight:'500' };
 
-    const dot = n => ({ width:'6px', height:'6px', borderRadius:'50%', flexShrink:0,
-      background: s.onboardingStep>=n ? '#3078C0' : 'rgba(44,36,33,0.15)',
+    const dot = n => ({ flex:'1', height:'4px', borderRadius:'2px',
+      background: s.onboardingStep>=n ? '#3078C0' : 'rgba(48,120,192,0.18)',
       boxShadow: s.onboardingStep>=n ? '0 0 5px rgba(48,120,192,0.5)' : 'none',
       transition:'background 0.3s ease' });
 

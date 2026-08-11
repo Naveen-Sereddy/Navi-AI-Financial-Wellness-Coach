@@ -166,9 +166,15 @@ html, body { height: 100%; overflow: hidden; background: #0D0D0F; font-family: '
 .spinner { width: 40px; height: 40px; border: 3px solid #BDD8F5; border-top-color: #3078C0;
   border-radius: 50%; animation: spin 0.8s linear infinite; }
 
-/* ── Onboarding dots ── */
+/* ── Onboarding dots (legacy, unused after the topbar refactor below) ── */
 .ob-dot { width: 7px; height: 7px; border-radius: 50%; background: #BDD8F5; transition: all 0.2s; }
 .ob-dot.active { width: 20px; background: #3078C0; }
+
+/* ── Onboarding topbar: brand mark + integrated step progress ── */
+.ob-topbar-m { display:flex; align-items:center; gap:10px; padding:16px 20px 4px; }
+.ob-brand-mark-m { width:26px; height:26px; background:#FFFFFF; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  box-shadow:3px 3px 8px rgba(0,0,0,0.13),-2px -2px 6px rgba(255,255,255,0.8); }
+.ob-progress-track-m { flex:1; display:flex; gap:4px; max-width:110px; margin-left:auto; }
 
 /* ── Toast ── */
 .toast {
@@ -280,23 +286,27 @@ html, body { height: 100%; overflow: hidden; background: #0D0D0F; font-family: '
     <sc-if value="{{ isOnboarding }}">
       <div class="screen" style="background:#DFF0FF;">
 
+        <!-- Shared chrome: brand mark + integrated step progress (same design language as web) -->
+        <div class="ob-topbar-m">
+          <div class="ob-brand-mark-m"><svg width="13" height="14.2" viewBox="464.69 46.22 358.28 393.9" style="display:block"><path d="M 580.72 438.91 C546.83,435.33 523.04,415.58 513.91,383.46 C512.67,379.08 511.57,375.38 511.48,375.24 C511.39,375.10 508.05,375.72 504.05,376.63 C494.71,378.73 487.90,377.48 483.08,372.77 C478.68,368.47 477.79,366.46 473.69,351.50 C465.30,320.92 464.69,316.49 467.88,309.46 C470.45,303.79 474.95,300.40 483.09,297.97 L 490.11 295.88 L 489.30 291.19 C487.81,282.46 488.45,260.06 490.38,253.50 C497.14,230.51 512.05,213.61 537.00,200.67 C547.09,195.44 547.48,195.11 547.00,192.36 C546.72,190.79 546.52,186.35 546.55,182.50 C546.61,174.32 548.87,169.07 554.45,164.17 C559.63,159.63 562.96,158.10 577.80,153.46 C585.11,151.17 591.15,149.12 591.23,148.90 C591.30,148.68 590.54,144.59 589.54,139.81 C587.85,131.77 587.48,131.03 584.66,129.86 C576.23,126.37 570.03,116.66 570.01,106.95 C569.98,92.82 582.04,81.98 597.76,82.01 C607.94,82.03 616.93,87.89 620.78,97.00 C623.99,104.60 621.70,116.21 615.72,122.75 L 613.66 124.99 L 616.14 133.75 C617.77,139.47 619.07,142.40 619.92,142.22 C628.70,140.28 645.74,138.00 651.45,138.00 C665.92,138.00 674.06,143.60 678.34,156.50 L 679.99 161.50 L 699.25 161.51 C718.14,161.52 718.67,161.58 727.67,164.63 C732.71,166.34 739.81,169.40 743.46,171.44 C751.51,175.94 761.87,185.45 767.07,193.10 C770.99,198.88 777.24,212.92 778.47,218.74 C778.85,220.52 779.59,222.24 780.12,222.57 C780.65,222.90 784.21,222.61 788.04,221.92 C796.40,220.43 801.25,221.53 806.45,226.09 C810.52,229.66 812.04,233.94 818.48,259.97 C822.71,277.05 822.97,278.83 821.95,283.72 C820.15,292.41 814.89,296.56 801.35,299.98 L 797.21 301.02 L 799.08 308.26 C802.36,320.94 803.22,330.12 801.97,339.24 C798.34,365.76 780.42,387.75 750.00,403.02 C717.34,419.41 655.94,435.25 610.70,438.95 C596.46,440.12 592.07,440.11 580.72,438.91 ZM 612.21 390.53 C642.34,385.81 681.85,375.33 713.00,363.79 C759.00,346.74 773.24,329.97 767.55,299.50 C764.56,283.49 753.93,241.71 750.93,234.19 C745.76,221.24 739.30,213.85 729.05,209.19 C718.10,204.21 699.43,205.39 667.00,213.10 C603.05,228.32 556.36,242.32 542.61,250.39 C532.28,256.45 524.53,265.86 521.59,275.93 C517.80,288.87 520.79,307.01 534.13,352.00 C541.54,376.98 551.37,388.20 569.18,392.00 C575.06,393.26 600.31,392.39 612.21,390.53 ZM 593.76 353.94 C588.70,351.27 587.20,348.66 583.86,336.71 C575.80,307.96 571.82,290.41 572.27,285.68 C573.07,277.15 579.75,271.00 588.21,271.00 C596.96,271.00 602.13,275.30 604.96,284.96 C610.37,303.40 618.00,335.49 618.00,339.80 C618.00,346.08 615.01,350.73 609.03,353.75 C603.60,356.49 598.72,356.55 593.76,353.94 ZM 695.37 329.94 C693.65,329.43 690.68,327.28 688.78,325.17 C685.55,321.60 684.86,319.49 678.56,293.93 C670.74,262.21 670.39,257.38 675.56,251.88 C681.22,245.86 688.94,244.40 696.03,248.01 C698.20,249.12 700.73,251.18 701.65,252.60 C703.86,255.97 716.92,308.22 716.97,313.86 C717.05,324.59 705.70,333.04 695.37,329.94 ZM 744.35 115.75 C732.31,96.79 732.37,96.83 715.31,96.06 C708.33,95.74 702.89,95.07 702.79,94.50 C702.69,93.95 706.41,90.91 711.05,87.75 C715.70,84.59 721.15,80.26 723.17,78.13 C727.13,73.95 727.24,73.48 728.71,56.08 C729.14,50.89 729.95,46.53 730.50,46.37 C731.05,46.22 734.42,50.61 737.98,56.14 C747.01,70.14 747.44,70.39 764.00,71.00 C773.56,71.35 777.50,71.85 777.50,72.70 C777.50,73.36 773.39,76.61 768.36,79.92 C763.34,83.23 758.09,87.29 756.70,88.94 C753.78,92.41 752.00,99.60 752.00,107.91 C752.00,115.61 750.94,123.00 749.84,123.00 C749.36,123.00 746.89,119.74 744.35,115.75 Z" fill="#3078C0"/></svg></div>
+          <div class="ob-progress-track-m">
+            <div style="{{ obDot0 }}"></div>
+            <div style="{{ obDot1 }}"></div>
+            <div style="{{ obDot2 }}"></div>
+            <div style="{{ obDot3 }}"></div>
+          </div>
+        </div>
+
         <!-- Step 0: Welcome -->
         <sc-if value="{{ isStep0 }}">
-          <div style="display:flex;flex-direction:column;align-items:center;padding:24px 28px 32px;min-height:100%;">
-            <div style="margin-top:20px;margin-bottom:32px;">
-              <svg width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="26" cy="26" r="26" fill="#3078C0" opacity="0.1"/>
-                <circle cx="26" cy="26" r="20" fill="#3078C0" opacity="0.15"/>
-                <g transform="translate(-26.31,6.24) scale(0.08124)"><path d="M 580.72 438.91 C546.83,435.33 523.04,415.58 513.91,383.46 C512.67,379.08 511.57,375.38 511.48,375.24 C511.39,375.10 508.05,375.72 504.05,376.63 C494.71,378.73 487.90,377.48 483.08,372.77 C478.68,368.47 477.79,366.46 473.69,351.50 C465.30,320.92 464.69,316.49 467.88,309.46 C470.45,303.79 474.95,300.40 483.09,297.97 L 490.11 295.88 L 489.30 291.19 C487.81,282.46 488.45,260.06 490.38,253.50 C497.14,230.51 512.05,213.61 537.00,200.67 C547.09,195.44 547.48,195.11 547.00,192.36 C546.72,190.79 546.52,186.35 546.55,182.50 C546.61,174.32 548.87,169.07 554.45,164.17 C559.63,159.63 562.96,158.10 577.80,153.46 C585.11,151.17 591.15,149.12 591.23,148.90 C591.30,148.68 590.54,144.59 589.54,139.81 C587.85,131.77 587.48,131.03 584.66,129.86 C576.23,126.37 570.03,116.66 570.01,106.95 C569.98,92.82 582.04,81.98 597.76,82.01 C607.94,82.03 616.93,87.89 620.78,97.00 C623.99,104.60 621.70,116.21 615.72,122.75 L 613.66 124.99 L 616.14 133.75 C617.77,139.47 619.07,142.40 619.92,142.22 C628.70,140.28 645.74,138.00 651.45,138.00 C665.92,138.00 674.06,143.60 678.34,156.50 L 679.99 161.50 L 699.25 161.51 C718.14,161.52 718.67,161.58 727.67,164.63 C732.71,166.34 739.81,169.40 743.46,171.44 C751.51,175.94 761.87,185.45 767.07,193.10 C770.99,198.88 777.24,212.92 778.47,218.74 C778.85,220.52 779.59,222.24 780.12,222.57 C780.65,222.90 784.21,222.61 788.04,221.92 C796.40,220.43 801.25,221.53 806.45,226.09 C810.52,229.66 812.04,233.94 818.48,259.97 C822.71,277.05 822.97,278.83 821.95,283.72 C820.15,292.41 814.89,296.56 801.35,299.98 L 797.21 301.02 L 799.08 308.26 C802.36,320.94 803.22,330.12 801.97,339.24 C798.34,365.76 780.42,387.75 750.00,403.02 C717.34,419.41 655.94,435.25 610.70,438.95 C596.46,440.12 592.07,440.11 580.72,438.91 ZM 612.21 390.53 C642.34,385.81 681.85,375.33 713.00,363.79 C759.00,346.74 773.24,329.97 767.55,299.50 C764.56,283.49 753.93,241.71 750.93,234.19 C745.76,221.24 739.30,213.85 729.05,209.19 C718.10,204.21 699.43,205.39 667.00,213.10 C603.05,228.32 556.36,242.32 542.61,250.39 C532.28,256.45 524.53,265.86 521.59,275.93 C517.80,288.87 520.79,307.01 534.13,352.00 C541.54,376.98 551.37,388.20 569.18,392.00 C575.06,393.26 600.31,392.39 612.21,390.53 ZM 593.76 353.94 C588.70,351.27 587.20,348.66 583.86,336.71 C575.80,307.96 571.82,290.41 572.27,285.68 C573.07,277.15 579.75,271.00 588.21,271.00 C596.96,271.00 602.13,275.30 604.96,284.96 C610.37,303.40 618.00,335.49 618.00,339.80 C618.00,346.08 615.01,350.73 609.03,353.75 C603.60,356.49 598.72,356.55 593.76,353.94 ZM 695.37 329.94 C693.65,329.43 690.68,327.28 688.78,325.17 C685.55,321.60 684.86,319.49 678.56,293.93 C670.74,262.21 670.39,257.38 675.56,251.88 C681.22,245.86 688.94,244.40 696.03,248.01 C698.20,249.12 700.73,251.18 701.65,252.60 C703.86,255.97 716.92,308.22 716.97,313.86 C717.05,324.59 705.70,333.04 695.37,329.94 ZM 744.35 115.75 C732.31,96.79 732.37,96.83 715.31,96.06 C708.33,95.74 702.89,95.07 702.79,94.50 C702.69,93.95 706.41,90.91 711.05,87.75 C715.70,84.59 721.15,80.26 723.17,78.13 C727.13,73.95 727.24,73.48 728.71,56.08 C729.14,50.89 729.95,46.53 730.50,46.37 C731.05,46.22 734.42,50.61 737.98,56.14 C747.01,70.14 747.44,70.39 764.00,71.00 C773.56,71.35 777.50,71.85 777.50,72.70 C777.50,73.36 773.39,76.61 768.36,79.92 C763.34,83.23 758.09,87.29 756.70,88.94 C753.78,92.41 752.00,99.60 752.00,107.91 C752.00,115.61 750.94,123.00 749.84,123.00 C749.36,123.00 746.89,119.74 744.35,115.75 Z" fill="#3078C0"/></g>
-              </svg>
-            </div>
+          <div style="display:flex;flex-direction:column;align-items:center;padding:12px 28px 32px;min-height:100%;">
             <div style="text-align:center;margin-bottom:8px;">
               <span style="font-size:11px;font-weight:800;color:#3078C0;letter-spacing:0.1em;text-transform:uppercase;">FINANCIAL WELLNESS FOR WORK</span>
             </div>
-            <h1 class="hero" style="text-align:center;margin-bottom:14px;font-size:30px;">Your finances,<br>finally clear.</h1>
-            <p style="font-size:14px;color:#3D5E7A;text-align:center;line-height:1.6;margin-bottom:28px;">NAVI watches your cash flow so you don't have to. No spreadsheets — just timely nudges when something needs attention.</p>
+            <h1 class="hero" style="text-align:center;margin-bottom:14px;font-size:28px;">Your finances,<br>finally clear.</h1>
+            <p style="font-size:14px;color:#3D5E7A;text-align:center;line-height:1.6;margin-bottom:24px;">NAVI watches your cash flow so you don't have to. No spreadsheets — just timely nudges when something needs attention.</p>
 
-            <div class="clay" style="width:100%;padding:18px;margin-bottom:28px;">
+            <div class="clay" style="width:100%;padding:18px;margin-bottom:24px;">
               <p style="font-size:12px;font-weight:800;color:#556C7E;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px;">What NAVI does for you</p>
               <div style="display:flex;flex-direction:column;gap:10px;">
                 <div style="display:flex;align-items:flex-start;gap:10px;">
@@ -324,24 +334,16 @@ html, body { height: 100%; overflow: hidden; background: #0D0D0F; font-family: '
               </div>
             </div>
 
-            <button class="btn-primary" onClick="{{ goStep1 }}" style="margin-bottom:20px;">Activate my benefit →</button>
-            <div style="display:flex;gap:7px;">
-              <div class="ob-dot active"></div>
-              <div class="ob-dot"></div>
-              <div class="ob-dot"></div>
-            </div>
+            <button class="btn-primary" onClick="{{ goStep1 }}">Activate my benefit →</button>
           </div>
         </sc-if>
 
         <!-- Step 1: Connect Payroll -->
         <sc-if value="{{ isStep1 }}">
-          <div style="padding:20px 24px;min-height:100%;display:flex;flex-direction:column;">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:28px;">
+          <div style="padding:8px 24px 20px;min-height:100%;display:flex;flex-direction:column;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
               <button class="back-btn" style="border:none;background:#E8F3FF;" onClick="{{ goStep0 }}">‹</button>
               <span style="font-size:12px;font-weight:700;color:#556C7E;">Step 1 of 3</span>
-              <div style="flex:1;height:3px;background:#EBF4FF;border-radius:2px;overflow:hidden;">
-                <div style="width:33%;height:100%;background:#3078C0;border-radius:2px;"></div>
-              </div>
             </div>
 
             <h2 class="title" style="margin-bottom:8px;">Connect your payroll</h2>
@@ -381,21 +383,15 @@ html, body { height: 100%; overflow: hidden; background: #0D0D0F; font-family: '
               <button class="btn-primary" onClick="{{ goStep2 }}" style="margin-bottom:12px;">Connect TechCorp Payroll →</button>
               <p style="font-size:11px;color:#556C7E;text-align:center;">You can disconnect at any time in Privacy &amp; Data</p>
             </div>
-            <div style="display:flex;gap:7px;justify-content:center;margin-top:20px;">
-              <div class="ob-dot"></div><div class="ob-dot active"></div><div class="ob-dot"></div>
-            </div>
           </div>
         </sc-if>
 
         <!-- Step 2: Set Goal -->
         <sc-if value="{{ isStep2 }}">
-          <div style="padding:20px 24px;min-height:100%;display:flex;flex-direction:column;">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:28px;">
+          <div style="padding:8px 24px 20px;min-height:100%;display:flex;flex-direction:column;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
               <button class="back-btn" style="border:none;background:#E8F3FF;" onClick="{{ goStep1 }}">‹</button>
               <span style="font-size:12px;font-weight:700;color:#556C7E;">Step 2 of 3</span>
-              <div style="flex:1;height:3px;background:#EBF4FF;border-radius:2px;overflow:hidden;">
-                <div style="width:66%;height:100%;background:#3078C0;border-radius:2px;"></div>
-              </div>
             </div>
 
             <h2 class="title" style="margin-bottom:6px;">What matters most?</h2>
@@ -443,21 +439,12 @@ html, body { height: 100%; overflow: hidden; background: #0D0D0F; font-family: '
             <div style="margin-top:auto;padding-top:16px;">
               <button class="btn-primary" onClick="{{ startAnalysis }}" style="{{ continueStyle }}">Build my plan →</button>
             </div>
-            <div style="display:flex;gap:7px;justify-content:center;margin-top:20px;">
-              <div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot active"></div>
-            </div>
           </div>
         </sc-if>
 
         <!-- Step 3: Analysis loading -->
         <sc-if value="{{ isStep3 }}">
-          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;padding:40px 28px;text-align:center;">
-            <div style="margin-bottom:28px;animation:bluePulse 2s ease infinite;border-radius:50%;">
-              <svg width="72" height="72" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="26" cy="26" r="26" fill="#3078C0" opacity="0.12"/>
-                <g transform="translate(-26.31,6.24) scale(0.08124)"><path d="M 580.72 438.91 C546.83,435.33 523.04,415.58 513.91,383.46 C512.67,379.08 511.57,375.38 511.48,375.24 C511.39,375.10 508.05,375.72 504.05,376.63 C494.71,378.73 487.90,377.48 483.08,372.77 C478.68,368.47 477.79,366.46 473.69,351.50 C465.30,320.92 464.69,316.49 467.88,309.46 C470.45,303.79 474.95,300.40 483.09,297.97 L 490.11 295.88 L 489.30 291.19 C487.81,282.46 488.45,260.06 490.38,253.50 C497.14,230.51 512.05,213.61 537.00,200.67 C547.09,195.44 547.48,195.11 547.00,192.36 C546.72,190.79 546.52,186.35 546.55,182.50 C546.61,174.32 548.87,169.07 554.45,164.17 C559.63,159.63 562.96,158.10 577.80,153.46 C585.11,151.17 591.15,149.12 591.23,148.90 C591.30,148.68 590.54,144.59 589.54,139.81 C587.85,131.77 587.48,131.03 584.66,129.86 C576.23,126.37 570.03,116.66 570.01,106.95 C569.98,92.82 582.04,81.98 597.76,82.01 C607.94,82.03 616.93,87.89 620.78,97.00 C623.99,104.60 621.70,116.21 615.72,122.75 L 613.66 124.99 L 616.14 133.75 C617.77,139.47 619.07,142.40 619.92,142.22 C628.70,140.28 645.74,138.00 651.45,138.00 C665.92,138.00 674.06,143.60 678.34,156.50 L 679.99 161.50 L 699.25 161.51 C718.14,161.52 718.67,161.58 727.67,164.63 C732.71,166.34 739.81,169.40 743.46,171.44 C751.51,175.94 761.87,185.45 767.07,193.10 C770.99,198.88 777.24,212.92 778.47,218.74 C778.85,220.52 779.59,222.24 780.12,222.57 C780.65,222.90 784.21,222.61 788.04,221.92 C796.40,220.43 801.25,221.53 806.45,226.09 C810.52,229.66 812.04,233.94 818.48,259.97 C822.71,277.05 822.97,278.83 821.95,283.72 C820.15,292.41 814.89,296.56 801.35,299.98 L 797.21 301.02 L 799.08 308.26 C802.36,320.94 803.22,330.12 801.97,339.24 C798.34,365.76 780.42,387.75 750.00,403.02 C717.34,419.41 655.94,435.25 610.70,438.95 C596.46,440.12 592.07,440.11 580.72,438.91 ZM 612.21 390.53 C642.34,385.81 681.85,375.33 713.00,363.79 C759.00,346.74 773.24,329.97 767.55,299.50 C764.56,283.49 753.93,241.71 750.93,234.19 C745.76,221.24 739.30,213.85 729.05,209.19 C718.10,204.21 699.43,205.39 667.00,213.10 C603.05,228.32 556.36,242.32 542.61,250.39 C532.28,256.45 524.53,265.86 521.59,275.93 C517.80,288.87 520.79,307.01 534.13,352.00 C541.54,376.98 551.37,388.20 569.18,392.00 C575.06,393.26 600.31,392.39 612.21,390.53 ZM 593.76 353.94 C588.70,351.27 587.20,348.66 583.86,336.71 C575.80,307.96 571.82,290.41 572.27,285.68 C573.07,277.15 579.75,271.00 588.21,271.00 C596.96,271.00 602.13,275.30 604.96,284.96 C610.37,303.40 618.00,335.49 618.00,339.80 C618.00,346.08 615.01,350.73 609.03,353.75 C603.60,356.49 598.72,356.55 593.76,353.94 ZM 695.37 329.94 C693.65,329.43 690.68,327.28 688.78,325.17 C685.55,321.60 684.86,319.49 678.56,293.93 C670.74,262.21 670.39,257.38 675.56,251.88 C681.22,245.86 688.94,244.40 696.03,248.01 C698.20,249.12 700.73,251.18 701.65,252.60 C703.86,255.97 716.92,308.22 716.97,313.86 C717.05,324.59 705.70,333.04 695.37,329.94 ZM 744.35 115.75 C732.31,96.79 732.37,96.83 715.31,96.06 C708.33,95.74 702.89,95.07 702.79,94.50 C702.69,93.95 706.41,90.91 711.05,87.75 C715.70,84.59 721.15,80.26 723.17,78.13 C727.13,73.95 727.24,73.48 728.71,56.08 C729.14,50.89 729.95,46.53 730.50,46.37 C731.05,46.22 734.42,50.61 737.98,56.14 C747.01,70.14 747.44,70.39 764.00,71.00 C773.56,71.35 777.50,71.85 777.50,72.70 C777.50,73.36 773.39,76.61 768.36,79.92 C763.34,83.23 758.09,87.29 756.70,88.94 C753.78,92.41 752.00,99.60 752.00,107.91 C752.00,115.61 750.94,123.00 749.84,123.00 C749.36,123.00 746.89,119.74 744.35,115.75 Z" fill="#3078C0"/></g>
-              </svg>
-            </div>
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100% - 60px);padding:20px 28px 40px;text-align:center;">
             <h2 class="title" style="margin-bottom:8px;">Building your plan...</h2>
             <p style="font-size:14px;color:#556C7E;margin-bottom:28px;">Analyzing 6 months of payroll data and spending patterns</p>
             <div style="width:100%;height:6px;background:#E8F3FF;border-radius:3px;overflow:hidden;margin-bottom:20px;">
@@ -1237,6 +1224,9 @@ class Component extends NaviBase {
 
     const goalCheck = (g) => s.selectedGoal === g ? '#3078C0' : 'transparent';
     const goalTick  = (g) => s.selectedGoal === g ? '✓' : '';
+
+    const obDot = (n) => 'flex:1;height:4px;border-radius:2px;background:' +
+      (s.onboardingStep >= n ? '#3078C0' : 'rgba(48,120,192,0.18)') + ';';
     const goalStyle = (g) => s.selectedGoal === g
       ? 'background:#E8F3FF;border:2px solid #3078C0;border-radius:16px;padding:14px;cursor:pointer;transition:all 0.15s;margin-bottom:10px;'
       : 'background:#FFFFFF;border:2px solid #EBF4FF;border-radius:16px;padding:14px;cursor:pointer;transition:all 0.15s;margin-bottom:10px;';
@@ -1258,6 +1248,7 @@ class Component extends NaviBase {
       isStep1: sc === 'onboarding' && s.onboardingStep === 1,
       isStep2: sc === 'onboarding' && s.onboardingStep === 2,
       isStep3: sc === 'onboarding' && s.onboardingStep === 3,
+      obDot0: obDot(0), obDot1: obDot(1), obDot2: obDot(2), obDot3: obDot(3),
 
       // Tab bar
       showTabBar: sc !== 'onboarding',
