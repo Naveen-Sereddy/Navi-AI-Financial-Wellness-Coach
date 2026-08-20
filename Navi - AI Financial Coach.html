@@ -704,7 +704,7 @@
             <div style="background:#FFFFFF;border-radius:20px;padding:22px;box-shadow:8px 8px 20px rgba(0,0,0,0.15),-4px -4px 12px rgba(255,255,255,0.82),inset -3px -3px 8px rgba(0,0,0,0.07),inset 3px 3px 8px rgba(255,255,255,0.62);">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
                 <div><p style="font-size:13px;font-weight:700;color:#0D2137;margin-bottom:2px;">NAVI's Savings Plan</p><p style="font-size:11px;color:#556C7E;">$400 → $748/month</p></div>
-                <div style="background:rgba(48,120,192,0.08);border:1px solid rgba(48,120,192,0.18);border-radius:20px;padding:4px 11px;"><span style="font-size:11px;font-weight:700;color:#3078C0;">82% confidence</span></div>
+                <div style="background:rgba(48,120,192,0.08);border:1px solid rgba(48,120,192,0.18);border-radius:20px;padding:4px 11px;"><span style="font-size:11px;font-weight:700;color:#3078C0;">{{ explainerConfidencePct }}% confidence</span></div>
               </div>
               <div style="display:flex;flex-direction:column;gap:0;">
                 <div style="display:flex;align-items:center;padding:11px 0;border-bottom:1px solid #BDD8F5;"><div style="width:190px;font-size:12px;color:#556C7E;">Current baseline</div><div style="flex:1;"></div><div style="width:95px;text-align:right;font-size:13px;font-weight:700;font-family:'DM Mono',monospace;color:#556C7E;">$400 / mo</div></div>
@@ -1057,7 +1057,7 @@
                   </sc-if>
                 </div>
                 <p style="font-size:11px;color:#556C7E;line-height:1.5;margin-bottom:8px;">NAVI will factor this into next month's baseline.</p>
-                <p style="font-size:11px;font-weight:700;color:#3078C0;">Goal: 14 months → Aug 2027</p>
+                <p style="font-size:11px;font-weight:700;color:#3078C0;">Goal: 14 months → Jun 2027</p>
               </div>
             </div>
             <sc-if value="{{ alertResolved }}" hint-placeholder-val="{{ false }}">
@@ -1209,7 +1209,7 @@
             <div style="padding:16px 20px;border-bottom:1px solid #BDD8F5;display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;">
               <div>
                 <p style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;">Why NAVI Said This</p>
-                <p style="font-size:12px;color:#556C7E;margin-top:3px;">13-month plan · 87% confidence</p>
+                <p style="font-size:12px;color:#556C7E;margin-top:3px;">{{ goalMonths }}-month plan · {{ explainerConfidencePct }}% confidence</p>
               </div>
               <button onClick="{{ closeExplainer }}" style="background:transparent;border:none;cursor:pointer;color:#556C7E;font-size:20px;line-height:1;padding:0 2px;flex-shrink:0;">×</button>
             </div>
@@ -1472,8 +1472,12 @@ class Component extends NaviBase {
     let month3Saved, goalMonths, goalMonthLabel, goalConfidenceLabel;
     if (ac==='expense')      { month3Saved=748; goalMonths=13; goalMonthLabel='Mar 2027'; goalConfidenceLabel='82% confident · On track'; }
     else if (ac==='cutback') { month3Saved=660; goalMonths=13; goalMonthLabel='Apr 2027'; goalConfidenceLabel='79% confident · Adjusted'; }
-    else if (ac==='ignore')  { month3Saved=586; goalMonths=14; goalMonthLabel='Aug 2027'; goalConfidenceLabel='71% confident · Extended'; }
-    else                     { month3Saved=586; goalMonths=14; goalMonthLabel='Aug 2027'; goalConfidenceLabel='71% confident · Alert pending'; }
+    else if (ac==='ignore')  { month3Saved=586; goalMonths=14; goalMonthLabel='Jun 2027'; goalConfidenceLabel='71% confident · Extended'; }
+    else                     { month3Saved=586; goalMonths=14; goalMonthLabel='Jun 2027'; goalConfidenceLabel='71% confident · Alert pending'; }
+    // Explainer panel summarizes the same live plan shown on the Goals
+    // screen, so it reads off goalMonths/goalConfidenceLabel instead of
+    // its own hardcoded figures.
+    const explainerConfidencePct = goalConfidenceLabel.split('%')[0];
 
     const totalSaved = 400+630+month3Saved;
     const goalPct = ((totalSaved/10000)*100).toFixed(1);
@@ -1519,7 +1523,7 @@ class Component extends NaviBase {
 
     const alertImpact = ac==='expense' ? 'Goal restores to 13 months (March 2027). NAVI will log the expense claim and adjust the June savings calculation.'
       : ac==='cutback' ? 'Goal adjusts to 13 months (April 2027). NAVI will monitor dining for the remaining 3 days of June.'
-      : ac==='ignore' ? "Timeline extends to 14 months (August 2027). NAVI will factor this into next month's baseline plan."
+      : ac==='ignore' ? "Timeline extends to 14 months (June 2027). NAVI will factor this into next month's baseline plan."
       : null;
 
     const tog = (on) => ({ display:'flex', alignItems:'center', width:'40px', height:'22px', borderRadius:'11px',
@@ -1591,7 +1595,7 @@ class Component extends NaviBase {
       privacyToggle4Btn:tog(s.privacyToggles.requireConfirmation), privacyToggle4Knob:knob(s.privacyToggles.requireConfirmation), toggleRequireConfirmation:()=>this.setState(s=>({privacyToggles:{...s.privacyToggles,requireConfirmation:!s.privacyToggles.requireConfirmation}})),
       alertPanelTitle, shiftLabel, alertSavingsStyle, alertShiftStyle, alertDateStyle,
       totalSaved, totalSavedDisplay:'$'+totalSaved.toLocaleString(), month3Saved, month3SavedDisplay:'$'+month3Saved.toLocaleString(),
-      goalPct, ringCircumference:circ, progressOffset:offset, goalMonths, goalMonthLabel, goalConfidenceLabel, juneBarStyle:jBar,
+      goalPct, ringCircumference:circ, progressOffset:offset, goalMonths, goalMonthLabel, goalConfidenceLabel, explainerConfidencePct, juneBarStyle:jBar,
       juneSavingsLabel:jsl, juneSavingsSubLabel:jsub, juneSavingsCardStyle:jsCard, juneSavingsStatusStyle:jsStat,
       categories:[
         {name:'Dining & Drinks',amount:'$487',nameStyle:{fontSize:'13px',color:'#C63E3E',fontWeight:'600'},amountStyle:{fontSize:'13px',fontWeight:'700',color:'#C63E3E',fontFamily:"'DM Mono',monospace",letterSpacing:'-0.01em'},barStyle:{height:'5px',background:'#C63E3E',borderRadius:'3px',width:'100%',opacity:'0.75',boxShadow:'2px 1px 4px rgba(198,62,62,0.3)'}},
