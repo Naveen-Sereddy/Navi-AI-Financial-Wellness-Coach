@@ -1337,11 +1337,14 @@
 </div>
 </x-app>
 <script type="text/x-app" data-app-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}">
+const captureScreen = new URLSearchParams(window.location.search).get('captureScreen');
+const initialScreen = ['onboarding', 'dashboard', 'checkin', 'goals', 'coach', 'alert', 'privacy', 'slack'].includes(captureScreen) ? captureScreen : 'onboarding';
+
 class Component extends NaviBase {
   messagesRef = React.createRef();
 
   state = {
-    screen: (this.props && this.props.startScreen) || 'onboarding',
+    screen: (this.props && this.props.startScreen) || initialScreen,
     onboardingStep: 0,
     analysisComplete: false,
     alertChoice: null,

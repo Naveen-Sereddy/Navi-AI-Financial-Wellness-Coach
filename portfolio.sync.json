@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "project": "NAVI",
+  "portfolio": {
+    "slug": "case-navi",
+    "liveUrl": "/case-navi/prototype.html"
+  },
+  "sync": {
+    "copyRules": [
+      {
+        "kind": "copy",
+        "source": "Navi - AI Financial Coach.html",
+        "target": "public/case-navi/prototype-web.html"
+      },
+      {
+        "kind": "copy",
+        "source": "Navi - Mobile.html",
+        "target": "public/case-navi/prototype-mobile.html"
+      },
+      {
+        "kind": "copy",
+        "source": "support.js",
+        "target": "public/case-navi/support.js"
+      }
+    ],
+    "captureRules": [
+      { "source": "Navi - AI Financial Coach.html", "query": "captureScreen=onboarding", "target": "src/assets/case/navi/ui-web-onboarding.png", "viewport": { "width": 1440, "height": 900 }, "deviceScaleFactor": 2 },
+      { "source": "Navi - AI Financial Coach.html", "query": "captureScreen=dashboard", "target": "src/assets/case/navi/ui-web-dashboard.png", "viewport": { "width": 1440, "height": 900 }, "deviceScaleFactor": 2 },
+      { "source": "Navi - AI Financial Coach.html", "query": "captureScreen=checkin", "target": "src/assets/case/navi/ui-web-checkin.png", "viewport": { "width": 1440, "height": 900 }, "deviceScaleFactor": 2 },
+      { "source": "Navi - AI Financial Coach.html", "query": "captureScreen=goals", "target": "src/assets/case/navi/ui-web-goals.png", "viewport": { "width": 1440, "height": 900 }, "deviceScaleFactor": 2 },
+      { "source": "Navi - AI Financial Coach.html", "query": "captureScreen=coach", "target": "src/assets/case/navi/ui-web-ai-analysis.png", "viewport": { "width": 1440, "height": 900 }, "deviceScaleFactor": 2 },
+      { "source": "Navi - AI Financial Coach.html", "query": "captureScreen=alert", "target": "src/assets/case/navi/ui-web-alerts.png", "viewport": { "width": 1440, "height": 900 }, "deviceScaleFactor": 2 },
+      { "source": "Navi - AI Financial Coach.html", "query": "captureScreen=privacy", "target": "src/assets/case/navi/ui-web-privacy.png", "viewport": { "width": 1440, "height": 900 }, "deviceScaleFactor": 2 },
+      { "source": "Navi - AI Financial Coach.html", "query": "captureScreen=slack", "target": "src/assets/case/navi/ui-web-slack.png", "viewport": { "width": 1440, "height": 900 }, "deviceScaleFactor": 2 },
+      { "source": "Navi - Mobile.html", "query": "captureScreen=onboarding", "target": "src/assets/case/navi/hifi-mobile-onboarding.png", "viewport": { "width": 500, "height": 1000 } },
+      { "source": "Navi - Mobile.html", "query": "captureScreen=dashboard", "target": "src/assets/case/navi/hifi-mobile-dashboard.png", "viewport": { "width": 500, "height": 1000 } },
+      { "source": "Navi - Mobile.html", "query": "captureScreen=goals", "target": "src/assets/case/navi/hifi-mobile-goals.png", "viewport": { "width": 500, "height": 1000 } },
+      { "source": "Navi - Mobile.html", "query": "captureScreen=coach", "target": "src/assets/case/navi/hifi-mobile-coach.png", "viewport": { "width": 500, "height": 1000 } }
+    ]
+  }
+}

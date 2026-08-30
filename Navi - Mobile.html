@@ -1197,9 +1197,13 @@ html, body { height: 100%; overflow: hidden; background: #0D0D0F; font-family: '
 
 </x-app>
 <script type="text/x-app" data-app-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}">
+const captureScreen = new URLSearchParams(window.location.search).get('captureScreen');
+const initialScreen = ['onboarding', 'dashboard', 'checkin', 'goals', 'coach', 'more', 'slack', 'alerts', 'privacy'].includes(captureScreen) ? captureScreen : 'onboarding';
+const initialTab = ({ dashboard: 'home', checkin: 'checkin', goals: 'goals', coach: 'coach', more: 'more' })[initialScreen] || 'home';
+
 class Component extends NaviBase {
   state = {
-    screen: 'onboarding',
+    screen: initialScreen,
     onboardingStep: 0,
     selectedGoal: null,
     analysisComplete: false,
@@ -1207,7 +1211,7 @@ class Component extends NaviBase {
     checkinReviewed: false,
     alertResolved: false,
     coachInput: '',
-    tab: 'home',
+    tab: initialTab,
   };
 
   navTo(s) { this.setState({ screen: s }); }
