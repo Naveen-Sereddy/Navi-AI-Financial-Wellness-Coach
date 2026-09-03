@@ -32,10 +32,10 @@
       { "source": "Navi - AI Financial Coach.html", "query": "captureScreen=alert", "target": "src/assets/case/navi/ui-web-alerts.png", "viewport": { "width": 1440, "height": 900 }, "deviceScaleFactor": 2 },
       { "source": "Navi - AI Financial Coach.html", "query": "captureScreen=privacy", "target": "src/assets/case/navi/ui-web-privacy.png", "viewport": { "width": 1440, "height": 900 }, "deviceScaleFactor": 2 },
       { "source": "Navi - AI Financial Coach.html", "query": "captureScreen=slack", "target": "src/assets/case/navi/ui-web-slack.png", "viewport": { "width": 1440, "height": 900 }, "deviceScaleFactor": 2 },
-      { "source": "Navi - Mobile.html", "query": "captureScreen=onboarding", "target": "src/assets/case/navi/hifi-mobile-onboarding.png", "viewport": { "width": 500, "height": 1000 }, "deviceScaleFactor": 2 },
-      { "source": "Navi - Mobile.html", "query": "captureScreen=dashboard", "target": "src/assets/case/navi/hifi-mobile-dashboard.png", "viewport": { "width": 500, "height": 1000 }, "deviceScaleFactor": 2 },
-      { "source": "Navi - Mobile.html", "query": "captureScreen=goals", "target": "src/assets/case/navi/hifi-mobile-goals.png", "viewport": { "width": 500, "height": 1000 }, "deviceScaleFactor": 2 },
-      { "source": "Navi - Mobile.html", "query": "captureScreen=coach", "target": "src/assets/case/navi/hifi-mobile-coach.png", "viewport": { "width": 500, "height": 1000 }, "deviceScaleFactor": 2 }
+      { "source": "Navi - Mobile.html", "query": "captureScreen=onboarding", "target": "src/assets/case/navi/hifi-mobile-onboarding.png", "viewport": { "width": 500, "height": 1000 }, "deviceScaleFactor": 4 },
+      { "source": "Navi - Mobile.html", "query": "captureScreen=dashboard", "target": "src/assets/case/navi/hifi-mobile-dashboard.png", "viewport": { "width": 500, "height": 1000 }, "deviceScaleFactor": 4 },
+      { "source": "Navi - Mobile.html", "query": "captureScreen=goals", "target": "src/assets/case/navi/hifi-mobile-goals.png", "viewport": { "width": 500, "height": 1000 }, "deviceScaleFactor": 4 },
+      { "source": "Navi - Mobile.html", "query": "captureScreen=coach", "target": "src/assets/case/navi/hifi-mobile-coach.png", "viewport": { "width": 500, "height": 1000 }, "deviceScaleFactor": 4 }
     ]
   }
 }
