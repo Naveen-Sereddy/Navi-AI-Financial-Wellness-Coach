@@ -1,0 +1,49 @@
+{
+  "display_information": {
+    "name": "NAVI",
+    "description": "A privacy-first financial wellness coach for workplace employees.",
+    "background_color": "#DFF0FF"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "NAVI",
+      "always_online": false
+    },
+    "slash_commands": [
+      {
+        "command": "/navi",
+        "url": "https://api.example.invalid/slack/commands",
+        "description": "Ask NAVI for a briefing or goal update",
+        "usage_hint": "briefing | goal"
+      }
+    ],
+    "shortcuts": [
+      {
+        "name": "Open NAVI briefing",
+        "type": "global",
+        "callback_id": "navi_open_briefing",
+        "description": "Open the latest financial briefing"
+      },
+      {
+        "name": "Review NAVI goal",
+        "type": "message",
+        "callback_id": "navi_review_goal",
+        "description": "Review a goal-related NAVI recommendation"
+      }
+    ]
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": ["chat:write", "commands", "im:history", "im:read", "users:read"]
+    }
+  },
+  "settings": {
+    "interactivity": {
+      "is_enabled": true,
+      "request_url": "https://api.example.invalid/slack/interactions"
+    },
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": true
+  }
+}

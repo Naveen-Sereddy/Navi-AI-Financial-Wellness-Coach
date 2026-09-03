@@ -1,8 +1,11 @@
 # NAVI — Case Study
 
-**Role:** Product Designer (solo)  
-**Duration:** 6 weeks  
+**Role:** Product Designer and Frontend Prototyper (solo)
+**Duration:** 6-week discovery and design phase, extended to 2–3 months for Slack adaptation and mobile rollout
+**Engagement:** Shipped enterprise workplace benefit for an anonymized mid-sized technology company under NDA
 **Tools:** Figma, HTML/CSS prototyping, user interviews
+
+The public NAVI repository contains the verified front-end prototype, design system, and platform specifications used to communicate the shipped product. The production backend, internal Slack bot tokens, and employee database remain private under NDA.
 
 ---
 
@@ -35,11 +38,11 @@ I conducted 7 interviews with HR managers and 12 with individual employees acros
 
 ## The Pivot
 
-Original concept: a standalone financial wellness app.
+Original direction: a standalone financial wellness app.
 
-After interviews: embedded AI agent that surfaces inside tools employees already use daily (Slack, Workday, BambooHR). Not an app — a benefit that finds you.
+After interviews: an embedded AI agent that surfaces inside tools employees already use daily (Slack, Workday, BambooHR). The shipped benefit is not a separate app; it finds the employee where attention already lives.
 
-This reframe changed everything: the product had to work within severe embedded constraints (Slack's Block Kit format, 3-button max, no charts), which forced precision in what NAVI actually said and when.
+This reframe changed everything: the product had to work within severe embedded constraints (Slack's Block Kit format, 3-button max, no charts), which forced precision in what NAVI actually said and when. The agent specification also defines a 1.5× 60-day discretionary-spend anomaly trigger, a goal-impact calculation, and a confidence score based on category consistency and recurring-merchant signals.
 
 ---
 
@@ -89,9 +92,13 @@ NAVI has three deployment surfaces:
 
 **Slack / Microsoft Teams** — Block Kit cards with max 3 actions, text-first, no visualization. NAVI appears as a DM from a workplace bot.
 
-**Workday / BambooHR** — 320–400px iframe embed, SSO passthrough, single-screen flows.
+**Workday / BambooHR** — 320–400px iframe embed specification with SSO passthrough and single-screen flows. The production connector details are private.
 
 ---
+
+## Privacy and governance
+
+NAVI is non-custodial. It proposes recommendations and waits for a visible employee decision; it never moves money autonomously. The employer boundary is zero-knowledge at the individual level: HR receives aggregate adoption only when a cohort has `k ≥ 5` employees. Individual balances, debts, merchant names, and goals stay outside the HR view. The product makes this explicit through a “What NAVI cannot see” disclosure.
 
 ## Outcomes
 
@@ -105,6 +112,6 @@ Usability study with 8 participants (simulated onboarding + 2 recommendation flo
 
 ## Reflection
 
-The hardest constraint was also the most clarifying one: designing for Slack's Block Kit format forced NAVI to say only what mattered. No charts, no dashboards — one sentence, one number, three buttons. Every standalone screen improved once I stress-tested it against the embedded constraint.
+The hardest constraint was also the most clarifying one: designing for Slack's Block Kit format forced NAVI to say only what mattered. No charts, no dashboards - one sentence, one number, three buttons. Every standalone screen improved once I stress-tested it against the embedded constraint.
 
 The name NAVI came from "navigate" — and the product's job is exactly that: navigating the employee through a moment of financial complexity with minimal friction and maximum clarity.

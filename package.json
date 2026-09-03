@@ -1,0 +1,11 @@
+{
+  "name": "navi-ai-financial-wellness-coach",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/verify.mjs",
+    "verify": "node scripts/verify.mjs",
+    "dev": "node scripts/serve.mjs"
+  }
+}

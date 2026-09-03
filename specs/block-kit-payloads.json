@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "payloads": {
+    "weekly_briefing": {
+      "type": "home",
+      "blocks": [
+        {
+          "type": "header",
+          "text": { "type": "plain_text", "text": "Your weekly NAVI briefing" }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*NAVI ANALYSIS*\nYour checking balance covers this week's bills. You can keep your emergency-fund contribution on track.\n_Confidence: 91% · Sources: checking balance, bills, next payroll deposit_"
+          }
+        },
+        {
+          "type": "actions",
+          "elements": [
+            { "type": "button", "text": { "type": "plain_text", "text": "Accept" }, "style": "primary", "action_id": "briefing_accept" },
+            { "type": "button", "text": { "type": "plain_text", "text": "Override" }, "action_id": "briefing_override" },
+            { "type": "button", "text": { "type": "plain_text", "text": "Why" }, "action_id": "briefing_why" }
+          ]
+        }
+      ]
+    },
+    "dining_overage_alert": {
+      "type": "message",
+      "blocks": [
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": ":warning: *NAVI flagged dining spend*\nJune dining is $199 above your 60-day baseline. At this pace, your emergency-fund goal moves from 13 to 14 months."
+          }
+        },
+        {
+          "type": "context",
+          "elements": [
+            { "type": "mrkdwn", "text": "Confidence: 87% · Sources: recent dining transactions, 60-day category baseline, active goal" }
+          ]
+        },
+        {
+          "type": "actions",
+          "elements": [
+            { "type": "button", "text": { "type": "plain_text", "text": "Review" }, "style": "primary", "action_id": "alert_review" },
+            { "type": "button", "text": { "type": "plain_text", "text": "Adjust plan" }, "action_id": "alert_adjust_plan" },
+            { "type": "button", "text": { "type": "plain_text", "text": "Ignore" }, "action_id": "alert_ignore" }
+          ]
+        }
+      ]
+    }
+  }
+}
