@@ -12,7 +12,7 @@
     "slash_commands": [
       {
         "command": "/navi",
-        "url": "https://api.example.invalid/slack/commands",
+        "url": "https://example.com/slack/commands",
         "description": "Ask NAVI for a briefing or goal update",
         "usage_hint": "briefing | goal"
       }
@@ -40,7 +40,7 @@
   "settings": {
     "interactivity": {
       "is_enabled": true,
-      "request_url": "https://api.example.invalid/slack/interactions"
+        "request_url": "https://example.com/slack/interactions"
     },
     "org_deploy_enabled": false,
     "socket_mode_enabled": false,

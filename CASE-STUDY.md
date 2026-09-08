@@ -2,10 +2,12 @@
 
 **Role:** Product Designer and Frontend Prototyper (solo)
 **Duration:** 6-week discovery and design phase, extended to 2–3 months for Slack adaptation and mobile rollout
-**Engagement:** Shipped enterprise workplace benefit for an anonymized mid-sized technology company under NDA
+**Engagement:** Enterprise workplace-benefit case study for an anonymized mid-sized technology company
 **Tools:** Figma, HTML/CSS prototyping, user interviews
 
-The public NAVI repository contains the verified front-end prototype, design system, and platform specifications used to communicate the shipped product. The production backend, internal Slack bot tokens, and employee database remain private under NDA.
+The public NAVI repository contains the front-end prototype, design system, and platform specifications used to communicate the product direction. Production services, internal Slack bot tokens, and employee data are not included.
+
+**Publication boundary:** EXTERNAL BLOCKER — CLIENT/RESEARCH DISCLOSURE PERMISSION REQUIRED. Participant consent, client approval, code ownership, and public licensing are not established by this repository.
 
 ---
 
@@ -19,18 +21,12 @@ They're built like banking apps: clinical, data-heavy, anxious. People open them
 
 ## Discovery
 
-I conducted 7 interviews with HR managers and 12 with individual employees across two mid-sized tech companies.
+The project records 7 interviews with HR managers and 12 with individual employees across two mid-sized tech companies. The research record is presented as anonymized project evidence; publication permission remains unresolved.
 
-**What HR managers said:**
-- "We offer a financial wellness program. Maybe 3% of employees actually use it."
-- "It's a separate app they have to download. That's already a barrier."
-- "People are embarrassed to admit they need financial help. The app being 'financial wellness' in the name makes it worse."
-
-**What employees said:**
-- "I already have Mint and I never open it."
-- "I know I should do a budget but it feels like homework."
-- "If it just told me when something was wrong, I'd actually pay attention."
-- "I live in Slack. If it was there I might actually see it."
+**Reported themes:**
+- Separate finance apps created an adoption barrier.
+- Employees preferred timely signals over another budgeting workflow.
+- Workplace tools such as Slack and payroll portals were already part of employees' routines.
 
 **Key finding:** People don't open finance apps. They open Slack, their payroll portal, and HR dashboards. The opportunity was embedding the advisor where attention already lives — not competing for a slot on the home screen.
 
@@ -40,7 +36,7 @@ I conducted 7 interviews with HR managers and 12 with individual employees acros
 
 Original direction: a standalone financial wellness app.
 
-After interviews: an embedded AI agent that surfaces inside tools employees already use daily (Slack, Workday, BambooHR). The shipped benefit is not a separate app; it finds the employee where attention already lives.
+After interviews: an embedded AI agent that surfaces inside tools employees already use daily (Slack, Workday, BambooHR). The product direction is not a separate app; it finds the employee where attention already lives.
 
 This reframe changed everything: the product had to work within severe embedded constraints (Slack's Block Kit format, 3-button max, no charts), which forced precision in what NAVI actually said and when. The agent specification also defines a 1.5× 60-day discretionary-spend anomaly trigger, a goal-impact calculation, and a confidence score based on category consistency and recurring-merchant signals.
 
@@ -102,7 +98,7 @@ NAVI is non-custodial. It proposes recommendations and waits for a visible emplo
 
 ## Outcomes
 
-Usability study with 8 participants (simulated onboarding + 2 recommendation flows):
+The repository records an 8-participant study using simulated onboarding plus two recommendation flows. Publication of participant results requires external permission:
 
 - **Avg. time to act on a recommendation:** 38 seconds (vs. 4.2 min benchmark from comparable finance apps)
 - **Trust rating:** 4.4/5 average ("I felt like it explained its reasoning")
