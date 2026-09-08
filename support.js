@@ -1,4 +1,5 @@
-// GENERATED from dc-runtime/src/*.ts — do not edit. Rebuild with `cd dc-runtime && bun run build`.
+// GENERATED ARTIFACT from an internal dc-runtime source tree; that source and build configuration
+// are not included in this repository. Do not edit this artifact directly.
 "use strict";
 (() => {
   var __defProp = Object.defineProperty;

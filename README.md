@@ -21,7 +21,7 @@ Every recommendation ships with a confidence score, the data behind it, and an o
 
 ## Tech stack
 
-Both public front-end prototypes (`Navi - AI Financial Coach.html`, `Navi - Mobile.html`) run on a custom runtime, `support.js`, generated from a TypeScript source tree (`dc-runtime`) and built with Bun. The runtime wraps React under a custom-element system (`<x-app>`, `<x-import>`) rather than a standard bundler setup, confirmed by the generated-file header in `support.js` itself. The private production backend, Slack bot tokens, and employee database are not part of this public repository.
+Both public front-end prototypes (`Navi - AI Financial Coach.html`, `Navi - Mobile.html`) run on the checked-in runtime artifact `support.js`. That artifact originated from an internal `dc-runtime` TypeScript source tree, but the source and build configuration are not included in this repository, so a fresh clone can run and verify the prototypes but cannot regenerate `support.js`. The runtime wraps React under a custom-element system (`<x-app>`, `<x-import>`) rather than a standard bundler setup. The private production backend, Slack bot tokens, and employee database are not part of this public repository.
 
 The core discovery and design phase took 6 weeks. Slack Block Kit adaptation and the mobile rollout extended the engagement to 2–3 months.
 
@@ -30,7 +30,7 @@ The core discovery and design phase took 6 weeks. Slack Block Kit adaptation and
 ```
 Navi - AI Financial Coach.html   # verified web front-end prototype
 Navi - Mobile.html               # verified mobile front-end prototype (390px)
-support.js                       # generated runtime (dc-runtime, do not edit directly)
+support.js                       # checked-in generated runtime; source/build tree is not included
 deck-stage.js                   # slide-deck stage component
 DESIGN.md                       # design token spec: claymorphism rationale, color, type, spacing
 CASE-STUDY.md                   # research, usability results, outcomes, and product boundary
@@ -71,7 +71,7 @@ The manifest should be treated as a future integration proposal until the permis
 
 ## Getting started
 
-Open `Navi - AI Financial Coach.html` in any modern browser for the web surface, or `Navi - Mobile.html` for the mobile flow. For a local server, run `npm run dev` and open the URLs printed in the terminal. `npm run check` validates both prototypes, core surfaces, design tokens, and legacy-copy guards.
+Open `Navi - AI Financial Coach.html` in any modern browser for the web surface, or `Navi - Mobile.html` for the mobile flow. For a local server, run `npm run dev` and open the URLs printed in the terminal. `npm run check` validates both prototypes, core surfaces, design tokens, and legacy-copy guards; it is a structural check and does not execute browser interactions. The checked-in `support.js` artifact is the runnable runtime because its original `dc-runtime` source tree is not included here.
 
 ## License
 
