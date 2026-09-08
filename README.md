@@ -4,7 +4,7 @@
 
 NAVI is an enterprise workplace-finance product case study for an anonymized mid-sized technology company. It explores proactive financial coaching inside the tools employees already use, including Slack and HR portals, while HR sees only aggregate benefit adoption. The public repository contains a front-end prototype, design system, and platform specifications; production services and credentials are not included.
 
-**Publication boundary:** EXTERNAL BLOCKER — CLIENT/RESEARCH DISCLOSURE PERMISSION REQUIRED. Client identity, participant consent, code ownership, and public licensing are not established by this repository.
+**Publication status:** Published with permission for portfolio use. Client identity and participant details remain anonymized.
 
 **Live case study:** [naveensereddy.com/case-navi](https://naveensereddy.com/case-navi)
 
@@ -50,7 +50,7 @@ scripts/                        # local verification and dependency-free dev ser
 
 ## Why I built it this way
 
-The research came first: the project records 19 structured interviews, with 7 HR leaders and 12 employees across two mid-sized technology companies. Those findings are reported here as anonymized project evidence; publication permission for the research record remains an external blocker. The same complaint kept coming up. Companies offer financial wellness benefits, but employees rarely return to a separate finance app because it feels like homework: clinical interfaces, banking-terminal aesthetics, and another download to remember.
+The research came first: the project records 19 structured interviews, with 7 HR leaders and 12 employees across two mid-sized technology companies. Those findings are reported here as anonymized project evidence approved for portfolio use. The same complaint kept coming up. Companies offer financial wellness benefits, but employees rarely return to a separate finance app because it feels like homework: clinical interfaces, banking-terminal aesthetics, and another download to remember.
 
 Claymorphism (soft 3D surfaces, warm sky-blue backgrounds, tactile card shadows) was a deliberate response to that, documented in full in `DESIGN.md`. Most fintech tools default to flat, dark, data-dense interfaces that read like audit software, the wrong register for a product built around financial anxiety.
 
@@ -58,7 +58,7 @@ The harder constraint was Slack's Block Kit: no charts, three buttons max, text 
 
 ## Usability results
 
-The repository records an 8-participant study using simulated onboarding plus two recommendation flows (full detail in `CASE-STUDY.md`). Publication of the participant results still requires external permission:
+The repository records an 8-participant study using simulated onboarding plus two recommendation flows (full detail in `CASE-STUDY.md`). The participant results are anonymized and approved for portfolio use:
 
 - Average time to act on a recommendation: 38 seconds, against a 4.2-minute industry app baseline
 - Trust rating: 4.4 / 5

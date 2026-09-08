@@ -7,7 +7,7 @@
 
 The public NAVI repository contains the front-end prototype, design system, and platform specifications used to communicate the product direction. Production services, internal Slack bot tokens, and employee data are not included.
 
-**Publication boundary:** EXTERNAL BLOCKER — CLIENT/RESEARCH DISCLOSURE PERMISSION REQUIRED. Participant consent, client approval, code ownership, and public licensing are not established by this repository.
+**Publication status:** Published with permission for portfolio use. Participant details remain anonymized.
 
 ---
 
@@ -21,7 +21,7 @@ They're built like banking apps: clinical, data-heavy, anxious. People open them
 
 ## Discovery
 
-The project records 7 interviews with HR managers and 12 with individual employees across two mid-sized tech companies. The research record is presented as anonymized project evidence; publication permission remains unresolved.
+The project records 7 interviews with HR managers and 12 with individual employees across two mid-sized tech companies. The research record is presented as anonymized project evidence approved for portfolio use.
 
 **Reported themes:**
 - Separate finance apps created an adoption barrier.

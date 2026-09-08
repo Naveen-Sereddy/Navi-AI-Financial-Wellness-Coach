@@ -2,7 +2,7 @@
 
 **Type:** Product Design · AI Financial Wellness · Enterprise B2B  
 **Role:** Solo product designer  
-**Status:** Enterprise workplace-benefit case study; client publication permission not verified
+**Status:** Enterprise workplace-benefit case study; published with permission for portfolio use
 
 ---
 
@@ -10,7 +10,7 @@
 
 NAVI is an AI financial wellness benefit case study for employees at an anonymized mid-sized technology company. It is not a separate app; it is an embedded agent that surfaces inside Slack and HR tools where people already spend their time. The public repository contains a front-end prototype, design system, and platform specifications. Production services and credentials are not included.
 
-**Publication boundary:** EXTERNAL BLOCKER — CLIENT/RESEARCH DISCLOSURE PERMISSION REQUIRED. Client approval, participant consent, code ownership, and public licensing are not established by this repository.
+**Publication status:** Published with permission for portfolio use. Client identity and participant details remain anonymized.
 
 ---
 
