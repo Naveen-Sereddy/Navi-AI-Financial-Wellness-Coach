@@ -1,5 +1,7 @@
 # NAVI
 
+[![Verify Navi](https://github.com/Naveen-Sereddy/Navi-AI-Financial-Wellness-Coach/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/Naveen-Sereddy/Navi-AI-Financial-Wellness-Coach/actions/workflows/verify.yml)
+
 NAVI is an enterprise workplace-finance product case study for an anonymized mid-sized technology company. It explores proactive financial coaching inside the tools employees already use, including Slack and HR portals, while HR sees only aggregate benefit adoption. The public repository contains a front-end prototype, design system, and platform specifications; production services and credentials are not included.
 
 **Publication boundary:** EXTERNAL BLOCKER — CLIENT/RESEARCH DISCLOSURE PERMISSION REQUIRED. Client identity, participant consent, code ownership, and public licensing are not established by this repository.
@@ -18,6 +20,12 @@ NAVI is an enterprise workplace-finance product case study for an anonymized mid
 - A privacy screen showing exactly what NAVI accessed, with redaction controls
 
 Every recommendation ships with a confidence score, the data behind it, and an override button. NAVI never acts on its own.
+
+**Project type:** Enterprise product and research prototype.
+
+**Implemented here:** Interactive web and mobile front-end prototypes, design-system artifacts, structural verification, and illustrative Slack Block Kit specifications. The repository does not contain the production services or a live Slack integration.
+
+**Proposed or unavailable:** The Slack manifest is illustrative, and the original `dc-runtime` source/build tree used to produce `support.js` is not included. A fresh clone can run the checked-in artifact but cannot regenerate it from the original sources.
 
 ## Tech stack
 
@@ -68,6 +76,15 @@ The current repository contains no Slack network integration, so these scopes ar
 - `users:read` — intended for resolving employee-facing Slack identity; review whether it is necessary
 
 The manifest should be treated as a future integration proposal until the permissions are reviewed and minimized.
+
+## Documentation
+
+- [Design rationale](DESIGN.md)
+- [Case study and research boundary](CASE-STUDY.md)
+- [Portfolio summary](PORTFOLIO.md)
+- [Agent decision engine](docs/01-agentic-decision-engine.md)
+- [Enterprise privacy firewall](docs/02-enterprise-privacy-firewall.md)
+- [Slack specifications](specs/)
 
 ## Getting started
 
