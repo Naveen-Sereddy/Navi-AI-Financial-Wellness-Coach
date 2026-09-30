@@ -33,6 +33,7 @@ export const naviDemoValues = () => ({
   amexDisplay: naviMoney(NAVI_DEMO.amexBalance),
   paycheckDisplay: naviMoney(NAVI_DEMO.paycheck),
   otherBillsDisplay: naviMoney(NAVI_DEMO.otherBills),
+  paycheckRemainderDisplay: naviMoney(NAVI_DEMO.paycheck - NAVI_DEMO.otherBills - NAVI_DEMO.amexBalance),
   afterPaycheckDisplay: naviMoney(NAVI_DEMO.checkingBalance - NAVI_DEMO.rent + NAVI_DEMO.paycheck),
   afterPaymentDisplay: naviMoney(NAVI_DEMO.checkingBalance - NAVI_DEMO.rent + NAVI_DEMO.paycheck - NAVI_DEMO.amexBalance - NAVI_DEMO.otherBills),
   baselineGoalDate: naviGoalDate(NAVI_DEMO.timelineMonths),
