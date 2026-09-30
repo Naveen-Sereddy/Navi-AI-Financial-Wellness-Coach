@@ -9,6 +9,11 @@
     "copyRules": [
       {
         "kind": "copy",
+        "source": "demo-data.js",
+        "target": "public/case-navi/demo-data.js"
+      },
+      {
+        "kind": "copy",
         "source": "Navi - AI Financial Coach.html",
         "target": "public/case-navi/prototype-web.html"
       },

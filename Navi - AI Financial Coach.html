@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="module" src="./demo-data.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -13,6 +14,7 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #DFF0FF; }
+  .a11y-live { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
   ::placeholder { color: #556C7E; }
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-thumb { background: #A8C8E8; border-radius: 2px; }
@@ -189,32 +191,43 @@
               <p class="ob-eyebrow">Step 2 of 3 — Your Goal</p>
               <h2 style="font-size:26px;font-weight:800;color:#0D2137;letter-spacing:-0.02em;margin-bottom:10px;">What's your primary financial goal?</h2>
               <p style="font-size:14px;color:#3D5E7A;margin-bottom:20px;">NAVI will validate this against your payroll and spending data before committing to a timeline.</p>
-              <div style="border:2px solid #3078C0;border-radius:20px;padding:20px;background:rgba(48,120,192,0.05);margin-bottom:20px;box-shadow:6px 6px 16px rgba(0,0,0,0.12),-3px -3px 10px rgba(255,255,255,0.7);">
-                <div style="display:flex;align-items:flex-start;justify-content:space-between;">
-                  <div>
-                    <p style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Selected</p>
-                    <h3 style="font-size:18px;font-weight:700;color:#0D2137;letter-spacing:-0.01em;margin-bottom:3px;">Emergency Fund</h3>
-                    <p style="font-size:12px;color:#3D5E7A;">3–6 months of living expenses, liquid and accessible</p>
-                  </div>
-                  <div style="width:24px;height:24px;border-radius:50%;background:rgba(27,132,72,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:12px;">
-                    <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#1B8448" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </div>
-                </div>
+              <div style="display:grid;gap:10px;margin-bottom:20px;">
+                <button type="button" aria-pressed="{{ goalEmergencySelected }}" onClick="{{ selectGoalEmergency }}" style="{{ goalEmergencyStyle }}">
+                  <span style="display:block;font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Goal option</span>
+                  <span style="display:block;font-size:16px;font-weight:700;color:#0D2137;letter-spacing:-0.01em;margin-bottom:3px;">Emergency fund</span>
+                  <span style="display:block;font-size:12px;color:#3D5E7A;">3–6 months of living expenses, liquid and accessible</span>
+                  <span style="display:block;font-size:11px;font-weight:700;color:#3078C0;margin-top:8px;">{{ goalEmergencyChoiceLabel }}</span>
+                </button>
+                <button type="button" aria-pressed="{{ goalDebtSelected }}" onClick="{{ selectGoalDebt }}" style="{{ goalDebtStyle }}">
+                  <span style="display:block;font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Goal option</span>
+                  <span style="display:block;font-size:16px;font-weight:700;color:#0D2137;letter-spacing:-0.01em;margin-bottom:3px;">Pay off credit card debt</span>
+                  <span style="display:block;font-size:12px;color:#3D5E7A;">Reduce interest costs and create more monthly room</span>
+                  <span style="display:block;font-size:11px;font-weight:700;color:#3078C0;margin-top:8px;">{{ goalDebtChoiceLabel }}</span>
+                </button>
+                <button type="button" aria-pressed="{{ goalSavingsSelected }}" onClick="{{ selectGoalSavings }}" style="{{ goalSavingsStyle }}">
+                  <span style="display:block;font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Goal option</span>
+                  <span style="display:block;font-size:16px;font-weight:700;color:#0D2137;letter-spacing:-0.01em;margin-bottom:3px;">Grow monthly savings</span>
+                  <span style="display:block;font-size:12px;color:#3D5E7A;">Build a repeatable savings habit around your cash flow</span>
+                  <span style="display:block;font-size:11px;font-weight:700;color:#3078C0;margin-top:8px;">{{ goalSavingsChoiceLabel }}</span>
+                </button>
               </div>
+              <sc-if value="{{ noGoalSelected }}" hint-placeholder-val="{{ false }}">
+                <p style="font-size:11px;color:#AD5F04;line-height:1.5;margin:-8px 0 14px;">Choose a goal above so NAVI can build the right plan.</p>
+              </sc-if>
               <div style="display:flex;gap:8px;">
                 <button onClick="{{ prevStep }}" style="flex:1;background:#FFFFFF;border:none;color:#3D5E7A;border-radius:14px;padding:13px;font-size:14px;font-weight:600;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:4px 4px 10px rgba(0,0,0,0.12),-2px -2px 7px rgba(255,255,255,0.75);">Back</button>
-                <button onClick="{{ nextStep }}" style="flex:2;background:#3078C0;color:#EEF7FF;border:none;border-radius:14px;padding:13px;font-size:14px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:4px 4px 12px rgba(48,120,192,0.4),-2px -2px 8px rgba(255,255,255,0.5);">Confirm goal →</button>
+                <button disabled="{{ noGoalSelected }}" onClick="{{ confirmGoal }}" style="{{ confirmGoalStyle }}">Confirm goal →</button>
               </div>
             </div>
             <div class="ob-panel">
               <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:12px;">
                 <div style="background:#FFFFFF;border-radius:16px;padding:16px 18px;box-shadow:6px 6px 14px rgba(0,0,0,0.13),-3px -3px 9px rgba(255,255,255,0.75);">
                   <p style="font-size:10px;color:#556C7E;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">Target</p>
-                  <p style="font-size:26px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">$10,000</p>
+                  <p style="font-size:26px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">{{ goalTargetDisplay }}</p>
                 </div>
                 <div style="background:#FFFFFF;border-radius:16px;padding:16px 18px;box-shadow:6px 6px 14px rgba(0,0,0,0.13),-3px -3px 9px rgba(255,255,255,0.75);">
                   <p style="font-size:10px;color:#556C7E;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">Proposed timeline</p>
-                  <p style="font-size:26px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">12 months</p>
+                  <p style="font-size:26px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">{{ timelineLabel }}</p>
                 </div>
               </div>
               <div style="background:rgba(48,120,192,0.07);border:1px solid rgba(48,120,192,0.18);border-radius:14px;padding:12px 14px;">
@@ -245,7 +258,7 @@
                   <div style="width:20px;height:20px;border-radius:50%;background:rgba(27,132,72,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                     <svg width="9" height="9" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#1B8448" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </div>
-                  <span style="font-size:13px;color:#3D5E7A;">Bi-weekly payroll cadence identified · $3,250 net/cycle</span>
+                  <span style="font-size:13px;color:#3D5E7A;">Bi-weekly payroll cadence identified · {{ paycheckDisplay }} net/cycle</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:12px;background:#FFFFFF;border-radius:12px;padding:12px 14px;box-shadow:4px 4px 10px rgba(0,0,0,0.09),-2px -2px 7px rgba(255,255,255,0.7);">
                   <div style="width:20px;height:20px;border-radius:50%;background:rgba(27,132,72,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -254,7 +267,17 @@
                   <span style="font-size:13px;color:#3D5E7A;">4 optimizations found to reach your goal faster</span>
                 </div>
               </div>
-              <button onClick="{{ finishOnboarding }}" style="width:100%;background:#3078C0;color:#EEF7FF;border:none;border-radius:16px;padding:14px;font-size:15px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:4px 4px 12px rgba(48,120,192,0.4),-2px -2px 8px rgba(255,255,255,0.5);">View my financial pulse →</button>
+              <sc-if value="{{ analysisFailed }}" hint-placeholder-val="{{ false }}">
+                <div style="background:#FFF7E8;border:1px solid rgba(198,62,62,0.25);border-radius:14px;padding:12px 14px;margin-bottom:10px;">
+                  <p style="font-size:12px;font-weight:700;color:#C63E3E;margin-bottom:4px;">NAVI couldn't connect to your financial data.</p>
+                  <p style="font-size:11px;color:#556C7E;line-height:1.5;">Your information was not changed. Check the connection and try again.</p>
+                </div>
+                <button onClick="{{ retryAnalysis }}" style="width:100%;background:#FFFFFF;color:#3078C0;border:1px solid #3078C0;border-radius:16px;padding:14px;font-size:15px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;">Retry connection</button>
+              </sc-if>
+              <sc-if value="{{ analysisNotFailed }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ finishOnboarding }}" style="width:100%;background:#3078C0;color:#EEF7FF;border:none;border-radius:16px;padding:14px;font-size:15px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:4px 4px 12px rgba(48,120,192,0.4),-2px -2px 8px rgba(255,255,255,0.5);">View my financial pulse →</button>
+                <button onClick="{{ failAnalysis }}" style="width:100%;background:transparent;border:none;color:#556C7E;border-radius:12px;padding:9px 10px;font-size:11px;font-family:'Nunito',sans-serif;cursor:pointer;">Simulate connection error</button>
+              </sc-if>
             </div>
           </div>
         </sc-if>
@@ -320,7 +343,7 @@
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/></svg>
             Privacy &amp; Data
           </button>
-          <button style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;cursor:pointer;background:transparent;color:#556C7E;font-family:'Nunito',sans-serif;font-size:13px;border:none;width:100%;text-align:left;">
+          <button style="{{ navSettingsStyle }}" onClick="{{ goToSettings }}">
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.75"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="1.75"/></svg>
             Settings
           </button>
@@ -341,6 +364,18 @@
       <!-- CONTENT AREA -->
       <div style="flex:1;height:100%;position:relative;overflow:hidden;background:#DFF0FF;">
 
+        <sc-if value="{{ dataCleared }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:40px;background:#DFF0FF;">
+            <div style="max-width:520px;text-align:center;background:#FFFFFF;border-radius:24px;padding:34px;box-shadow:8px 8px 20px rgba(0,0,0,0.15),-4px -4px 12px rgba(255,255,255,0.82);">
+              <p style="font-size:10px;font-weight:800;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">NAVI DATA CLEARED</p>
+              <h1 style="font-size:26px;font-weight:800;color:#0D2137;margin-bottom:8px;">There’s nothing here yet.</h1>
+              <p style="font-size:14px;color:#556C7E;line-height:1.6;margin:0 auto 18px;max-width:100%;overflow-wrap:anywhere;">Your goal, check-ins, recommendations, alerts, and transactions were removed from this prototype session.</p>
+              <p style="font-size:12px;color:#3D5E7A;line-height:1.5;margin-bottom:20px;">Start a new session to connect data again. NAVI will ask before it acts.</p>
+              <button onClick="{{ restartPrototype }}" style="background:#3078C0;color:#EEF7FF;border:none;border-radius:14px;padding:12px 20px;font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;">Start a new prototype session</button>
+            </div>
+          </div>
+        </sc-if>
+
         <!-- ─── DASHBOARD ─── -->
         <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ false }}">
           <div style="position:absolute;inset:0;overflow-y:auto;padding:32px 36px;animation:fadeUp 0.25s ease;">
@@ -350,7 +385,7 @@
                 <h1 style="font-size:26px;font-weight:800;color:#0D2137;letter-spacing:-0.02em;margin-bottom:3px;">Good morning, Allen.</h1>
                 <p style="font-size:14px;color:#3D5E7A;">Here's your financial pulse.</p>
               </div>
-              <button onClick="{{ goToAlert }}" style="position:relative;background:#FFFFFF;border:none;border-radius:12px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:4px;box-shadow:4px 4px 10px rgba(0,0,0,0.12),-2px -2px 7px rgba(255,255,255,0.8);">
+              <button type="button" aria-label="Open alerts" onClick="{{ goToAlert }}" style="position:relative;background:#FFFFFF;border:none;border-radius:12px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:4px;box-shadow:4px 4px 10px rgba(0,0,0,0.12),-2px -2px 7px rgba(255,255,255,0.8);">
                 <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#3D5E7A" stroke-width="1.75" stroke-linejoin="round"/><path d="M13.73 21a2 2 0 01-3.46 0" stroke="#3D5E7A" stroke-width="1.75"/></svg>
                 <sc-if value="{{ hasAlert }}" hint-placeholder-val="{{ false }}">
                   <span style="position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:#C63E3E;border:1.5px solid #DFF0FF;"></span>
@@ -365,12 +400,13 @@
                   <div style="width:7px;height:7px;border-radius:50%;background:#3078C0;flex-shrink:0;animation:bluePulse 2s ease infinite;"></div>
                   <div>
                     <span style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;">NAVI · Just now</span>
-                    <p style="font-size:13px;color:#3D5E7A;margin-top:1px;">Your weekly briefing is ready. 2 items to review before your July 3 paycheck.</p>
+                    <p style="font-size:13px;color:#3D5E7A;line-height:1.45;margin-top:1px;margin-bottom:4px;">Your weekly briefing is ready. 2 items to review before your July 3 paycheck.</p>
+                    <p style="font-size:10px;color:#556C7E;line-height:1.4;margin:0;">{{ recommendationConfidence }}% confidence · Source: TechCorp Payroll · Chase Checking · {{ analysisWindow }} transaction window</p>
                   </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
                   <button onClick="{{ goToCheckin }}" style="background:#3078C0;color:#EEF7FF;border:none;border-radius:10px;padding:7px 13px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;white-space:nowrap;box-shadow:3px 3px 8px rgba(48,120,192,0.35);">View check-in →</button>
-                  <button onClick="{{ dismissToast }}" style="background:transparent;border:none;cursor:pointer;color:#556C7E;font-size:18px;line-height:1;padding:2px 6px;">×</button>
+                  <button type="button" aria-label="Dismiss check-in notification" onClick="{{ dismissToast }}" style="background:transparent;border:none;cursor:pointer;color:#556C7E;font-size:18px;line-height:1;padding:2px 6px;">×</button>
                 </div>
               </div>
             </sc-if>
@@ -379,7 +415,7 @@
             <div style="background:rgba(48,120,192,0.06);border:1px solid rgba(48,120,192,0.14);border-radius:14px;padding:10px 16px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;">
               <div style="display:flex;align-items:center;gap:10px;">
                 <div style="width:6px;height:6px;border-radius:50%;background:#3078C0;animation:bluePulse 2.5s ease infinite;"></div>
-                <span style="font-size:12px;color:#3D5E7A;">Next paycheck: <strong style="color:#0D2137;font-family:'DM Mono',monospace;"> July 3 · $3,250</strong></span>
+                <span style="font-size:12px;color:#3D5E7A;">Next paycheck: <strong style="color:#0D2137;font-family:'DM Mono',monospace;"> July 3 · {{ paycheckDisplay }}</strong></span>
               </div>
               <span style="font-size:11px;color:#556C7E;">TechCorp Payroll · Direct Deposit · 6 days</span>
             </div>
@@ -389,7 +425,7 @@
               <div style="background:#FFFFFF;border-radius:20px;padding:20px;box-shadow:8px 8px 20px rgba(0,0,0,0.15),-4px -4px 12px rgba(255,255,255,0.82),inset -3px -3px 8px rgba(0,0,0,0.07),inset 3px 3px 8px rgba(255,255,255,0.62);">
                 <p style="font-size:10px;font-weight:700;color:#556C7E;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Monthly Take-Home</p>
                 <p style="font-size:26px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;margin-bottom:4px;letter-spacing:-0.02em;">$6,500</p>
-                <p style="font-size:11px;color:#556C7E;">$3,250 · bi-weekly</p>
+                <p style="font-size:11px;color:#556C7E;">{{ paycheckDisplay }} · bi-weekly</p>
               </div>
               <div style="background:#FFFFFF;border-radius:20px;padding:20px;box-shadow:8px 8px 20px rgba(0,0,0,0.15),-4px -4px 12px rgba(255,255,255,0.82),inset -3px -3px 8px rgba(0,0,0,0.07),inset 3px 3px 8px rgba(255,255,255,0.62);">
                 <p style="font-size:10px;font-weight:700;color:#556C7E;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Flexible Spent</p>
@@ -457,20 +493,28 @@
                 <p style="font-size:13px;font-weight:700;color:#0D2137;">Recent Transactions</p>
                 <p style="font-size:10px;color:#556C7E;">Last 5</p>
               </div>
-              <sc-for list="{{ transactions }}" as="tx" hint-placeholder-count="5">
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid #BDD8F5;">
-                  <div style="display:flex;align-items:center;gap:10px;">
-                    <div style="width:34px;height:34px;border-radius:10px;background:#E8F3FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.1),inset -2px -2px 4px rgba(255,255,255,0.55);">
-                      <span style="font-size:10px;font-weight:700;color:#556C7E;">{{ tx.initials }}</span>
+              <sc-if value="{{ hasTransactions }}" hint-placeholder-val="{{ true }}">
+                <sc-for list="{{ transactions }}" as="tx" hint-placeholder-count="5">
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid #BDD8F5;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div style="width:34px;height:34px;border-radius:10px;background:#E8F3FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.1),inset -2px -2px 4px rgba(255,255,255,0.55);">
+                        <span style="font-size:10px;font-weight:700;color:#556C7E;">{{ tx.initials }}</span>
+                      </div>
+                      <div>
+                        <p style="font-size:13px;font-weight:600;color:#0D2137;">{{ tx.merchant }}</p>
+                        <p style="font-size:11px;color:#556C7E;">{{ tx.category }} · {{ tx.date }}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p style="font-size:13px;font-weight:600;color:#0D2137;">{{ tx.merchant }}</p>
-                      <p style="font-size:11px;color:#556C7E;">{{ tx.category }} · {{ tx.date }}</p>
-                    </div>
+                    <p style="font-size:13px;font-weight:500;color:#3D5E7A;font-family:'DM Mono',monospace;letter-spacing:-0.01em;">{{ tx.amount }}</p>
                   </div>
-                  <p style="font-size:13px;font-weight:500;color:#3D5E7A;font-family:'DM Mono',monospace;letter-spacing:-0.01em;">{{ tx.amount }}</p>
+                </sc-for>
+              </sc-if>
+              <sc-if value="{{ noTransactions }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:26px 18px;text-align:center;">
+                  <p style="font-size:13px;font-weight:700;color:#0D2137;margin-bottom:5px;">No transactions yet</p>
+                  <p style="font-size:11px;color:#556C7E;line-height:1.5;">NAVI will show recent activity after a connected account sends new data.</p>
                 </div>
-              </sc-for>
+              </sc-if>
             </div>
           </div>
         </sc-if>
@@ -492,7 +536,7 @@
                 </div>
                 <div>
                   <p style="font-size:12px;font-weight:700;color:#0D2137;">NAVI BRIEFING</p>
-                  <p style="font-size:10px;color:#556C7E;">Automated · Jun 27, 9:00 AM · Source: TechCorp Payroll, Chase ····4821</p>
+                  <p style="font-size:10px;color:#556C7E;">Automated · Jun 27, 9:00 AM · {{ recommendationConfidence }}% confidence · Source: TechCorp Payroll · Chase Checking ····4821</p>
                 </div>
                 <div style="margin-left:auto;background:rgba(27,132,72,0.1);border:1px solid rgba(27,132,72,0.2);border-radius:20px;padding:4px 10px;">
                   <span style="font-size:11px;font-weight:700;color:#1B8448;">On Track</span>
@@ -502,27 +546,27 @@
               <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:18px;">
                 <div style="background:#E8F3FF;border-radius:14px;padding:14px;box-shadow:inset 3px 3px 7px rgba(0,0,0,0.12),inset -2px -2px 6px rgba(255,255,255,0.55);">
                   <p style="font-size:10px;color:#556C7E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Next Paycheck</p>
-                  <p style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:#3078C0;letter-spacing:-0.02em;">$3,250</p>
+                  <p style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:#3078C0;letter-spacing:-0.02em;">{{ paycheckDisplay }}</p>
                   <p style="font-size:10px;color:#556C7E;margin-top:2px;">Jul 3 · 6 days</p>
                 </div>
                 <div style="background:#E8F3FF;border-radius:14px;padding:14px;box-shadow:inset 3px 3px 7px rgba(0,0,0,0.12),inset -2px -2px 6px rgba(255,255,255,0.55);">
-                  <p style="font-size:10px;color:#556C7E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Bills This Week</p>
-                  <p style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">$100.49</p>
+                  <p style="font-size:10px;color:#556C7E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Other Bills</p>
+                  <p style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">{{ otherBillsDisplay }}</p>
                   <p style="font-size:10px;color:#556C7E;margin-top:2px;">Netflix + Phone</p>
                 </div>
                 <div style="background:#E8F3FF;border-radius:14px;padding:14px;box-shadow:inset 3px 3px 7px rgba(0,0,0,0.12),inset -2px -2px 6px rgba(255,255,255,0.55);">
                   <p style="font-size:10px;color:#556C7E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Checking Balance</p>
-                  <p style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:#1B8448;letter-spacing:-0.02em;">$847</p>
-                  <p style="font-size:10px;color:#556C7E;margin-top:2px;">After bills: $746</p>
+                  <p style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:#1B8448;letter-spacing:-0.02em;">{{ checkingDisplay }}</p>
+                  <p style="font-size:10px;color:#556C7E;margin-top:2px;">After rent: {{ spareDisplay }}</p>
                 </div>
                 <div style="background:#E8F3FF;border-radius:14px;padding:14px;box-shadow:inset 3px 3px 7px rgba(0,0,0,0.12),inset -2px -2px 6px rgba(255,255,255,0.55);">
                   <p style="font-size:10px;color:#556C7E;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Amex Balance</p>
-                  <p style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:#AD5F04;letter-spacing:-0.02em;">$1,200</p>
+                  <p style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:#AD5F04;letter-spacing:-0.02em;">{{ amexDisplay }}</p>
                   <p style="font-size:10px;color:#556C7E;margin-top:2px;">Due Jul 15</p>
                 </div>
               </div>
 
-              <p style="font-size:13px;color:#3D5E7A;line-height:1.65;">Your checking balance ($847) covers this week's bills ($100.49) with $746 remaining before your July 3 paycheck. The Amex balance of $1,200 is due July 15 — your next paycheck covers it in full. No action required this period.</p>
+              <p style="font-size:13px;color:#3D5E7A;line-height:1.65;">Your checking balance ({{ checkingDisplay }}) covers rent ({{ rentDisplay }}) on July 1 with {{ spareDisplay }} remaining. Your July 3 paycheck covers the other bills ({{ otherBillsDisplay }}) and Amex balance ({{ amexDisplay }}), leaving {{ afterPaymentDisplay }}. No action required this period.</p>
             </div>
 
             <!-- Insight actions -->
@@ -535,7 +579,7 @@
                   <div style="flex:1;margin-right:16px;">
                     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
                       <span style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.06em;">INSIGHT 01</span>
-                      <span style="font-size:10px;color:#556C7E;">94% confidence · TechCorp Payroll, Chase ····4821</span>
+                      <span style="font-size:10px;color:#556C7E;">{{ recommendationConfidence }}% confidence · TechCorp Payroll · Chase Checking ····4821</span>
                     </div>
                     <p style="font-size:13px;color:#0D2137;line-height:1.55;">Pay your Amex balance in full on July 3 — your paycheck covers it without affecting your emergency fund contribution.</p>
                   </div>
@@ -544,7 +588,7 @@
                   <div style="display:flex;gap:8px;">
                     <button onClick="{{ i1Accept }}" style="background:#3078C0;color:#EEF7FF;border:none;border-radius:10px;padding:7px 14px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:3px 3px 8px rgba(48,120,192,0.35);">Accept</button>
                     <button onClick="{{ i1StartOverride }}" style="background:#FFFFFF;border:none;color:#3D5E7A;border-radius:10px;padding:7px 14px;font-size:12px;font-weight:600;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:3px 3px 7px rgba(0,0,0,0.1),-2px -2px 5px rgba(255,255,255,0.7);">⊘ Override</button>
-                    <button onClick="{{ openExplainer }}" style="background:transparent;border:none;color:#3078C0;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:600;font-family:'Nunito',sans-serif;cursor:pointer;">Ask why ↗</button>
+                    <button type="button" data-explainer-trigger="why" onClick="{{ openExplainer }}" style="background:transparent;border:none;color:#3078C0;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:600;font-family:'Nunito',sans-serif;cursor:pointer;">Ask why <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;"><path d="M7 17 17 7M7 7h10v10"/></svg></button>
                   </div>
                 </sc-if>
                 <sc-if value="{{ i1Picking }}" hint-placeholder-val="{{ false }}">
@@ -571,16 +615,16 @@
                   <div style="flex:1;margin-right:16px;">
                     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
                       <span style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.06em;">INSIGHT 02</span>
-                      <span style="font-size:10px;color:#556C7E;">79% confidence · Subscription analysis</span>
+                      <span style="font-size:10px;color:#556C7E;">79% confidence · Chase Checking · Amex Card · recurring billing records</span>
                     </div>
                     <p style="font-size:13px;color:#0D2137;line-height:1.55;">4 subscriptions (Hulu, Headspace, Duolingo, Gym) haven't been used in 30+ days. Cancelling saves $72.97/month — $875.64 annually.</p>
                   </div>
                 </div>
                 <sc-if value="{{ i2Pending }}" hint-placeholder-val="{{ true }}">
                   <div style="display:flex;gap:8px;">
-                    <button onClick="{{ i2Accept }}" style="background:#3078C0;color:#EEF7FF;border:none;border-radius:10px;padding:7px 14px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:3px 3px 8px rgba(48,120,192,0.35);">Review</button>
+                    <button onClick="{{ i2Accept }}" style="background:#3078C0;color:#EEF7FF;border:none;border-radius:10px;padding:7px 14px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:3px 3px 8px rgba(48,120,192,0.35);">Accept</button>
                     <button onClick="{{ i2StartOverride }}" style="background:#FFFFFF;border:none;color:#3D5E7A;border-radius:10px;padding:7px 14px;font-size:12px;font-weight:600;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:3px 3px 7px rgba(0,0,0,0.1),-2px -2px 5px rgba(255,255,255,0.7);">⊘ Override</button>
-                    <button onClick="{{ openExplainer }}" style="background:transparent;border:none;color:#3078C0;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:600;font-family:'Nunito',sans-serif;cursor:pointer;">Ask why ↗</button>
+                    <button type="button" data-explainer-trigger="why" onClick="{{ openExplainer }}" style="background:transparent;border:none;color:#3078C0;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:600;font-family:'Nunito',sans-serif;cursor:pointer;">Ask why <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;"><path d="M7 17 17 7M7 7h10v10"/></svg></button>
                   </div>
                 </sc-if>
                 <sc-if value="{{ i2Picking }}" hint-placeholder-val="{{ false }}">
@@ -644,14 +688,14 @@
                 </div>
                 <div style="text-align:center;">
                   <p style="font-size:20px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">{{ totalSavedDisplay }}</p>
-                  <p style="font-size:11px;color:#556C7E;">of $10,000</p>
+                  <p style="font-size:11px;color:#556C7E;">of {{ goalTargetDisplay }}</p>
                 </div>
               </div>
               <div>
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:22px;">
                   <div style="background:#E8F3FF;border-radius:14px;padding:13px;box-shadow:inset 3px 3px 7px rgba(0,0,0,0.12),inset -2px -2px 6px rgba(255,255,255,0.55);">
                     <p style="font-size:10px;color:#556C7E;margin-bottom:3px;text-transform:uppercase;letter-spacing:0.05em;">Monthly Save</p>
-                    <p style="font-size:17px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">$748</p>
+                    <p style="font-size:17px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">{{ monthlySaveDisplay }}</p>
                   </div>
                   <div style="background:#E8F3FF;border-radius:14px;padding:13px;box-shadow:inset 3px 3px 7px rgba(0,0,0,0.12),inset -2px -2px 6px rgba(255,255,255,0.55);">
                     <p style="font-size:10px;color:#556C7E;margin-bottom:3px;text-transform:uppercase;letter-spacing:0.05em;">Timeline</p>
@@ -664,28 +708,28 @@
                 </div>
                 <p style="font-size:11px;font-weight:700;color:#3D5E7A;margin-bottom:11px;">Monthly Contributions</p>
                 <div style="display:flex;align-items:flex-end;gap:8px;height:64px;">
-                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:flex-end;">
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:flex-end;text-align:center;">
                     <span style="font-size:9px;font-family:'DM Mono',monospace;color:#3D5E7A;">$400</span>
                     <div style="width:100%;height:27px;background:#3078C0;border-radius:4px 4px 0 0;opacity:0.4;"></div>
                     <span style="font-size:9px;color:#556C7E;">Apr</span>
                   </div>
-                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:flex-end;">
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:flex-end;text-align:center;">
                     <span style="font-size:9px;font-family:'DM Mono',monospace;color:#3D5E7A;">$630</span>
                     <div style="width:100%;height:46px;background:#3078C0;border-radius:4px 4px 0 0;opacity:0.65;"></div>
                     <span style="font-size:9px;color:#556C7E;">May</span>
                   </div>
-                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:flex-end;">
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:flex-end;text-align:center;">
                     <span style="font-size:9px;font-family:'DM Mono',monospace;color:#3D5E7A;">{{ month3SavedDisplay }}</span>
                     <div style="{{ juneBarStyle }}"></div>
                     <span style="font-size:9px;color:#556C7E;">Jun*</span>
                   </div>
-                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:flex-end;">
-                    <span style="font-size:9px;font-family:'DM Mono',monospace;color:#A8C8E8;">$748</span>
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:flex-end;text-align:center;">
+                    <span style="font-size:9px;font-family:'DM Mono',monospace;color:#A8C8E8;">{{ monthlySaveDisplay }}</span>
                     <div style="width:100%;height:56px;background:transparent;border:1.5px dashed #A8C8E8;border-bottom:none;border-radius:4px 4px 0 0;"></div>
                     <span style="font-size:9px;color:#A8C8E8;">Jul</span>
                   </div>
-                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:flex-end;">
-                    <span style="font-size:9px;font-family:'DM Mono',monospace;color:#A8C8E8;">$748</span>
+                  <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:flex-end;text-align:center;">
+                    <span style="font-size:9px;font-family:'DM Mono',monospace;color:#A8C8E8;">{{ monthlySaveDisplay }}</span>
                     <div style="width:100%;height:56px;background:transparent;border:1.5px dashed #A8C8E8;border-bottom:none;border-radius:4px 4px 0 0;"></div>
                     <span style="font-size:9px;color:#A8C8E8;">Aug</span>
                   </div>
@@ -703,7 +747,7 @@
             <!-- NAVI's Plan -->
             <div style="background:#FFFFFF;border-radius:20px;padding:22px;box-shadow:8px 8px 20px rgba(0,0,0,0.15),-4px -4px 12px rgba(255,255,255,0.82),inset -3px -3px 8px rgba(0,0,0,0.07),inset 3px 3px 8px rgba(255,255,255,0.62);">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
-                <div><p style="font-size:13px;font-weight:700;color:#0D2137;margin-bottom:2px;">NAVI's Savings Plan</p><p style="font-size:11px;color:#556C7E;">$400 → $748/month</p></div>
+                <div><p style="font-size:13px;font-weight:700;color:#0D2137;margin-bottom:2px;">NAVI's Savings Plan</p><p style="font-size:11px;color:#556C7E;">$400 → {{ monthlySaveDisplay }}/month</p></div>
                 <div style="background:rgba(48,120,192,0.08);border:1px solid rgba(48,120,192,0.18);border-radius:20px;padding:4px 11px;"><span style="font-size:11px;font-weight:700;color:#3078C0;">{{ explainerConfidencePct }}% confidence</span></div>
               </div>
               <div style="display:flex;flex-direction:column;gap:0;">
@@ -726,7 +770,7 @@
                 <div style="display:flex;align-items:center;padding:11px 0;">
                   <div style="width:190px;"><p style="font-size:13px;font-weight:600;color:#3D5E7A;margin-bottom:1px;">Reduce entertainment</p><p style="font-size:10px;color:#556C7E;">$185 avg → $130 target</p></div>
                   <div style="flex:1;display:flex;align-items:center;padding:0 14px;"><div style="height:1px;flex:1;background:#BDD8F5;"></div><span style="font-size:11px;color:#1B8448;font-weight:700;margin-left:10px;white-space:nowrap;font-family:'DM Mono',monospace;">+ $55.00</span></div>
-                  <div style="width:95px;text-align:right;font-size:13px;font-weight:700;font-family:'DM Mono',monospace;color:#3078C0;">$748 / mo</div>
+                  <div style="width:95px;text-align:right;font-size:13px;font-weight:700;font-family:'DM Mono',monospace;color:#3078C0;">{{ monthlySaveDisplay }} / mo</div>
                 </div>
               </div>
               <div style="margin-top:12px;background:#E8F3FF;border-radius:12px;padding:11px 13px;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.1),inset -2px -2px 4px rgba(255,255,255,0.5);">
@@ -784,7 +828,7 @@
                       <div style="display:flex;gap:8px;">
                         <button onClick="{{ msg.onAccept }}" style="background:#3078C0;color:#EEF7FF;border:none;border-radius:10px;padding:6px 12px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:3px 3px 7px rgba(48,120,192,0.35);">Accept</button>
                         <button onClick="{{ msg.onStartOverride }}" style="background:#E8F3FF;border:none;color:#3D5E7A;border-radius:10px;padding:6px 12px;font-size:12px;font-weight:600;font-family:'Nunito',sans-serif;cursor:pointer;">⊘ Override</button>
-                        <button onClick="{{ openExplainer }}" style="background:transparent;border:none;color:#3078C0;border-radius:10px;padding:6px 8px;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;font-weight:600;">Ask why ↗</button>
+                        <button type="button" data-explainer-trigger="why" onClick="{{ openExplainer }}" style="background:transparent;border:none;color:#3078C0;border-radius:10px;padding:6px 8px;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;font-weight:600;">Ask why <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;"><path d="M7 17 17 7M7 7h10v10"/></svg></button>
                       </div>
                     </sc-if>
                     <sc-if value="{{ msg.isPicking }}" hint-placeholder-val="{{ false }}">
@@ -803,7 +847,7 @@
                           <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="{{ msg.statusStroke }}"/></svg>
                           <p style="{{ msg.statusTextStyle }}">{{ msg.statusLabel }}</p>
                         </div>
-                        <button onClick="{{ openExplainer }}" style="background:transparent;border:none;color:#3078C0;border-radius:10px;padding:6px 8px;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;font-weight:600;">Ask why ↗</button>
+                        <button type="button" data-explainer-trigger="why" onClick="{{ openExplainer }}" style="background:transparent;border:none;color:#3078C0;border-radius:10px;padding:6px 8px;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;font-weight:600;">Ask why <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;"><path d="M7 17 17 7M7 7h10v10"/></svg></button>
                       </div>
                     </sc-if>
                   </div>
@@ -838,8 +882,8 @@
                 </sc-for>
               </div>
               <div style="display:flex;align-items:center;gap:8px;background:#E8F3FF;border-radius:14px;padding:10px 13px;box-shadow:inset 3px 3px 7px rgba(0,0,0,0.12),inset -2px -2px 6px rgba(255,255,255,0.55);">
-                <input type="text" value="{{ coachInput }}" onChange="{{ onInputChange }}" onKeyDown="{{ onKeyDown }}" placeholder="Query NAVI analysis…" style="flex:1;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:13px;color:#0D2137;outline:none;" />
-                <button onClick="{{ onSend }}" style="background:#3078C0;border:none;border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;box-shadow:2px 2px 5px rgba(48,120,192,0.4);">
+                <input type="text" value="{{ coachInput }}" onChange="{{ onInputChange }}" onKeyDown="{{ onKeyDown }}" placeholder="Query NAVI analysis…" aria-label="Query NAVI analysis" style="flex:1;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:13px;color:#0D2137;outline:none;" />
+                <button type="button" aria-label="Send message to NAVI" onClick="{{ onSend }}" style="background:#3078C0;border:none;border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;box-shadow:2px 2px 5px rgba(48,120,192,0.4);">
                   <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="#EEF7FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
               </div>
@@ -903,7 +947,7 @@
                         <span style="font-size:13px;font-weight:700;color:#1D1C1D;">NAVI</span>
                         <span style="font-size:11px;color:#616061;font-family:'Nunito',sans-serif;">Jun 13 · 9:00 AM</span>
                       </div>
-                      <p style="font-size:13px;color:#1D1C1D;line-height:1.5;">May check-in complete. You saved $630 — $230 above April. Your emergency fund is 10.3% funded.</p>
+                      <p style="font-size:13px;color:#1D1C1D;line-height:1.5;">May check-in complete. Your emergency fund is {{ goalPct }}% funded ({{ totalSavedDisplay }} of {{ goalTargetDisplay }}). The {{ monthlySaveDisplay }}/month plan is active.</p>
                     </div>
                   </div>
 
@@ -926,38 +970,61 @@
                         <div style="padding:12px 16px;border-bottom:1px solid #E8E8E8;">
                           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
                             <span style="font-size:12px;color:#616061;font-family:'Nunito',sans-serif;">Next paycheck</span>
-                            <span style="font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:#3078C0;">Jul 3 · $3,250</span>
+                            <span style="font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:#3078C0;">Jul 3 · {{ paycheckDisplay }}</span>
                           </div>
                           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-                            <span style="font-size:12px;color:#616061;font-family:'Nunito',sans-serif;">Bills before payday</span>
-                            <span style="font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:#1D1C1D;">$100.49</span>
+                            <span style="font-size:12px;color:#616061;font-family:'Nunito',sans-serif;">Other bills</span>
+                            <span style="font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:#1D1C1D;">{{ otherBillsDisplay }}</span>
                           </div>
                           <div style="display:flex;justify-content:space-between;align-items:center;">
                             <span style="font-size:12px;color:#616061;font-family:'Nunito',sans-serif;">Checking balance</span>
-                            <span style="font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:#007A5A;">$847 ✓</span>
+                            <span style="font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:#007A5A;">{{ checkingDisplay }} ✓</span>
                           </div>
                         </div>
                         <div style="padding:12px 16px;border-bottom:1px solid #E8E8E8;background:rgba(29,28,29,0.02);">
                           <p style="font-size:10px;font-weight:700;color:#3078C0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;font-family:'Nunito',sans-serif;">NAVI recommendation</p>
-                          <p style="font-size:12px;color:#616061;line-height:1.55;">Pay your Amex balance ($1,200) in full on July 3. Your paycheck covers it. Avoids ~$22 in interest charges.</p>
+                          <p style="font-size:12px;color:#616061;line-height:1.55;">Pay your Amex balance ({{ amexDisplay }}) in full on July 3. Your paycheck covers it. Avoids ~$22 in interest charges. Emergency fund: {{ goalPct }}% funded · {{ planLabel }} · {{ totalSavedDisplay }} of {{ goalTargetDisplay }}.</p>
+                          <p style="font-size:10px;color:#616061;margin-top:5px;">{{ recommendationConfidence }}% confidence · Source: TechCorp Payroll · Chase Checking · {{ analysisWindow }} transaction window</p>
                         </div>
                         <!-- Action buttons (3 max per Slack Block Kit) -->
-                        <div style="padding:10px 16px;display:flex;gap:8px;background:#FFFFFF;">
-                          <button style="background:#3078C0;color:#FFFFFF;border:none;border-radius:4px;padding:7px 14px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;">✓ Accept</button>
-                          <button style="background:#FFFFFF;border:1px solid rgba(29,28,29,0.24);color:#1D1C1D;border-radius:4px;padding:7px 14px;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;">⊘ Override</button>
-                          <button style="background:#FFFFFF;border:1px solid rgba(29,28,29,0.24);color:#1D1C1D;border-radius:4px;padding:7px 14px;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;">? Why</button>
-                        </div>
+                        <sc-if value="{{ slackCardPending }}" hint-placeholder-val="{{ true }}">
+                          <sc-if value="{{ slackOverridePicking }}" hint-placeholder-val="{{ false }}">
+                            <div style="padding:10px 16px;background:#FFFFFF;">
+                              <p style="font-size:11px;color:#556C7E;margin-bottom:8px;">Why are you overriding this?</p>
+                              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                                <button onClick="{{ slackReason1 }}" style="background:#E8F3FF;border:0;color:#3D5E7A;border-radius:4px;padding:6px 10px;font-size:11px;font-family:'Nunito',sans-serif;cursor:pointer;">Doesn't apply right now</button>
+                                <button onClick="{{ slackReason2 }}" style="background:#E8F3FF;border:0;color:#3D5E7A;border-radius:4px;padding:6px 10px;font-size:11px;font-family:'Nunito',sans-serif;cursor:pointer;">I already knew this</button>
+                                <button onClick="{{ slackReason3 }}" style="background:#E8F3FF;border:0;color:#3D5E7A;border-radius:4px;padding:6px 10px;font-size:11px;font-family:'Nunito',sans-serif;cursor:pointer;">Other reason</button>
+                              </div>
+                            </div>
+                          </sc-if>
+                          <sc-if value="{{ slackActionsVisible }}" hint-placeholder-val="{{ true }}">
+                            <div style="padding:10px 16px;display:flex;gap:8px;background:#FFFFFF;">
+                              <button onClick="{{ slackAccept }}" style="background:#3078C0;color:#FFFFFF;border:none;border-radius:4px;padding:7px 14px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;">✓ Accept</button>
+                              <button onClick="{{ slackOverride }}" style="background:#FFFFFF;border:1px solid rgba(29,28,29,0.24);color:#1D1C1D;border-radius:4px;padding:7px 14px;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;">⊘ Override</button>
+                              <button type="button" data-explainer-trigger="why" onClick="{{ openExplainer }}" style="background:#FFFFFF;border:1px solid rgba(29,28,29,0.24);color:#1D1C1D;border-radius:4px;padding:7px 14px;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;">? Why</button>
+                            </div>
+                          </sc-if>
+                        </sc-if>
+                        <sc-if value="{{ slackCardResolved }}" hint-placeholder-val="{{ false }}">
+                          <div style="padding:10px 16px;display:flex;align-items:center;justify-content:space-between;background:rgba(27,132,72,0.07);">
+                            <span style="font-size:12px;font-weight:700;color:#1B8448;">✓ {{ slackCardStatusLabel }}</span>
+                            <button type="button" data-explainer-trigger="why" onClick="{{ openExplainer }}" style="background:transparent;border:none;color:#3078C0;font-size:12px;font-weight:700;cursor:pointer;">Why <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;"><path d="M7 17 17 7M7 7h10v10"/></svg></button>
+                          </div>
+                        </sc-if>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <!-- Slack input (constrained) -->
-                <div style="flex-shrink:0;padding:10px 18px;border-top:1px solid #E8E8E8;">
-                  <div style="background:#FFFFFF;border-radius:7px;padding:9px 13px;border:1px solid rgba(29,28,29,0.28);">
-                    <span style="font-size:13px;color:#868686;font-family:'Nunito',sans-serif;">Message NAVI</span>
-                  </div>
+                <div style="flex-shrink:0;padding:10px 18px;border-top:1px solid #E8E8E8;display:flex;gap:8px;">
+                  <input value="{{ slackInput }}" onInput="{{ setSlackInput }}" onKeyDown="{{ sendSlackKey }}" placeholder="Message NAVI" aria-label="Message NAVI" style="flex:1;background:#FFFFFF;border-radius:7px;padding:9px 13px;border:1px solid rgba(29,28,29,0.28);font:13px 'Nunito',sans-serif;outline:none;" />
+                  <button onClick="{{ sendSlackMessage }}" style="background:#3078C0;color:#fff;border:none;border-radius:7px;padding:0 13px;font:700 12px 'Nunito',sans-serif;cursor:pointer;">Send</button>
                 </div>
+                <sc-if value="{{ slackReply }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:0 18px 10px;"><p style="font-size:11px;color:#1B8448;">✓ {{ slackReply }}</p></div>
+                </sc-if>
               </div>
             </div>
 
@@ -981,7 +1048,7 @@
             <div style="margin-bottom:28px;">
               <p style="font-size:10px;font-weight:700;color:#C63E3E;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;">NAVI Flagged · Jun 27, 2026</p>
               <h1 style="font-size:26px;font-weight:800;color:#0D2137;letter-spacing:-0.02em;margin-bottom:3px;">Unusual dining spend in June</h1>
-              <p style="font-size:14px;color:#3D5E7A;">Significant deviation from your 3-month baseline detected. Review and respond to keep your goal on track.</p>
+              <p style="font-size:14px;color:#3D5E7A;">Significant deviation from your 90-day baseline detected. Review and respond to keep your goal on track.</p>
             </div>
 
             <div style="background:#FFFFFF;border-radius:20px;padding:22px;margin-bottom:12px;box-shadow:8px 8px 20px rgba(0,0,0,0.15),-4px -4px 12px rgba(255,255,255,0.82),inset -3px -3px 8px rgba(0,0,0,0.07),inset 3px 3px 8px rgba(255,255,255,0.62);">
@@ -996,7 +1063,7 @@
                   <p style="font-size:11px;color:#C63E3E;margin-top:3px;opacity:0.7;">26 of 30 days · +50% above avg</p>
                 </div>
                 <div style="background:#E8F3FF;border-radius:16px;padding:16px;box-shadow:inset 3px 3px 7px rgba(0,0,0,0.12),inset -2px -2px 6px rgba(255,255,255,0.55);">
-                  <p style="font-size:10px;color:#556C7E;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px;">3-month average</p>
+                  <p style="font-size:10px;color:#556C7E;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px;">90-day average</p>
                   <p style="font-size:26px;font-weight:700;font-family:'DM Mono',monospace;color:#0D2137;letter-spacing:-0.02em;">$325</p>
                   <p style="font-size:11px;color:#556C7E;margin-top:3px;">Apr · May · Jun baseline</p>
                 </div>
@@ -1014,22 +1081,23 @@
                 </div>
               </div>
               <div style="background:rgba(198,62,62,0.05);border:1px solid rgba(198,62,62,0.12);border-radius:12px;padding:11px 13px;">
-                <p style="font-size:12px;color:#3D5E7A;line-height:1.6;"><strong style="font-weight:700;color:#C63E3E;">NAVI analysis:</strong> Two high-value charges: $127.50 at Nobu (Jun 20), $68.40 at Clio Wine Bar (Jun 18). At current pace, June dining ends at ~$524 — $199 above baseline.</p>
+                <p style="font-size:12px;color:#3D5E7A;line-height:1.6;margin-bottom:7px;"><strong style="font-weight:700;color:#C63E3E;">NAVI analysis:</strong> Two high-value charges: $127.50 at Nobu (Jun 20), $68.40 at Clio Wine Bar (Jun 18). At current pace, June dining ends at ~$524 — $199 above baseline.</p>
+                <p style="font-size:10px;color:#556C7E;">96% confidence · Source: Chase Checking · dining transaction records</p>
               </div>
             </div>
 
             <div style="background:#FFFFFF;border-radius:20px;padding:18px;margin-bottom:12px;box-shadow:8px 8px 20px rgba(0,0,0,0.15),-4px -4px 12px rgba(255,255,255,0.82),inset -3px -3px 8px rgba(0,0,0,0.07),inset 3px 3px 8px rgba(255,255,255,0.62);">
               <p style="font-size:12px;font-weight:700;color:#0D2137;margin-bottom:12px;">{{ alertPanelTitle }}</p>
               <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
-                <div style="text-align:center;padding:12px;background:#E8F3FF;border-radius:14px;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.1),inset -2px -2px 4px rgba(255,255,255,0.5);"><p style="font-size:10px;color:#556C7E;margin-bottom:3px;">June savings</p><p style="{{ alertSavingsStyle }}">{{ month3SavedDisplay }}</p><p style="font-size:10px;color:#556C7E;">vs $748 target</p></div>
-                <div style="text-align:center;padding:12px;background:#E8F3FF;border-radius:14px;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.1),inset -2px -2px 4px rgba(255,255,255,0.5);"><p style="font-size:10px;color:#556C7E;margin-bottom:3px;">Timeline shift</p><p style="{{ alertShiftStyle }}">{{ shiftLabel }}</p><p style="font-size:10px;color:#556C7E;">13 → {{ goalMonths }} months</p></div>
-                <div style="text-align:center;padding:12px;background:#E8F3FF;border-radius:14px;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.1),inset -2px -2px 4px rgba(255,255,255,0.5);"><p style="font-size:10px;color:#556C7E;margin-bottom:3px;">New goal date</p><p style="{{ alertDateStyle }}">{{ goalMonthLabel }}</p><p style="font-size:10px;color:#556C7E;">was Mar 2027</p></div>
+                <div style="text-align:center;padding:12px;background:#E8F3FF;border-radius:14px;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.1),inset -2px -2px 4px rgba(255,255,255,0.5);"><p style="font-size:10px;color:#556C7E;margin-bottom:3px;">June savings</p><p style="{{ alertSavingsStyle }}">{{ month3SavedDisplay }}</p><p style="font-size:10px;color:#556C7E;">vs {{ monthlySaveDisplay }} target</p></div>
+                <div style="text-align:center;padding:12px;background:#E8F3FF;border-radius:14px;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.1),inset -2px -2px 4px rgba(255,255,255,0.5);"><p style="font-size:10px;color:#556C7E;margin-bottom:3px;">Timeline shift</p><p style="{{ alertShiftStyle }}">{{ shiftLabel }}</p><p style="font-size:10px;color:#556C7E;white-space:nowrap;">{{ alertTimelineLabel }}</p></div>
+                <div style="text-align:center;padding:12px;background:#E8F3FF;border-radius:14px;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.1),inset -2px -2px 4px rgba(255,255,255,0.5);"><p style="font-size:10px;color:#556C7E;margin-bottom:3px;">New goal date</p><p style="{{ alertDateStyle }}">{{ alertGoalDate }}</p><p style="font-size:10px;color:#556C7E;">was {{ previousGoalDate }}</p></div>
               </div>
             </div>
 
             <p style="font-size:12px;font-weight:700;color:#556C7E;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;">Respond to this alert</p>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;">
-              <div style="{{ expenseCardStyle }}" onClick="{{ setAlertExpense }}">
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;">
+              <button type="button" aria-pressed="{{ alertExpenseSelected }}" style="{{ expenseCardStyle }}" onClick="{{ setAlertExpense }}">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;">
                   <p style="font-size:13px;font-weight:700;color:#0D2137;line-height:1.4;">Work expenses — I'll submit a claim</p>
                   <sc-if value="{{ alertExpenseSelected }}" hint-placeholder-val="{{ false }}">
@@ -1037,9 +1105,9 @@
                   </sc-if>
                 </div>
                 <p style="font-size:11px;color:#556C7E;line-height:1.5;margin-bottom:8px;">Reimbursed meals won't count against budget.</p>
-                <p style="font-size:11px;font-weight:700;color:#1B8448;">Goal: 13 months → Mar 2027</p>
-              </div>
-              <div style="{{ cutbackCardStyle }}" onClick="{{ setAlertCutback }}">
+                <p style="font-size:11px;font-weight:700;color:#1B8448;">Goal: {{ baselineTimelineMonths }} months → {{ baselineGoalDate }}</p>
+              </button>
+              <button type="button" aria-pressed="{{ alertCutbackSelected }}" style="{{ cutbackCardStyle }}" onClick="{{ setAlertCutback }}">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;">
                   <p style="font-size:13px;font-weight:700;color:#0D2137;line-height:1.4;">I'll cut back the next 3 days</p>
                   <sc-if value="{{ alertCutbackSelected }}" hint-placeholder-val="{{ false }}">
@@ -1047,9 +1115,9 @@
                   </sc-if>
                 </div>
                 <p style="font-size:11px;color:#556C7E;line-height:1.5;margin-bottom:8px;">Keep remaining dining under $30 for rest of June.</p>
-                <p style="font-size:11px;font-weight:700;color:#1B8448;">Goal: 13 months → Apr 2027</p>
-              </div>
-              <div style="{{ ignoreCardStyle }}" onClick="{{ setAlertIgnore }}">
+                <p style="font-size:11px;font-weight:700;color:#1B8448;">Goal: {{ cutbackTimelineMonths }} months → {{ cutbackGoalDate }}</p>
+              </button>
+              <button type="button" aria-pressed="{{ alertIgnoreSelected }}" style="{{ ignoreCardStyle }}" onClick="{{ setAlertIgnore }}">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;">
                   <p style="font-size:13px;font-weight:700;color:#0D2137;line-height:1.4;">Not concerned — adjust the plan</p>
                   <sc-if value="{{ alertIgnoreSelected }}" hint-placeholder-val="{{ false }}">
@@ -1057,16 +1125,22 @@
                   </sc-if>
                 </div>
                 <p style="font-size:11px;color:#556C7E;line-height:1.5;margin-bottom:8px;">NAVI will factor this into next month's baseline.</p>
-                <p style="font-size:11px;font-weight:700;color:#3078C0;">Goal: 14 months → Jun 2027</p>
-              </div>
+                <p style="font-size:11px;font-weight:700;color:#3078C0;">Goal: {{ delayedTimelineMonths }} months → {{ delayedGoalDate }}</p>
+              </button>
             </div>
+            <sc-if value="{{ noAlerts }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#FFFFFF;border-radius:20px;padding:28px 22px;text-align:center;margin-bottom:14px;box-shadow:8px 8px 20px rgba(0,0,0,0.12),-4px -4px 12px rgba(255,255,255,0.82);">
+                <p style="font-size:14px;font-weight:700;color:#0D2137;margin-bottom:5px;">No alerts right now</p>
+                <p style="font-size:12px;color:#556C7E;line-height:1.55;">NAVI will let you know if a new transaction needs your attention.</p>
+              </div>
+            </sc-if>
             <sc-if value="{{ alertResolved }}" hint-placeholder-val="{{ false }}">
               <div style="background:rgba(27,132,72,0.06);border:1px solid rgba(27,132,72,0.14);border-radius:16px;padding:14px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;">
                 <div style="display:flex;align-items:flex-start;gap:8px;">
                   <svg width="13" height="13" fill="none" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px;"><path d="M20 6L9 17l-5-5" stroke="#1B8448" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   <p style="font-size:12px;color:#3D5E7A;line-height:1.55;">{{ alertImpact }}</p>
                 </div>
-                <button onClick="{{ goToGoals }}" style="background:#3078C0;color:#EEF7FF;border:none;border-radius:12px;padding:8px 13px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0;box-shadow:3px 3px 7px rgba(48,120,192,0.35);">See goal →</button>
+                <div style="display:flex;gap:7px;align-items:center;flex-shrink:0;"><button onClick="{{ goToGoals }}" style="background:#3078C0;color:#EEF7FF;border:none;border-radius:12px;padding:8px 13px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;white-space:nowrap;box-shadow:3px 3px 7px rgba(48,120,192,0.35);">See goal →</button><button onClick="{{ clearAlertHistory }}" style="background:#FFFFFF;color:#3D5E7A;border:1px solid #BDD8F5;border-radius:12px;padding:8px 10px;font-size:11px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;white-space:nowrap;">Clear</button></div>
               </div>
             </sc-if>
           </div>
@@ -1137,7 +1211,7 @@
                     <p style="font-size:13px;font-weight:600;color:#0D2137;margin-bottom:3px;">Analyze spending patterns</p>
                     <p style="font-size:11px;color:#556C7E;">Allow NAVI to categorize and analyze your transactions to generate insights.</p>
                   </div>
-                  <button onClick="{{ toggleAllowAnalysis }}" style="{{ privacyToggle1Btn }}">
+                  <button type="button" aria-label="Analyze spending patterns" aria-pressed="{{ privacyToggle1Pressed }}" onClick="{{ toggleAllowAnalysis }}" style="{{ privacyToggle1Btn }}">
                     <div style="{{ privacyToggle1Knob }}"></div>
                   </button>
                 </div>
@@ -1149,7 +1223,7 @@
                     </div>
                     <p style="font-size:11px;color:#556C7E;">HR sees only anonymized, aggregated wellness scores. Your personal finances are never shared.</p>
                   </div>
-                  <button onClick="{{ toggleHRSharing }}" style="{{ privacyToggle2Btn }}">
+                  <button type="button" aria-label="Share aggregate data with TechCorp HR" aria-pressed="{{ privacyToggle2Pressed }}" onClick="{{ toggleHRSharing }}" style="{{ privacyToggle2Btn }}">
                     <div style="{{ privacyToggle2Knob }}"></div>
                   </button>
                 </div>
@@ -1158,7 +1232,7 @@
                     <p style="font-size:13px;font-weight:600;color:#0D2137;margin-bottom:3px;">Show confidence scores on all suggestions</p>
                     <p style="font-size:11px;color:#556C7E;">Display NAVI's certainty level and data sources for every recommendation.</p>
                   </div>
-                  <button onClick="{{ toggleShowConfidence }}" style="{{ privacyToggle3Btn }}">
+                  <button type="button" aria-label="Show confidence scores on all suggestions" aria-pressed="{{ privacyToggle3Pressed }}" onClick="{{ toggleShowConfidence }}" style="{{ privacyToggle3Btn }}">
                     <div style="{{ privacyToggle3Knob }}"></div>
                   </button>
                 </div>
@@ -1167,7 +1241,7 @@
                     <p style="font-size:13px;font-weight:600;color:#0D2137;margin-bottom:3px;">Require confirmation before any NAVI action</p>
                     <p style="font-size:11px;color:#556C7E;">NAVI will always ask before it acts — it cannot move money or cancel subscriptions without explicit approval.</p>
                   </div>
-                  <button onClick="{{ toggleRequireConfirmation }}" style="{{ privacyToggle4Btn }}">
+                  <button type="button" aria-label="Require confirmation before any NAVI action" aria-pressed="{{ privacyToggle4Pressed }}" onClick="{{ toggleRequireConfirmation }}" style="{{ privacyToggle4Btn }}">
                     <div style="{{ privacyToggle4Knob }}"></div>
                   </button>
                 </div>
@@ -1178,20 +1252,31 @@
             <div style="background:#FFFFFF;border-radius:20px;padding:20px;margin-bottom:12px;box-shadow:8px 8px 20px rgba(0,0,0,0.15),-4px -4px 12px rgba(255,255,255,0.82),inset -3px -3px 8px rgba(0,0,0,0.07),inset 3px 3px 8px rgba(255,255,255,0.62);">
               <p style="font-size:12px;font-weight:700;color:#556C7E;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.06em;">Data Management</p>
               <div style="display:flex;flex-direction:column;gap:8px;">
-                <button style="display:flex;align-items:center;justify-content:space-between;background:#E8F3FF;border:none;border-radius:14px;padding:12px 14px;cursor:pointer;width:100%;text-align:left;box-shadow:3px 3px 7px rgba(0,0,0,0.09),-2px -2px 5px rgba(255,255,255,0.65);">
+                <button onClick="{{ requestRedact }}" style="display:flex;align-items:center;justify-content:space-between;background:#E8F3FF;border:none;border-radius:14px;padding:12px 14px;cursor:pointer;width:100%;text-align:left;box-shadow:3px 3px 7px rgba(0,0,0,0.09),-2px -2px 5px rgba(255,255,255,0.65);">
                   <div><p style="font-size:13px;font-weight:600;color:#0D2137;margin-bottom:2px;">Redact specific transactions</p><p style="font-size:11px;color:#556C7E;font-family:'Nunito',sans-serif;">Remove individual transactions from NAVI's memory</p></div>
                   <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#556C7E" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
-                <button style="display:flex;align-items:center;justify-content:space-between;background:#E8F3FF;border:none;border-radius:14px;padding:12px 14px;cursor:pointer;width:100%;text-align:left;box-shadow:3px 3px 7px rgba(0,0,0,0.09),-2px -2px 5px rgba(255,255,255,0.65);">
+                <button onClick="{{ requestExport }}" style="display:flex;align-items:center;justify-content:space-between;background:#E8F3FF;border:none;border-radius:14px;padding:12px 14px;cursor:pointer;width:100%;text-align:left;box-shadow:3px 3px 7px rgba(0,0,0,0.09),-2px -2px 5px rgba(255,255,255,0.65);">
                   <div><p style="font-size:13px;font-weight:600;color:#0D2137;margin-bottom:2px;">Export my data</p><p style="font-size:11px;color:#556C7E;font-family:'Nunito',sans-serif;">Download everything NAVI knows about you as a JSON file</p></div>
                   <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#556C7E" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
-                <button style="display:flex;align-items:center;justify-content:space-between;background:rgba(198,62,62,0.06);border:1px solid rgba(198,62,62,0.15);border-radius:14px;padding:12px 14px;cursor:pointer;width:100%;text-align:left;">
+                <button onClick="{{ requestDelete }}" style="display:flex;align-items:center;justify-content:space-between;background:rgba(198,62,62,0.06);border:1px solid rgba(198,62,62,0.15);border-radius:14px;padding:12px 14px;cursor:pointer;width:100%;text-align:left;">
                   <div><p style="font-size:13px;font-weight:600;color:#C63E3E;margin-bottom:2px;">Delete all NAVI data</p><p style="font-size:11px;color:#556C7E;font-family:'Nunito',sans-serif;">Permanently removes all your financial history from NAVI. This cannot be undone.</p></div>
                   <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="#C63E3E" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
               </div>
             </div>
+
+            <sc-if value="{{ dataAction }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#FFF7E8;border:1px solid rgba(173,95,4,0.25);border-radius:14px;padding:12px 14px;margin-bottom:12px;">
+                <p style="font-size:12px;font-weight:700;color:#0D2137;margin-bottom:4px;">{{ dataActionTitle }}</p>
+                <p style="font-size:11px;color:#556C7E;margin-bottom:10px;">{{ dataActionDescription }}</p>
+                <div style="display:flex;gap:8px;"><button onClick="{{ confirmDataAction }}" style="{{ dataConfirmStyle }}">{{ dataConfirmLabel }}</button><button onClick="{{ cancelDataAction }}" style="background:#fff;color:#3D5E7A;border:1px solid #BDD8F5;border-radius:9px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;">Cancel</button></div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ dataNotice }}" hint-placeholder-val="{{ false }}">
+              <div role="status" aria-live="polite" aria-atomic="true" style="background:rgba(27,132,72,0.08);border:1px solid rgba(27,132,72,0.2);border-radius:14px;padding:12px 14px;margin-bottom:12px;"><p style="font-size:12px;color:#1B8448;font-weight:700;">✓ {{ dataNotice }}</p></div>
+            </sc-if>
 
             <!-- Footer note -->
             <div style="background:#FFFFFF;border-radius:16px;padding:14px 16px;display:flex;align-items:flex-start;gap:10px;box-shadow:5px 5px 12px rgba(0,0,0,0.1),-3px -3px 8px rgba(255,255,255,0.75);">
@@ -1201,17 +1286,30 @@
           </div>
         </sc-if>
 
+        <!-- ─── SETTINGS ─── -->
+        <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;overflow-y:auto;padding:32px 36px;animation:fadeUp 0.25s ease;">
+            <div style="margin-bottom:28px;"><p style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;">Settings</p><h1 style="font-size:26px;font-weight:800;color:#0D2137;margin-bottom:3px;">How NAVI keeps in touch.</h1><p style="font-size:14px;color:#3D5E7A;">Change notification and check-in preferences. Updates apply to this prototype session.</p></div>
+            <div style="background:#FFFFFF;border-radius:20px;padding:20px;margin-bottom:12px;box-shadow:8px 8px 20px rgba(0,0,0,0.15),-4px -4px 12px rgba(255,255,255,0.82),inset -3px -3px 8px rgba(0,0,0,0.07),inset 3px 3px 8px rgba(255,255,255,0.62);">
+              <p style="font-size:12px;font-weight:700;color:#556C7E;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.06em;">Notifications</p>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #BDD8F5;"><div><p style="font-size:13px;font-weight:600;color:#0D2137;margin-bottom:3px;">Proactive alerts</p><p style="font-size:11px;color:#556C7E;">NAVI can surface unusual spending and goal drift.</p></div><button type="button" aria-label="Toggle proactive alerts" aria-pressed="{{ settingsNotificationsPressed }}" onClick="{{ toggleNotifications }}" style="{{ settingsNotificationsBtn }}"><div style="{{ settingsNotificationsKnob }}"></div></button></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;"><div><p style="font-size:13px;font-weight:600;color:#0D2137;margin-bottom:3px;">Weekly check-in</p><p style="font-size:11px;color:#556C7E;">Receive a Friday review in your connected Slack DM.</p></div><button type="button" aria-label="Toggle weekly check-in" aria-pressed="{{ settingsWeeklyPressed }}" onClick="{{ toggleWeeklyCheckin }}" style="{{ settingsWeeklyBtn }}"><div style="{{ settingsWeeklyKnob }}"></div></button></div>
+            </div>
+            <div style="background:#FFFFFF;border-radius:20px;padding:20px;box-shadow:8px 8px 20px rgba(0,0,0,0.15),-4px -4px 12px rgba(255,255,255,0.82),inset -3px -3px 8px rgba(0,0,0,0.07),inset 3px 3px 8px rgba(255,255,255,0.62);"><p style="font-size:12px;font-weight:700;color:#556C7E;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.06em;">Check-in frequency</p><div style="display:flex;gap:8px;"><button onClick="{{ setWeeklyCadence }}" style="{{ weeklyCadenceStyle }}">Weekly</button><button onClick="{{ setMonthlyCadence }}" style="{{ monthlyCadenceStyle }}">Monthly</button></div><p style="font-size:11px;color:#556C7E;margin-top:10px;">Current setting: {{ checkinCadence }}</p></div>
+          </div>
+        </sc-if>
+
         <!-- ── GLOBAL EXPLAINABILITY OVERLAY ── -->
         <sc-if value="{{ showExplainer }}" hint-placeholder-val="{{ false }}">
-          <div style="position:absolute;top:0;right:0;bottom:0;width:400px;background:#FFFFFF;border-left:1px solid #BDD8F5;z-index:30;overflow-y:auto;display:flex;flex-direction:column;animation:fadeUp 0.2s ease;box-shadow:-8px 0 24px rgba(0,0,0,0.12);">
+          <div role="dialog" aria-modal="true" aria-labelledby="navi-explainer-title" data-navi-explainer onKeyDown="{{ explainerKeyDown }}" style="position:absolute;top:0;right:0;bottom:0;width:400px;background:#FFFFFF;border-left:1px solid #BDD8F5;z-index:30;overflow-y:auto;display:flex;flex-direction:column;animation:fadeUp 0.2s ease;box-shadow:-8px 0 24px rgba(0,0,0,0.12);">
 
             <!-- Header -->
             <div style="padding:16px 20px;border-bottom:1px solid #BDD8F5;display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;">
               <div>
-                <p style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;">Why NAVI Said This</p>
-                <p style="font-size:12px;color:#556C7E;margin-top:3px;">{{ goalMonths }}-month plan · {{ explainerConfidencePct }}% confidence</p>
+                <p id="navi-explainer-title" style="font-size:10px;font-weight:700;color:#3078C0;letter-spacing:0.08em;text-transform:uppercase;">Why NAVI Said This</p>
+                <p style="font-size:12px;color:#556C7E;margin-top:3px;">{{ planLabel }} · {{ explainerConfidencePct }}% confidence</p>
               </div>
-              <button onClick="{{ closeExplainer }}" style="background:transparent;border:none;cursor:pointer;color:#556C7E;font-size:20px;line-height:1;padding:0 2px;flex-shrink:0;">×</button>
+              <button type="button" onClick="{{ closeExplainer }}" aria-label="Close explanation" style="background:transparent;border:none;cursor:pointer;color:#556C7E;font-size:20px;line-height:1;padding:0 2px;flex-shrink:0;">×</button>
             </div>
 
             <!-- Data used -->
@@ -1257,8 +1355,8 @@
                 </div>
                 <div style="background:#E8F3FF;border-radius:12px;padding:10px 12px;border-left:3px solid #1B8448;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.1),inset -2px -2px 4px rgba(255,255,255,0.5);">
                   <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
-                    <span style="font-size:12px;font-weight:600;color:#0D2137;">13-month ← chosen</span>
-                    <span style="font-size:11px;color:#1B8448;font-family:'DM Mono',monospace;">$748/mo</span>
+                    <span style="font-size:12px;font-weight:600;color:#0D2137;">{{ goalMonths }}-month ← chosen</span>
+                    <span style="font-size:11px;color:#1B8448;font-family:'DM Mono',monospace;">{{ monthlySaveDisplay }}/mo</span>
                   </div>
                   <p style="font-size:11px;color:#556C7E;">23% reduction required · 19% reversal rate before Month 5</p>
                 </div>
@@ -1269,7 +1367,7 @@
             <div style="padding:16px 20px;border-bottom:1px solid #BDD8F5;">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
                 <p style="font-size:10px;font-weight:700;color:#3D5E7A;letter-spacing:0.07em;text-transform:uppercase;">Confidence Breakdown</p>
-                <span style="font-size:15px;font-weight:700;font-family:'DM Mono',monospace;color:#1B8448;">87%</span>
+                <span style="font-size:15px;font-weight:700;font-family:'DM Mono',monospace;color:#1B8448;">{{ explainerConfidencePct }}%</span>
               </div>
               <div style="display:flex;flex-direction:column;gap:8px;">
                 <div>
@@ -1295,7 +1393,7 @@
                 </div>
               </div>
               <div style="background:#E8F3FF;border-radius:10px;padding:9px 11px;margin-top:10px;box-shadow:inset 2px 2px 5px rgba(0,0,0,0.1),inset -2px -2px 4px rgba(255,255,255,0.5);">
-                <p style="font-size:11px;color:#556C7E;line-height:1.55;">⚠ NAVI has only 90 days of data. Your Q4 spending (holidays, travel) is not captured and represents the largest source of uncertainty in this model.</p>
+                <p style="font-size:11px;color:#556C7E;line-height:1.55;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle;"><path d="m12 3 10 18H2ZM12 9v5M12 17h.01"/></svg> NAVI has only 90 days of data. Your Q4 spending (holidays, travel) is not captured and represents the largest source of uncertainty in this model.</p>
               </div>
             </div>
 
@@ -1324,7 +1422,20 @@
 
             <!-- Dispute / redaction -->
             <div style="padding:16px 20px;">
-              <button style="width:100%;background:transparent;border:1.5px solid rgba(198,62,62,0.35);color:#C63E3E;border-radius:12px;padding:10px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;margin-bottom:8px;">Dispute this data or recommendation</button>
+              <button onClick="{{ openDisputeForm }}" style="width:100%;background:transparent;border:1.5px solid rgba(198,62,62,0.35);color:#C63E3E;border-radius:12px;padding:10px;font-size:12px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;margin-bottom:8px;">Dispute this data or recommendation</button>
+              <sc-if value="{{ disputeFormOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="background:#FFF8F6;border:1px solid rgba(198,62,62,0.2);border-radius:12px;padding:12px;margin-bottom:8px;">
+                  <label for="web-dispute-reason" style="display:block;font-size:11px;font-weight:700;color:#3D5E7A;margin-bottom:6px;">What seems wrong?</label>
+                  <textarea id="web-dispute-reason" value="{{ disputeReason }}" onInput="{{ setDisputeReason }}" placeholder="Tell NAVI what to review" rows="3" style="width:100%;box-sizing:border-box;background:#FFFFFF;border:1px solid rgba(198,62,62,0.25);border-radius:9px;padding:8px;font:12px/1.45 'Nunito',sans-serif;color:#0D2137;resize:vertical;"></textarea>
+                  <div style="display:flex;gap:7px;margin-top:8px;">
+                    <button onClick="{{ confirmDispute }}" style="flex:1;background:#C63E3E;color:#FFFFFF;border:none;border-radius:9px;padding:8px;font:700 11px 'Nunito',sans-serif;cursor:pointer;">Submit dispute</button>
+                    <button onClick="{{ cancelDispute }}" style="background:#FFFFFF;color:#3D5E7A;border:1px solid rgba(61,94,122,0.2);border-radius:9px;padding:8px 11px;font:600 11px 'Nunito',sans-serif;cursor:pointer;">Cancel</button>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ disputeNotice }}" hint-placeholder-val="{{ false }}">
+                <p style="background:rgba(27,132,72,0.07);border-radius:9px;padding:8px 10px;font-size:11px;color:#1B8448;line-height:1.45;margin-bottom:8px;">{{ disputeNotice }}</p>
+              </sc-if>
               <p style="font-size:11px;color:#556C7E;text-align:center;line-height:1.5;">Disputing flags this data for review and removes it from NAVI's model. Your financial history remains intact.</p>
             </div>
           </div>
@@ -1335,53 +1446,145 @@
   </sc-if>
 
 </div>
+  <div class="a11y-live" aria-live="polite" aria-atomic="true">{{ accessibilityNotice }}</div>
 </x-app>
 <script type="text/x-app" data-app-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}">
 const captureScreen = new URLSearchParams(window.location.search).get('captureScreen');
-const initialScreen = ['onboarding', 'dashboard', 'checkin', 'goals', 'coach', 'alert', 'privacy', 'slack'].includes(captureScreen) ? captureScreen : 'onboarding';
+const initialScreen = ['onboarding', 'dashboard', 'checkin', 'goals', 'coach', 'alert', 'privacy', 'settings', 'slack'].includes(captureScreen) ? captureScreen : 'onboarding';
+const { NAVI_DEMO: NAVI_DATA_MODEL, NAVI_ALERT_PLANS, naviMoney, naviGoalDate, naviDemoValues } = window.NAVI_SCENARIO;
+const WEB_SESSION_KEY = 'navi-web-session-v4';
+const readNaviSession = key => { try { return JSON.parse(window.sessionStorage.getItem(key) || '{}') || {}; } catch (e) { return {}; } };
+const writeNaviSession = (key, value) => { try { window.sessionStorage.setItem(key, JSON.stringify(value)); } catch (e) {} };
+const savedWebSession = readNaviSession(WEB_SESSION_KEY);
 
 class Component extends NaviBase {
   messagesRef = React.createRef();
+  explainerReturnFocus = null;
+  lastFocusedElement = null;
 
   state = {
     screen: (this.props && this.props.startScreen) || initialScreen,
     onboardingStep: 0,
+    selectedGoal: savedWebSession.selectedGoal || null,
     analysisComplete: false,
-    alertChoice: null,
+    analysisFailed: false,
+    alertChoice: savedWebSession.alertChoice || null,
+    alertsEmpty: !!savedWebSession.alertsEmpty,
+    transactionsEmpty: !!savedWebSession.transactionsEmpty,
+    dataCleared: !!savedWebSession.dataCleared,
     coachInput: '',
     isTyping: false,
     showExplainer: false,
+    disputeFormOpen: false,
+    disputeReason: '',
+    disputeNotice: '',
     toastDismissed: false,
-    checkinReviewed: false,
-    privacyToggles: { allowAnalysis: true, allowHRSharing: false, showConfidence: true, requireConfirmation: true },
-    cardStatus: {},
+    checkinReviewed: !!savedWebSession.checkinReviewed,
+    privacyToggles: { allowAnalysis: true, allowHRSharing: false, showConfidence: true, requireConfirmation: true, ...(savedWebSession.privacyToggles || {}) },
+    cardStatus: savedWebSession.cardStatus || {},
     overridePicker: null,
-    coachMessages: [
-      { isNavi:true, isUser:false, hasConfidence:true, confidence:91, status:'pending',
-        source:'TechCorp Payroll · Chase ····4821',
-        confidenceBarStyle:{ height:'3px', background:'#1B8448', borderRadius:'2px', width:'91%', transition:'width 0.5s ease' },
-        text:'Your payroll shows a bi-weekly net deposit of $3,250 (TechCorp, direct deposit). Based on 90 days of transaction history, your average monthly discretionary spend is $2,067. Emergency fund progress: 16.2% ($1,616 of $10,000). You are on track for a 13-month completion.',
+    slackCardStatus: savedWebSession.slackCardStatus || 'pending',
+    slackOverridePicker: false,
+    slackInput: '',
+    slackReply: '',
+    dataAction: null,
+    dataNotice: savedWebSession.dataNotice || '',
+    accessibilityNotice: savedWebSession.accessibilityNotice || '',
+    settings: { notifications: true, weeklyCheckin: true, checkinCadence: 'Weekly', ...(savedWebSession.settings || {}) },
+    coachMessages: savedWebSession.dataCleared ? [] : (Array.isArray(savedWebSession.coachMessages) ? savedWebSession.coachMessages : [
+      { isNavi:true, isUser:false, hasConfidence:true, confidence:NAVI_DATA_MODEL.recommendationConfidence, status:'pending', requiresDecision:true,
+        source:'TechCorp Payroll · Chase Checking ····4821',
+        confidenceBarStyle:{ height:'3px', background:'#1B8448', borderRadius:'2px', width:NAVI_DATA_MODEL.recommendationConfidence+'%', transition:'width 0.5s ease' },
+        text:`Your payroll shows a bi-weekly net deposit of ${naviMoney(NAVI_DATA_MODEL.paycheck)} (TechCorp, direct deposit). Based on 90 days of transaction history, your average monthly discretionary spend is $2,067. Emergency fund progress: ${NAVI_DATA_MODEL.fundedPct} (${naviMoney(NAVI_DATA_MODEL.savedAmount)} of ${naviMoney(NAVI_DATA_MODEL.goalTarget)}). You are on track for a ${NAVI_DATA_MODEL.timelineMonths}-month completion.`,
         time:'9:41 AM' },
-      { isNavi:false, isUser:true, hasConfidence:false, confidence:null, source:'', confidenceBarStyle:{}, status:'pending',
-        text:'Why 13 months instead of 12?', time:'9:42 AM' },
-      { isNavi:true, isUser:false, hasConfidence:true, confidence:87, status:'pending',
-        source:'90-day transaction analysis · behavioral benchmarks',
-        confidenceBarStyle:{ height:'3px', background:'#1B8448', borderRadius:'2px', width:'87%', transition:'width 0.5s ease' },
-        text:'Reaching $10,000 in 12 months requires $834/month — a 34% reduction in discretionary spending. Behavioral data shows reductions above 28% have a 61% reversal rate before Month 5. I targeted $748/month: a 23% reduction. One additional month, 41% higher completion probability. The goal is not the fastest plan. It is the one you complete.',
+      { isNavi:false, isUser:true, hasConfidence:false, confidence:null, source:'', confidenceBarStyle:{}, status:null, requiresDecision:false,
+        text:`Why ${NAVI_DATA_MODEL.timelineMonths} months instead of 12?`, time:'9:42 AM' },
+      { isNavi:true, isUser:false, hasConfidence:true, confidence:NAVI_DATA_MODEL.recommendationConfidence, status:'pending', requiresDecision:true,
+        source:'Chase Checking · TechCorp Payroll · payroll cohort analysis',
+        confidenceBarStyle:{ height:'3px', background:'#1B8448', borderRadius:'2px', width:NAVI_DATA_MODEL.recommendationConfidence+'%', transition:'width 0.5s ease' },
+        text:`Reaching ${naviMoney(NAVI_DATA_MODEL.goalTarget)} in 12 months requires $834/month — a 34% reduction in discretionary spending. Behavioral data shows reductions above 28% have a 61% reversal rate before Month 5. I targeted ${naviMoney(NAVI_DATA_MODEL.monthlySave)}/month: a 23% reduction. Two additional months, 41% higher completion probability. The goal is not the fastest plan. It is the one you complete.`,
         time:'9:42 AM' },
-    ],
+    ]),
   };
+
+  componentDidMount() {
+    this.rememberFocus = e => {
+      if (e.target && !e.target.closest('[data-navi-explainer]')) this.lastFocusedElement = e.target;
+    };
+    this.rememberClick = e => {
+      const trigger = e.target && e.target.closest('[data-explainer-trigger]');
+      if (trigger) this.explainerReturnFocus = trigger;
+    };
+    this.handleExplainerKeyDown = e => {
+      const trigger = e.target && e.target.closest && e.target.closest('[data-explainer-trigger]');
+      if (trigger && (e.key === 'Enter' || e.key === ' ')) this.explainerReturnFocus = trigger;
+      if (this.state.showExplainer && (e.key === 'Escape' || e.key === 'Esc')) {
+        e.preventDefault();
+        this.closeExplainer();
+      }
+    };
+    document.addEventListener('focusin', this.rememberFocus);
+    document.addEventListener('click', this.rememberClick, true);
+    document.addEventListener('keydown', this.handleExplainerKeyDown, true);
+  }
 
   componentDidUpdate(prevProps, prevState) {
     const { coachMessages, isTyping, onboardingStep, screen } = this.state;
+    const previous = prevState || {};
+    const previousMessages = previous.coachMessages || [];
+    if (this.state.showExplainer && !previous.showExplainer) {
+      if (!this.explainerReturnFocus) this.explainerReturnFocus = document.activeElement;
+      setTimeout(() => {
+        const dialog = document.querySelector('[data-navi-explainer]');
+        const firstControl = dialog && dialog.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (firstControl) firstControl.focus();
+      }, 0);
+    }
+    if (!this.state.showExplainer && previous.showExplainer) {
+      const returnFocus = this.explainerReturnFocus;
+      this.explainerReturnFocus = null;
+      if (returnFocus && returnFocus.focus && document.contains(returnFocus)) setTimeout(() => returnFocus.focus(), 0);
+    }
     if (this.messagesRef.current && screen==='coach' &&
-      (coachMessages.length!==prevState.coachMessages.length || isTyping!==prevState.isTyping))
+      (coachMessages.length!==previousMessages.length || isTyping!==previous.isTyping))
       this.messagesRef.current.scrollTop = this.messagesRef.current.scrollHeight;
-    if (onboardingStep===3 && prevState.onboardingStep!==3)
+    if (onboardingStep===3 && previous.onboardingStep!==3)
       setTimeout(()=>this.setState({analysisComplete:true}), 2500);
+    writeNaviSession(WEB_SESSION_KEY, {
+      selectedGoal:this.state.selectedGoal, alertChoice:this.state.alertChoice, alertsEmpty:this.state.alertsEmpty,
+      transactionsEmpty:this.state.transactionsEmpty, dataCleared:this.state.dataCleared, checkinReviewed:this.state.checkinReviewed,
+      privacyToggles:this.state.privacyToggles, cardStatus:this.state.cardStatus, slackCardStatus:this.state.slackCardStatus,
+      settings:this.state.settings, dataNotice:this.state.dataNotice, accessibilityNotice:this.state.accessibilityNotice, coachMessages:this.state.coachMessages
+    });
   }
 
   navTo(s) { this.setState({ screen:s }); }
+
+  openExplainer(e) {
+    const active = document.activeElement;
+    const eventTarget = e && e.currentTarget && e.currentTarget.tagName !== 'BODY' ? e.currentTarget : null;
+    const rememberedTrigger = this.explainerReturnFocus;
+    this.explainerReturnFocus = eventTarget || (active && active.tagName !== 'BODY' ? active : rememberedTrigger || this.lastFocusedElement);
+    this.setState({ showExplainer:true });
+  }
+
+  closeExplainer() {
+    const returnFocus = this.explainerReturnFocus || this.lastFocusedElement;
+    this.setState({ showExplainer:false });
+    if (returnFocus && returnFocus.focus) setTimeout(() => { if (document.contains(returnFocus)) returnFocus.focus(); }, 0);
+  }
+
+  explainerKeyDown(e) {
+    if (e.key === 'Escape' || e.key === 'Esc') { e.preventDefault(); this.closeExplainer(); return; }
+    if (e.key !== 'Tab') return;
+    const root = e.currentTarget;
+    const controls = Array.from(root.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(el => !el.disabled && el.getAttribute('aria-hidden') !== 'true');
+    if (!controls.length) { e.preventDefault(); return; }
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
 
   acceptCard(id) {
     if (id.startsWith('msg-')) {
@@ -1409,11 +1612,91 @@ class Component extends NaviBase {
     }
   }
 
-  nextStep() { this.setState(s=>({onboardingStep:s.onboardingStep+1})); }
+  setSlackCardStatus(status) { this.setState({ slackCardStatus: status, slackOverridePicker: false }); }
+  startSlackOverride() { this.setState({ slackOverridePicker: true }); }
+  resolveSlackOverride() { this.setState({ slackCardStatus: 'overridden', slackOverridePicker: false }); }
+  sendSlackMessage() {
+    const msg = (this.state.slackInput || '').trim();
+    if (!msg) return;
+    this.setState({ slackInput: '', slackReply: `NAVI received “${msg}”. I’ll use your connected financial context to answer in the next check-in.` });
+  }
+  sendSlackKey(e) { if (e.key === 'Enter') { e.preventDefault(); this.sendSlackMessage(); } }
+  requestDataAction(action) { this.setState({ dataAction: action, dataNotice: '' }); }
+  cancelDataAction() { this.setState({ dataAction: null }); }
+  confirmDataAction() {
+    const action = this.state.dataAction;
+    const notices = {
+      redact: '5 sample transactions were redacted from NAVI’s memory.',
+      export: 'Your data export downloaded as navi-data-export.json.',
+      delete: 'All NAVI data was deleted from this prototype session.'
+    };
+    if (action === 'export') {
+      const exportPayload = JSON.stringify({
+        product: 'NAVI',
+        exportedAt: new Date().toISOString(),
+        goal: NAVI_DATA_MODEL,
+        analysisWindow: NAVI_DATA_MODEL.analysisWindow,
+        note: 'Simulated prototype session data; no production account data is included.'
+      }, null, 2);
+      const blobUrl = URL.createObjectURL(new Blob([exportPayload], { type: 'application/json' }));
+      const anchor = document.createElement('a');
+      anchor.href = blobUrl;
+      anchor.download = 'navi-data-export.json';
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 0);
+    }
+    if (action === 'delete') {
+      try { window.sessionStorage.removeItem(WEB_SESSION_KEY); } catch (e) {}
+    }
+    this.setState(action === 'delete'
+      ? {
+          dataAction: null, dataNotice: notices[action] || '', dataCleared: true,
+          screen: 'dashboard', onboardingStep: 0, selectedGoal: null, analysisComplete: false, analysisFailed: false,
+          transactionsEmpty: true, alertsEmpty: true, alertChoice: null, checkinReviewed: false,
+          cardStatus: {}, overridePicker: null, slackCardStatus: 'pending', slackOverridePicker: false,
+          coachMessages: [], toastDismissed: true,
+          privacyToggles: { allowAnalysis:false, allowHRSharing:false, showConfidence:false, requireConfirmation:false },
+          settings: { notifications:false, weeklyCheckin:false, checkinCadence:'Weekly' }
+        }
+      : { dataAction: null, dataNotice: notices[action] || '' });
+  }
+  togglePrivacy(key, label) {
+    this.setState(s => {
+      const value = !s.privacyToggles[key];
+      return { privacyToggles: { ...s.privacyToggles, [key]: value }, accessibilityNotice: `${label} ${value ? 'on' : 'off'}.` };
+    });
+  }
+  toggleSetting(key, label) {
+    this.setState(s => {
+      const value = !s.settings[key];
+      return { settings: { ...s.settings, [key]: value }, accessibilityNotice: `${label} ${value ? 'on' : 'off'}.` };
+    });
+  }
+  clearAlertHistory() { this.setState({ alertsEmpty: true, alertChoice: null }); }
+  openDisputeForm() { this.setState({ disputeFormOpen: true, disputeNotice: '' }); }
+  setDisputeReason(e) { this.setState({ disputeReason: e.target.value }); }
+  cancelDispute() { this.setState({ disputeFormOpen: false, disputeReason: '' }); }
+  confirmDispute() {
+    const reason = (this.state.disputeReason || '').trim();
+    this.setState({ disputeFormOpen: false, disputeReason: '', disputeNotice: reason ? 'Dispute submitted. NAVI flagged this recommendation for review.' : 'Dispute submitted. NAVI flagged this recommendation for review; no reason was added.' });
+  }
+
+  selectGoal(goal) { this.setState({ selectedGoal: goal }); }
+  confirmGoal() {
+    if (!this.state.selectedGoal) return;
+    this.nextStep();
+  }
+  failAnalysis() { this.setState({ analysisFailed: true, analysisComplete: false }); }
+  retryAnalysis() { this.setState({ analysisFailed: false, analysisComplete: false }); }
+  nextStep() {
+    this.setState(s=>({onboardingStep:s.onboardingStep===2 && !s.selectedGoal ? s.onboardingStep : s.onboardingStep+1}));
+  }
   prevStep() { this.setState(s=>({onboardingStep:Math.max(0,s.onboardingStep-1)})); }
 
-  buildNaviMsg(text, confidence, source) {
-    return { isNavi:true, isUser:false, hasConfidence:confidence!==null, confidence, source: source||'',
+  buildNaviMsg(text, confidence, source, requiresDecision=false) {
+    return { isNavi:true, isUser:false, hasConfidence:confidence!==null, confidence, source: source||'', status:requiresDecision?'pending':null, requiresDecision,
       confidenceBarStyle: confidence!==null ? { height:'3px', background:'#1B8448', borderRadius:'2px', width:confidence+'%', transition:'width 0.5s ease' } : {},
       text, time:this.getTime() };
   }
@@ -1425,27 +1708,31 @@ class Component extends NaviBase {
     this.setState(s=>({ coachInput:'', coachMessages:[...s.coachMessages, userMsg], isTyping:true }));
     setTimeout(()=>{
       const r = this.getResponse(msg);
-      this.setState(s=>({ coachMessages:[...s.coachMessages, this.buildNaviMsg(r.text, r.confidence, r.source)], isTyping:false }));
+      this.setState(s=>({ coachMessages:[...s.coachMessages, this.buildNaviMsg(r.text, r.confidence, r.source, !!r.requiresDecision)], isTyping:false }));
     }, 1800);
   }
 
   getResponse(input) {
     const q = input.toLowerCase();
-    if (/math|calculat|number|breakdown/.test(q)) return { confidence:94, source:'Payroll data · Chase ····4821 · Subscription analysis',
-      text:'Breakdown: Income $6,500/month ($3,250 bi-weekly). Fixed costs: rent $1,850, car $425, insurance $145, phone $85, internet $65, subscriptions $231 = $2,801. Auto-save: $748. Remaining flexible: $2,951 — discretionary target $2,000. The $748 savings: $400 baseline + $72.97 (4 subscriptions) + $275 (dining, shopping, entertainment).' };
-    if (/cut more|save more|faster|11 month|12 month/.test(q)) return { confidence:79, source:'Behavioral benchmarks · Amazon transaction history',
+    if (/math|calculat|number|breakdown/.test(q)) return { confidence:94, requiresDecision:true, source:'TechCorp Payroll · Chase Checking · recurring billing records',
+      text:`Breakdown: Income $6,500/month (${naviMoney(NAVI_DATA_MODEL.paycheck)} bi-weekly). Fixed costs: rent ${naviMoney(NAVI_DATA_MODEL.rent)}, car $425, insurance $145, phone $85, internet $65, subscriptions $231 = ${naviMoney(NAVI_DATA_MODEL.rent+951)}. Auto-save: ${naviMoney(NAVI_DATA_MODEL.monthlySave)}. Remaining flexible: ${naviMoney(6500-NAVI_DATA_MODEL.rent-951-NAVI_DATA_MODEL.monthlySave)}; discretionary target $2,000. The ${naviMoney(NAVI_DATA_MODEL.monthlySave)} savings: $400 baseline + $72.97 (4 subscriptions) + $275 (dining, shopping, entertainment).` };
+    if (/cut more|save more|faster|11 month|12 month/.test(q)) return { confidence:79, requiresDecision:true, source:'Chase Checking · Amazon transaction records · TechCorp payroll cohort analysis',
       text:'$10K in 11 months requires $910/month — a 41% reduction. Achievable if you also cap Amazon (currently $480/month). However, each percentage point above 28% reduction increases dropout risk measurably. Recommendation: run this plan for 60 days with data, then evaluate acceleration with evidence.' };
-    if (/miss|skip|bad month|off track/.test(q)) return { confidence:91, source:'Actuarial model · 90-day variance analysis',
+    if (/miss|skip|bad month|off track/.test(q)) return { confidence:91, requiresDecision:true, source:'Chase Checking · TechCorp Payroll · 90-day variance analysis',
       text:'Missing one month extends the timeline by 1.4 months — not 2 — because other months partially compensate. Two consecutive missed months: approximately 16 months total. The plan absorbs one disruption without structural failure. Sustained pattern matters more than any single month\'s outcome.' };
-    if (/subscription|cancel|hulu|gym|headspace|duolingo/.test(q)) return { confidence:96, source:'App usage data · subscription billing records',
+    if (/subscription|cancel|hulu|gym|headspace|duolingo/.test(q)) return { confidence:96, requiresDecision:true, source:'Chase Checking · Amex Card · recurring billing records',
       text:'4 flagged: Hulu ($17.99 — last opened 43 days ago), Headspace ($12.99 — 2 sessions in 90 days), Duolingo Plus ($6.99 — streak lapsed 67 days), Gym ($35 — last check-in 47 days ago). Total: $72.97/month. $875.64 annually. No action is taken automatically — confirmation required for each.' };
-    if (/payroll|paycheck|techcorp|salary/.test(q)) return { confidence:98, source:'TechCorp Payroll System · Direct Deposit records',
-      text:'Your bi-weekly net deposit is $3,250 (gross $3,680 — deductions: 401k $138, HSA $50, health insurance $185, taxes $57). Next deposit: July 3, 2026. NAVI monitors payroll timing to flag bill-paycheck overlaps before they cause overdrafts.' };
-    return { confidence:74, source:'3-month transaction window',
-      text:'I want to give you an accurate answer, not a confident-sounding one. At 3 months of data, my confidence on most predictions sits at approximately 74%. Seasonal variation, bonuses, and irregular expenses will sharpen the model over time. Is there a specific number or decision you want me to explain?' };
+    if (/payroll|paycheck|techcorp|salary/.test(q)) return { confidence:98, requiresDecision:false, source:'TechCorp Payroll System · Direct Deposit records',
+      text:`Your bi-weekly net deposit is ${naviMoney(NAVI_DATA_MODEL.paycheck)} (gross $3,680 — deductions: 401k $138, HSA $50, health insurance $185, taxes $57). Next deposit: July 3, 2026. NAVI monitors payroll timing to flag bill-paycheck overlaps before they cause overdrafts.` };
+    return { confidence:74, requiresDecision:false, source:'Chase Checking · TechCorp Payroll · 90-day transaction window',
+      text:'I want to give you an accurate answer, not a confident-sounding one. With a 90-day data window, my confidence on most predictions sits at approximately 74%. Seasonal variation, bonuses, and irregular expenses will sharpen the model over time. Is there a specific number or decision you want me to explain?' };
   }
 
   getTime() { return new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true}); }
+
+  goalChoiceStyle(selected) {
+    return { display:'block', width:'100%', boxSizing:'border-box', textAlign:'left', border:selected?'2px solid #3078C0':'1px solid rgba(61,94,122,0.14)', borderRadius:'16px', padding:'14px 16px', background:selected?'rgba(48,120,192,0.07)':'#FFFFFF', cursor:'pointer', fontFamily:"'Nunito',sans-serif", boxShadow:selected?'4px 4px 12px rgba(48,120,192,0.18),-2px -2px 8px rgba(255,255,255,0.7)':'4px 4px 10px rgba(0,0,0,0.08),-2px -2px 7px rgba(255,255,255,0.7)' };
+  }
 
   renderVals() {
     const s = this.state;
@@ -1472,40 +1759,42 @@ class Component extends NaviBase {
     };
     const i1 = overrideProps('i1'), i2 = overrideProps('i2');
 
-    let month3Saved, goalMonths, goalMonthLabel, goalConfidenceLabel;
-    if (ac==='expense')      { month3Saved=748; goalMonths=13; goalMonthLabel='Mar 2027'; goalConfidenceLabel='82% confident · On track'; }
-    else if (ac==='cutback') { month3Saved=660; goalMonths=13; goalMonthLabel='Apr 2027'; goalConfidenceLabel='79% confident · Adjusted'; }
-    else if (ac==='ignore')  { month3Saved=586; goalMonths=14; goalMonthLabel='Jun 2027'; goalConfidenceLabel='71% confident · Extended'; }
-    else                     { month3Saved=586; goalMonths=14; goalMonthLabel='Jun 2027'; goalConfidenceLabel='71% confident · Alert pending'; }
-    // Explainer panel summarizes the same live plan shown on the Goals
-    // screen, so it reads off goalMonths/goalConfidenceLabel instead of
-    // its own hardcoded figures.
-    const explainerConfidencePct = goalConfidenceLabel.split('%')[0];
+    const alertPlan = NAVI_ALERT_PLANS[ac];
+    const month3Saved = alertPlan ? alertPlan.saved : NAVI_DATA_MODEL.currentMonthSaved;
+    const goalMonths = alertPlan ? alertPlan.months : NAVI_DATA_MODEL.timelineMonths;
+    const goalMonthLabel = naviGoalDate(goalMonths);
+    const goalConfidenceLabel = NAVI_DATA_MODEL.recommendationConfidence + '% confident · ' + (ac==='expense' ? 'On track' : ac==='cutback' ? 'Adjusted' : ac==='ignore' ? 'Extended' : 'Alert pending');
+    const explainerConfidencePct = NAVI_DATA_MODEL.recommendationConfidence;
 
-    const totalSaved = 400+630+month3Saved;
-    const goalPct = ((totalSaved/10000)*100).toFixed(1);
-    const R=64, circ=(2*Math.PI*R).toFixed(1), offset=(2*Math.PI*R*(1-totalSaved/10000)).toFixed(1);
+    const totalSaved = ac===null ? NAVI_DATA_MODEL.savedAmount : 400+630+month3Saved;
+    const goalPct = ((totalSaved/NAVI_DATA_MODEL.goalTarget)*100).toFixed(1);
+    const R=64, circ=(2*Math.PI*R).toFixed(1), offset=(2*Math.PI*R*(1-totalSaved/NAVI_DATA_MODEL.goalTarget)).toFixed(1);
 
     const nb = { display:'flex', alignItems:'center', gap:'10px', padding:'9px 12px', borderRadius:'12px', cursor:'pointer', fontFamily:"'Nunito',sans-serif", fontSize:'13px', border:'none', width:'100%', textAlign:'left', letterSpacing:'-0.01em' };
     const navActive   = { ...nb, background:'rgba(48,120,192,0.12)', color:'#8B6A08', fontWeight:'700', boxShadow:'inset 3px 3px 8px rgba(0,0,0,0.18),inset -3px -3px 8px rgba(255,255,255,0.5)' };
     const navInactive = { ...nb, background:'transparent', color:'#3D5E7A', fontWeight:'500' };
+    const settingsToggle = (on) => ({ display:'flex', alignItems:'center', width:'40px', height:'22px', borderRadius:'11px', background:on?'#3078C0':'#BDD8F5', border:'none', padding:'3px', cursor:'pointer' });
+    const settingsKnob = (on) => ({ width:'14px', height:'14px', borderRadius:'50%', background:'#fff', marginLeft:on?'auto':'0' });
+    const cadenceStyle = (active) => ({ background:active?'#3078C0':'#E8F3FF', color:active?'#fff':'#3D5E7A', border:'none', borderRadius:'10px', padding:'8px 14px', font:'700 12px Nunito,sans-serif', cursor:'pointer' });
 
     const dot = n => ({ flex:'1', height:'4px', borderRadius:'2px',
       background: s.onboardingStep>=n ? '#3078C0' : 'rgba(48,120,192,0.18)',
       boxShadow: s.onboardingStep>=n ? '0 0 5px rgba(48,120,192,0.5)' : 'none',
       transition:'background 0.3s ease' });
 
-    const onTrack = ac==='expense' || ac==='cutback';
+    const onTrack = ac==='expense';
     const alertPanelTitle = ac===null ? 'Goal impact if unchanged' : 'Goal impact';
-    const shiftLabel = goalMonths>13 ? '+1 month' : 'No shift';
+    const alertGoalMonths = ac===null ? NAVI_ALERT_PLANS.ignore.months : goalMonths;
+    const alertGoalDate = naviGoalDate(alertGoalMonths);
+    const shiftLabel = alertGoalMonths>NAVI_DATA_MODEL.timelineMonths ? '+1 month' : 'No shift';
     const tileGood = { fontSize:'16px', fontWeight:'700', fontFamily:"'DM Mono',monospace", color:'#1B8448' };
     const tileWarn = { fontSize:'16px', fontWeight:'700', fontFamily:"'DM Mono',monospace", color:'#AD5F04' };
     const tileBad  = { fontSize:'16px', fontWeight:'700', fontFamily:"'DM Mono',monospace", color:'#C63E3E' };
     const alertSavingsStyle  = onTrack ? tileGood : tileBad;
-    const alertShiftStyle    = goalMonths>13 ? tileWarn : tileGood;
-    const alertDateStyle     = goalMonths>13 ? tileWarn : tileGood;
+    const alertShiftStyle    = alertGoalMonths>NAVI_DATA_MODEL.timelineMonths ? tileWarn : tileGood;
+    const alertDateStyle     = alertGoalMonths>NAVI_DATA_MODEL.timelineMonths ? tileWarn : tileGood;
 
-    const jsl    = ac==='expense' ? '$748' : ac==='cutback' ? '$660' : '$586';
+    const jsl = naviMoney(month3Saved);
     const jsub   = ac===null ? 'At risk · dining overage' : ac==='expense' ? 'On track · alert resolved' : ac==='cutback' ? 'Adjusted · cutting back' : 'Accepted · plan extended';
     const jsCard = ac===null
       ? { background:'rgba(198,62,62,0.06)', borderRadius:'20px', padding:'20px', border:'1px solid rgba(198,62,62,0.14)', boxShadow:'6px 6px 16px rgba(0,0,0,0.13),-3px -3px 10px rgba(255,255,255,0.7)' }
@@ -1524,9 +1813,9 @@ class Component extends NaviBase {
       ? { width:'100%', height:'48px', background:'#3078C0', borderRadius:'4px 4px 0 0', opacity:'0.6' }
       : { width:'100%', height:'42px', background:'#C63E3E', borderRadius:'4px 4px 0 0', opacity:'0.7' };
 
-    const alertImpact = ac==='expense' ? 'Goal restores to 13 months (March 2027). NAVI will log the expense claim and adjust the June savings calculation.'
-      : ac==='cutback' ? 'Goal adjusts to 13 months (April 2027). NAVI will monitor dining for the remaining 3 days of June.'
-      : ac==='ignore' ? "Timeline extends to 14 months (June 2027). NAVI will factor this into next month's baseline plan."
+    const alertImpact = ac==='expense' ? `Goal restores to ${goalMonths} months (${goalMonthLabel}). NAVI will log the expense claim and adjust the June savings calculation.`
+      : ac==='cutback' ? `Goal extends to ${goalMonths} months (${goalMonthLabel}). NAVI will monitor dining for the remaining 3 days of June.`
+      : ac==='ignore' ? `Timeline extends to ${goalMonths} months (${goalMonthLabel}). NAVI will factor this into next month's baseline plan.`
       : null;
 
     const tog = (on) => ({ display:'flex', alignItems:'center', width:'40px', height:'22px', borderRadius:'11px',
@@ -1540,32 +1829,38 @@ class Component extends NaviBase {
       boxShadow:'2px 2px 4px rgba(0,0,0,0.15),-1px -1px 3px rgba(255,255,255,0.5)' });
 
     return {
-      isOnboarding: s.screen==='onboarding', isApp: s.screen!=='onboarding',
-      isDashboard: s.screen==='dashboard', isCheckin: s.screen==='checkin',
-      isGoals: s.screen==='goals', isCoach: s.screen==='coach',
-      isAlert: s.screen==='alert', isPrivacy: s.screen==='privacy',
+      ...naviDemoValues(),
+      isOnboarding: s.screen==='onboarding' && !s.dataCleared, isApp: s.screen!=='onboarding' || s.dataCleared,
+      dataCleared:s.dataCleared, dataNotCleared:!s.dataCleared,
+      isDashboard: s.screen==='dashboard' && !s.dataCleared, isCheckin: s.screen==='checkin' && !s.dataCleared,
+      isGoals: s.screen==='goals' && !s.dataCleared, isCoach: s.screen==='coach' && !s.dataCleared,
+      isAlert: s.screen==='alert' && !s.dataCleared, isPrivacy: s.screen==='privacy' && !s.dataCleared, isSettings: s.screen==='settings' && !s.dataCleared,
       navDashStyle:    s.screen==='dashboard' ? navActive : navInactive,
       navCheckinStyle: s.screen==='checkin'   ? navActive : navInactive,
       navGoalsStyle:   s.screen==='goals'     ? navActive : navInactive,
       navCoachStyle:   s.screen==='coach'     ? navActive : navInactive,
       navAlertStyle:   s.screen==='alert'     ? navActive : navInactive,
       navPrivacyStyle: s.screen==='privacy'   ? navActive : navInactive,
+      navSettingsStyle: s.screen==='settings' ? navActive : navInactive,
       goToDashboard: ()=>this.navTo('dashboard'), goToCheckin: ()=>this.navTo('checkin'),
       goToGoals: ()=>this.navTo('goals'), goToCoach: ()=>this.navTo('coach'),
-      goToAlert: ()=>this.navTo('alert'), goToPrivacy: ()=>this.navTo('privacy'),
+      goToAlert: ()=>this.navTo('alert'), goToPrivacy: ()=>this.navTo('privacy'), goToSettings: ()=>this.navTo('settings'),
+      restartPrototype:()=>{ try { window.sessionStorage.removeItem(WEB_SESSION_KEY); } catch (e) {} this.setState({ dataCleared:false, screen:'onboarding', onboardingStep:0, selectedGoal:null, alertsEmpty:false, transactionsEmpty:false, checkinReviewed:false, cardStatus:{}, slackCardStatus:'pending', coachMessages:[] }); },
       isStep0:s.onboardingStep===0, isStep1:s.onboardingStep===1,
       isStep2:s.onboardingStep===2, isStep3:s.onboardingStep===3,
-      analysisComplete:s.analysisComplete, isAnalysisIncomplete:!s.analysisComplete,
+      analysisComplete:s.analysisComplete, isAnalysisIncomplete:!s.analysisComplete, analysisFailed:s.analysisFailed, analysisNotFailed:!s.analysisFailed,
       nextStep:()=>this.nextStep(), prevStep:()=>this.prevStep(), finishOnboarding:()=>this.navTo('dashboard'),
+      failAnalysis:()=>this.failAnalysis(), retryAnalysis:()=>this.retryAnalysis(),
       dot0:dot(0), dot1:dot(1), dot2:dot(2), dot3:dot(3),
       showCheckinBadge: !s.checkinReviewed,
       checkinReviewed: s.checkinReviewed, checkinNotReviewed: !s.checkinReviewed,
       markCheckinReviewed: ()=>this.setState({checkinReviewed:true}),
-      hasAlert: ac===null, alertResolved: ac!==null,
+      hasAlert: ac===null && !s.alertsEmpty, alertResolved: ac!==null && !s.alertsEmpty, noAlerts:s.alertsEmpty,
       alertExpenseSelected:ac==='expense', alertCutbackSelected:ac==='cutback', alertIgnoreSelected:ac==='ignore',
       setAlertExpense:()=>this.setState({alertChoice:'expense'}),
       setAlertCutback:()=>this.setState({alertChoice:'cutback'}),
       setAlertIgnore:()=>this.setState({alertChoice:'ignore'}),
+      clearAlertHistory:()=>this.clearAlertHistory(),
       expenseCardStyle:selCard(ac==='expense',false), cutbackCardStyle:selCard(ac==='cutback',false), ignoreCardStyle:selCard(ac==='ignore',true),
       alertImpact, showAlertImpact:ac!==null,
       i1Pending:i1.Pending, i1Picking:i1.Picking, i1Resolved:i1.Resolved, i1StatusLabel:i1.StatusLabel,
@@ -1574,11 +1869,15 @@ class Component extends NaviBase {
       i2Pending:i2.Pending, i2Picking:i2.Picking, i2Resolved:i2.Resolved, i2StatusLabel:i2.StatusLabel,
       i2StatusStroke:i2.StatusStroke, i2StatusTextStyle:i2.StatusTextStyle, i2Accept:i2.Accept, i2StartOverride:i2.StartOverride,
       i2Reason1:i2.Reason1, i2Reason2:i2.Reason2, i2Reason3:i2.Reason3,
+      slackCardPending: s.slackCardStatus === 'pending', slackCardResolved: s.slackCardStatus !== 'pending', slackOverridePicking: s.slackOverridePicker, slackActionsVisible: !s.slackOverridePicker,
+      slackCardStatusLabel: s.slackCardStatus === 'accepted' ? 'Accepted — NAVI will act on this.' : 'Overridden — NAVI will note this and adjust future recommendations.',
+      slackAccept: ()=>this.setSlackCardStatus('accepted'), slackOverride: ()=>this.startSlackOverride(), slackReason1: ()=>this.resolveSlackOverride('Doesn\'t apply right now'), slackReason2: ()=>this.resolveSlackOverride('I already knew this'), slackReason3: ()=>this.resolveSlackOverride('Other reason'),
       coachMessages: s.coachMessages.map((m,idx)=>{
         const id = 'msg-'+idx;
         const op = overrideProps(id, m.status);
-        return { ...m, isPending: m.status==='pending' && s.overridePicker!==id, isPicking: s.overridePicker===id,
-          isResolved: m.status!=='pending', statusLabel:op.StatusLabel, statusStroke:op.StatusStroke, statusTextStyle:op.StatusTextStyle,
+        const requiresDecision = m.requiresDecision === true;
+        return { ...m, isPending: requiresDecision && m.status==='pending' && s.overridePicker!==id, isPicking: requiresDecision && s.overridePicker===id,
+          isResolved: requiresDecision && m.status!=='pending', statusLabel:op.StatusLabel, statusStroke:op.StatusStroke, statusTextStyle:op.StatusTextStyle,
           onAccept:op.Accept, onStartOverride:op.StartOverride, onReason1:op.Reason1, onReason2:op.Reason2, onReason3:op.Reason3 };
       }),
       coachInput:s.coachInput, isTyping:s.isTyping, messagesRef:this.messagesRef,
@@ -1592,13 +1891,26 @@ class Component extends NaviBase {
         {id:'c4',label:'Tell me about subscriptions',onClick:()=>this.sendMessage('Tell me about subscriptions')},
         {id:'c5',label:'Explain my payroll',onClick:()=>this.sendMessage('Explain my payroll')},
       ],
-      privacyToggle1Btn:tog(s.privacyToggles.allowAnalysis), privacyToggle1Knob:knob(s.privacyToggles.allowAnalysis), toggleAllowAnalysis:()=>this.setState(s=>({privacyToggles:{...s.privacyToggles,allowAnalysis:!s.privacyToggles.allowAnalysis}})),
-      privacyToggle2Btn:tog(s.privacyToggles.allowHRSharing), privacyToggle2Knob:knob(s.privacyToggles.allowHRSharing), toggleHRSharing:()=>this.setState(s=>({privacyToggles:{...s.privacyToggles,allowHRSharing:!s.privacyToggles.allowHRSharing}})),
-      privacyToggle3Btn:tog(s.privacyToggles.showConfidence), privacyToggle3Knob:knob(s.privacyToggles.showConfidence), toggleShowConfidence:()=>this.setState(s=>({privacyToggles:{...s.privacyToggles,showConfidence:!s.privacyToggles.showConfidence}})),
-      privacyToggle4Btn:tog(s.privacyToggles.requireConfirmation), privacyToggle4Knob:knob(s.privacyToggles.requireConfirmation), toggleRequireConfirmation:()=>this.setState(s=>({privacyToggles:{...s.privacyToggles,requireConfirmation:!s.privacyToggles.requireConfirmation}})),
+      privacyToggle1Btn:tog(s.privacyToggles.allowAnalysis), privacyToggle1Knob:knob(s.privacyToggles.allowAnalysis), privacyToggle1Pressed:s.privacyToggles.allowAnalysis, toggleAllowAnalysis:()=>this.togglePrivacy('allowAnalysis','Analyze spending patterns'),
+      privacyToggle2Btn:tog(s.privacyToggles.allowHRSharing), privacyToggle2Knob:knob(s.privacyToggles.allowHRSharing), privacyToggle2Pressed:s.privacyToggles.allowHRSharing, toggleHRSharing:()=>this.togglePrivacy('allowHRSharing','Share aggregate data with TechCorp HR'),
+      privacyToggle3Btn:tog(s.privacyToggles.showConfidence), privacyToggle3Knob:knob(s.privacyToggles.showConfidence), privacyToggle3Pressed:s.privacyToggles.showConfidence, toggleShowConfidence:()=>this.togglePrivacy('showConfidence','Show confidence scores on all suggestions'),
+      privacyToggle4Btn:tog(s.privacyToggles.requireConfirmation), privacyToggle4Knob:knob(s.privacyToggles.requireConfirmation), privacyToggle4Pressed:s.privacyToggles.requireConfirmation, toggleRequireConfirmation:()=>this.togglePrivacy('requireConfirmation','Require confirmation before any NAVI action'),
+      requestRedact:()=>this.requestDataAction('redact'), requestExport:()=>this.requestDataAction('export'), requestDelete:()=>this.requestDataAction('delete'),
+      dataAction:s.dataAction, dataNotice:s.dataNotice, confirmDataAction:()=>this.confirmDataAction(), cancelDataAction:()=>this.cancelDataAction(),
+      dataActionTitle:s.dataAction==='delete'?'Delete all NAVI data?':s.dataAction==='export'?'Export your NAVI data?':'Redact these transactions?',
+      dataActionDescription:s.dataAction==='delete'?'This permanently clears the prototype session and cannot be undone.':s.dataAction==='export'?'NAVI will prepare a simulated JSON export in memory.':'NAVI will remove the selected sample transactions from its session memory.',
+      dataConfirmLabel:s.dataAction==='delete'?'Delete all data':s.dataAction==='export'?'Export data':'Confirm redaction',
+      dataConfirmStyle:s.dataAction==='delete'?{background:'#C63E3E',color:'#fff',border:'none',borderRadius:'9px',padding:'7px 12px',fontSize:'11px',fontWeight:'700',cursor:'pointer'}:{background:'#3078C0',color:'#fff',border:'none',borderRadius:'9px',padding:'7px 12px',fontSize:'11px',fontWeight:'700',cursor:'pointer'},
+      setSlackInput:v=>this.setState({slackInput:typeof v==='string'?v:(v&&v.target?v.target.value:'')}), slackInput:s.slackInput, slackReply:s.slackReply,
+      sendSlackMessage:()=>this.sendSlackMessage(), sendSlackKey:e=>this.sendSlackKey(e),
+      settingsNotificationsBtn:settingsToggle(s.settings.notifications), settingsNotificationsKnob:settingsKnob(s.settings.notifications), settingsNotificationsPressed:s.settings.notifications, toggleNotifications:()=>this.toggleSetting('notifications','Proactive alerts'),
+      settingsWeeklyBtn:settingsToggle(s.settings.weeklyCheckin), settingsWeeklyKnob:settingsKnob(s.settings.weeklyCheckin), settingsWeeklyPressed:s.settings.weeklyCheckin, toggleWeeklyCheckin:()=>this.toggleSetting('weeklyCheckin','Weekly check-in'),
+      checkinCadence:s.settings.checkinCadence, weeklyCadenceStyle:cadenceStyle(s.settings.checkinCadence==='Weekly'), monthlyCadenceStyle:cadenceStyle(s.settings.checkinCadence==='Monthly'),
+      setWeeklyCadence:()=>this.setState(s=>({settings:{...s.settings,checkinCadence:'Weekly'}})), setMonthlyCadence:()=>this.setState(s=>({settings:{...s.settings,checkinCadence:'Monthly'}})),
       alertPanelTitle, shiftLabel, alertSavingsStyle, alertShiftStyle, alertDateStyle,
+      goalTargetDisplay:'$'+NAVI_DATA_MODEL.goalTarget.toLocaleString(), monthlySaveDisplay:'$'+NAVI_DATA_MODEL.monthlySave.toLocaleString(), analysisWindow:NAVI_DATA_MODEL.analysisWindow, goalDate:goalMonthLabel, recommendationConfidence:NAVI_DATA_MODEL.recommendationConfidence, previousGoalDate:naviGoalDate(NAVI_DATA_MODEL.timelineMonths),
       totalSaved, totalSavedDisplay:'$'+totalSaved.toLocaleString(), month3Saved, month3SavedDisplay:'$'+month3Saved.toLocaleString(),
-      goalPct, ringCircumference:circ, progressOffset:offset, goalMonths, goalMonthLabel, goalConfidenceLabel, explainerConfidencePct, juneBarStyle:jBar,
+      goalPct, ringCircumference:circ, progressOffset:offset, goalMonths, timelineMonths:NAVI_DATA_MODEL.timelineMonths, timelineLabel:NAVI_DATA_MODEL.timelineMonths+' months', planLabel:goalMonths+'-month plan', goalMonthLabel, goalConfidenceLabel, explainerConfidencePct, alertGoalMonths, alertGoalDate, alertTimelineLabel:(NAVI_DATA_MODEL.timelineMonths+' → '+alertGoalMonths+' months'), juneBarStyle:jBar,
       juneSavingsLabel:jsl, juneSavingsSubLabel:jsub, juneSavingsCardStyle:jsCard, juneSavingsStatusStyle:jsStat,
       categories:[
         {name:'Dining & Drinks',amount:'$487',nameStyle:{fontSize:'13px',color:'#C63E3E',fontWeight:'600'},amountStyle:{fontSize:'13px',fontWeight:'700',color:'#C63E3E',fontFamily:"'DM Mono',monospace",letterSpacing:'-0.01em'},barStyle:{height:'5px',background:'#C63E3E',borderRadius:'3px',width:'100%',opacity:'0.75',boxShadow:'2px 1px 4px rgba(198,62,62,0.3)'}},
@@ -1607,21 +1919,34 @@ class Component extends NaviBase {
         {name:'Entertainment',amount:'$210',nameStyle:{fontSize:'13px',color:'#3D5E7A',fontWeight:'500'},amountStyle:{fontSize:'13px',fontWeight:'500',color:'#3D5E7A',fontFamily:"'DM Mono',monospace",letterSpacing:'-0.01em'},barStyle:{height:'5px',background:'#1B8448',borderRadius:'3px',width:'43%',opacity:'0.4'}},
         {name:'Other / Misc',amount:'$163',nameStyle:{fontSize:'13px',color:'#556C7E'},amountStyle:{fontSize:'13px',fontWeight:'400',color:'#556C7E',fontFamily:"'DM Mono',monospace",letterSpacing:'-0.01em'},barStyle:{height:'5px',background:'#A8C8E8',borderRadius:'3px',width:'33%'}},
       ],
-      transactions:[
+      hasTransactions:!s.transactionsEmpty, noTransactions:s.transactionsEmpty,
+      transactions:s.transactionsEmpty ? [] : [
         {merchant:'Whole Foods Market',initials:'WF',category:'Groceries',date:'Today',amount:'-$67.40'},
         {merchant:'Shell Gas Station',initials:'SH',category:'Transportation',date:'Yesterday',amount:'-$52.80'},
         {merchant:'Sweetgreen',initials:'SW',category:'Dining',date:'Jun 25',amount:'-$18.50'},
         {merchant:'Amazon.com',initials:'AM',category:'Shopping',date:'Jun 24',amount:'-$143.80'},
         {merchant:'Nobu Restaurant',initials:'NB',category:'Dining',date:'Jun 20',amount:'-$127.50'},
       ],
-      isSlack: s.screen==='slack',
+      isSlack: s.screen==='slack' && !s.dataCleared,
       navSlackStyle: s.screen==='slack' ? navActive : navInactive,
       goToSlack: ()=>this.navTo('slack'),
       showExplainer: s.showExplainer,
-      openExplainer: ()=>this.setState({showExplainer:true}),
-      closeExplainer: ()=>this.setState({showExplainer:false}),
+  openExplainer: e => this.openExplainer(e),
+      closeExplainer: ()=>this.closeExplainer(),
+      explainerKeyDown: e => this.explainerKeyDown(e),
+      disputeFormOpen:s.disputeFormOpen, disputeReason:s.disputeReason, disputeNotice:s.disputeNotice,
+      openDisputeForm:()=>this.openDisputeForm(), setDisputeReason:e=>this.setDisputeReason(e),
+      cancelDispute:()=>this.cancelDispute(), confirmDispute:()=>this.confirmDispute(),
+      noGoalSelected:!s.selectedGoal,
+      goalEmergencySelected:s.selectedGoal==='emergency', goalDebtSelected:s.selectedGoal==='debt', goalSavingsSelected:s.selectedGoal==='savings',
+      goalEmergencyStyle:this.goalChoiceStyle(s.selectedGoal==='emergency'), goalDebtStyle:this.goalChoiceStyle(s.selectedGoal==='debt'), goalSavingsStyle:this.goalChoiceStyle(s.selectedGoal==='savings'),
+      goalEmergencyChoiceLabel:s.selectedGoal==='emergency'?'Selected':'Select this goal', goalDebtChoiceLabel:s.selectedGoal==='debt'?'Selected':'Select this goal', goalSavingsChoiceLabel:s.selectedGoal==='savings'?'Selected':'Select this goal',
+      selectGoalEmergency:()=>this.selectGoal('emergency'), selectGoalDebt:()=>this.selectGoal('debt'), selectGoalSavings:()=>this.selectGoal('savings'),
+      confirmGoal:()=>this.confirmGoal(),
+      confirmGoalStyle: { flex:2, background:s.selectedGoal?'#3078C0':'#BDD8F5', color:'#EEF7FF', border:'none', borderRadius:'14px', padding:'13px', font:'700 14px Nunito,sans-serif', cursor:s.selectedGoal?'pointer':'not-allowed', boxShadow:s.selectedGoal?'4px 4px 12px rgba(48,120,192,0.4),-2px -2px 8px rgba(255,255,255,0.5)':'none' },
       showProactiveToast: !s.toastDismissed,
       dismissToast: ()=>this.setState({toastDismissed:true}),
+      accessibilityNotice:s.accessibilityNotice,
       checkinReviewed: s.checkinReviewed,
       checkinNotReviewed: !s.checkinReviewed,
       markCheckinReviewed: ()=>this.setState({checkinReviewed:true}),
